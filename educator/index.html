@@ -1,0 +1,2163 @@
+<!doctype html>
+<html lang="el">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<title>ASNA Educator — American Style Nails Academy</title>
+<link rel="manifest" href="manifest.webmanifest"/>
+<meta name="theme-color" content="#0b0b0e"/>
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png"/>
+<link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16.png"/>
+<link rel="icon" href="icons/favicon.ico" sizes="any"/>
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+<meta name="apple-mobile-web-app-title" content="ASNA Educator"/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600&family=Inter:wght@400;500;600&family=Oswald:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#0b0b0e; --surface:#151517; --ink:#f6f6f8; --muted:#9a9aa6;
+    --accent:#F63FB4; --accent-soft:#ff74cf; --tint:#241420; --hair:#2b2b32; --line:#2b2b32; --red:#ff6b6b; --amber:#ffcf5a; --radius:18px;
+    --pink2:#ff74cf; --glow:rgba(246,63,180,.45); --panel2:#1d1d21; --green:#39d69c;
+    --serif:"Fraunces",Georgia,serif; --sans:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0}
+  /* brand area (login) */
+  .brandarea{position:relative;text-align:center;padding-top:8px;margin-bottom:6px}
+  .brandarea::before{content:"";position:absolute;left:50%;top:0;width:300px;height:180px;transform:translateX(-50%);background:radial-gradient(closest-side, rgba(255,150,175,.38), rgba(255,150,175,0) 72%);filter:blur(8px);z-index:0;pointer-events:none}
+  .wm{position:relative;z-index:1;display:inline-flex;flex-direction:column;align-items:center;gap:8px}
+  .wm-stars{color:#C6166E;font-size:13px;letter-spacing:8px;text-indent:8px}
+  .wm-title{font-family:"Oswald",var(--sans);font-weight:600;font-size:26px;letter-spacing:1.5px;color:#C6166E;line-height:1}
+  .wm-acad{display:flex;align-items:center;gap:11px;font-family:"Oswald",var(--sans);font-weight:500;font-size:12px;letter-spacing:6px;text-indent:6px;color:var(--ink)}
+  .wm-acad i{width:26px;height:1.5px;background:var(--ink);display:block}
+  .brandsep{color:#D3AE6B;letter-spacing:5px;font-size:12px;margin:16px 0 4px;text-align:center}
+  #splash{position:fixed;inset:0;z-index:200;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(180deg,#17141C,#0D0B11);transition:opacity .5s ease}
+  #splash.hide{opacity:0;pointer-events:none}
+  #splash .sm{color:#FF2C99;font-size:44px;line-height:1;letter-spacing:6px;text-indent:6px;text-shadow:0 0 14px rgba(255,44,153,.65),0 0 5px rgba(255,44,153,.9)}
+  #splash .sm span:nth-child(2){display:inline-block;transform:translateY(-8px)}
+  #splash .sl{width:70px;height:3px;border-radius:2px;background:#FF2C99;margin:12px 0 0;box-shadow:0 0 14px rgba(255,44,153,.6)}
+  #splash .snm{margin-top:30px;color:rgba(255,255,255,.9);font-family:"Oswald",var(--sans);font-weight:500;font-size:13px;letter-spacing:5px;text-indent:5px;text-align:center}
+  #splash .sly{position:absolute;bottom:calc(38px + env(safe-area-inset-bottom));color:rgba(255,255,255,.55);font-size:12px;display:flex;align-items:center;gap:7px}
+  #splash .sly i{width:9px;height:9px;border-radius:50%;background:var(--accent);display:block}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);min-height:100dvh}
+  .shell{display:flex;min-height:100dvh;max-width:1320px;margin:0 auto;width:100%}
+  /* sidebar (desktop only) */
+  .side{width:252px;flex:none;background:var(--surface);border-right:1px solid var(--hair);
+        display:none;flex-direction:column;padding:26px 18px 18px}
+  .brand b{font-family:var(--serif);font-weight:600;font-size:18px;display:block;line-height:1.15}
+  .brand span{font-size:10px;font-weight:600;letter-spacing:1.6px;color:var(--muted)}
+  .navitem{display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:10px;cursor:pointer;color:var(--ink);font-weight:500;font-size:14px;margin-top:3px}
+  .navitem.on{background:var(--tint);color:var(--accent);font-weight:600}
+  .navitem svg{width:20px;height:20px;flex:none}
+  .navitem .bd{margin-left:auto;background:var(--accent);color:#fff;border-radius:8px;font-size:11px;font-weight:600;padding:1px 7px}
+  .sidefoot{margin-top:auto;padding-top:14px;border-top:1px solid var(--hair)}
+  .sideacc{display:flex;align-items:center;gap:10px}
+  .sideacc .av{width:34px;height:34px;border-radius:50%;background:var(--tint);display:flex;align-items:center;justify-content:center;color:var(--accent);font-weight:600;font-size:12px;flex:none}
+  .sideacc b{font-size:13px} .sideacc span{font-size:11.5px;color:var(--muted);display:block;cursor:pointer}
+  .plyla{font-size:10.5px;color:var(--muted);letter-spacing:.3px;margin:14px 4px 0} .plyla b{color:var(--accent);font-weight:600}
+  .main{flex:1;min-width:0;display:flex;flex-direction:column}
+  .scroll{flex:1;overflow-y:auto;padding:40px 22px 104px}
+  .scroll.noNav{padding-bottom:40px}
+  /* typography */
+  h1{font-family:var(--serif);font-weight:300;font-size:30px;line-height:1.08;margin:0}
+  h2{font-family:var(--serif);font-weight:600;font-size:21px;line-height:1.14;margin:0}
+  h3{font-family:var(--serif);font-weight:600;font-size:16px;margin:0}
+  .over{font-family:var(--sans);font-weight:600;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin:0}
+  .mut{color:var(--muted)} .role{color:var(--muted);font-size:14px;font-weight:500;margin:4px 0 0}
+  .metaline{color:var(--muted);font-size:13.5px;font-weight:500;margin:6px 0 0}
+  .metaline b{color:var(--ink);font-family:var(--serif);font-weight:600}
+  .hair{height:1px;background:var(--hair);margin:14px 0}
+  .row{display:flex;justify-content:space-between;align-items:center;gap:12px}
+  .avatar{width:38px;height:38px;border-radius:50%;background:var(--tint);display:flex;align-items:center;justify-content:center;font-weight:600;color:var(--accent);font-size:12.5px;flex:none}
+  /* student today rows */
+  .srow{display:flex;gap:14px;align-items:center;padding:15px 0;border-top:1px solid var(--hair)}
+  .srow:first-child{border-top:none}
+  .srow .nm{flex:1;min-width:0}
+  .srow .nm b{font-weight:600;font-size:15px}
+  .srow .nm .tech{color:var(--accent);font-weight:600;font-size:12.5px;margin-top:2px;display:block}
+  .srow .nm .sub{color:var(--muted);font-size:12px;margin-top:1px;display:block}
+  .srow .rt{text-align:right;flex:none;display:flex;flex-direction:column;align-items:flex-end;gap:3px}
+  .prog{font-size:12px;font-weight:600;color:var(--ink)} .prog .d{color:var(--muted);font-weight:500}
+  .pill{font-size:11px;font-weight:600;border-radius:20px;padding:3px 10px;white-space:nowrap}
+  .pill.rev{background:var(--tint);color:var(--accent);cursor:pointer}
+  .pill.wait{background:#2a2016;color:var(--amber)}
+  .pill.off{background:#23232a;color:var(--muted)}
+  .score{font-family:var(--serif);font-weight:600;font-size:17px;color:var(--accent)}
+  .stat{display:flex;gap:26px;align-items:baseline;flex-wrap:wrap;margin-top:4px}
+  .stat b{font-family:var(--serif);font-weight:600;font-size:22px} .stat .t{color:var(--muted);font-size:12.5px;margin-left:5px}
+  .cta{display:inline-flex;align-items:center;justify-content:center;border:none;cursor:pointer;background:var(--accent);color:#fff;font-family:var(--sans);font-weight:600;font-size:15px;letter-spacing:.3px;padding:14px 20px;border-radius:12px}
+  .cta.full{width:100%} .cta[disabled]{opacity:.5;cursor:default} .cta.sm{padding:10px 16px;font-size:13.5px}
+  .ghost{background:transparent;border:1px solid var(--hair);color:var(--ink)}
+  .link{color:var(--accent);font-weight:600;font-size:13.5px;cursor:pointer;background:none;border:none;padding:0;font-family:var(--sans)}
+  input,textarea,select{width:100%;background:var(--surface);border:1px solid var(--hair);border-radius:12px;padding:13px 14px;color:var(--ink);font-size:16px;outline:none;font-family:inherit}
+  input:focus,textarea:focus,select:focus{border-color:var(--accent)}
+  .field{margin-top:13px} .field label{font-size:12px;font-weight:600;color:var(--muted);letter-spacing:.4px;display:block;margin-bottom:5px}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .photo{width:100%;background:#171717;border-radius:14px;overflow:hidden;display:flex;align-items:center;justify-content:center;color:#8a8a8a;font-size:11px;letter-spacing:1.2px;min-height:280px}
+  .photo img{width:100%;display:block;max-height:70vh;object-fit:contain}
+  .chips{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin-top:8px}
+  .chips button{border:1px solid var(--hair);background:var(--surface);border-radius:9px;padding:11px 0;font-weight:600;font-size:14px;cursor:pointer;font-family:inherit;color:var(--ink)}
+  .chips button.sel{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .back{display:flex;align-items:center;gap:6px;color:var(--muted);font-weight:500;font-size:13px;cursor:pointer;background:none;border:none;font-family:var(--sans);padding:0;margin-bottom:16px}
+  .maxw{max-width:760px}
+  .panel{background:var(--surface);border:1px solid var(--hair);border-radius:16px;padding:20px}
+  .srow.needsassign{background:var(--tint);border-top-color:transparent;border-radius:12px;padding-left:12px;padding-right:12px;margin:6px -12px}
+  .absentpanel{background:transparent;border:none;padding:0}
+  .absrow{display:flex;flex-direction:column;gap:2px;padding:12px 0;border-top:1px solid var(--line)}
+  .absrow:first-child{border-top:none}
+  .absrow b{font-weight:600;font-size:14.5px;color:var(--muted)}
+  .absrow span{font-size:12.5px;color:#A6AEAC}
+  .erow .ord{display:flex;flex-direction:column;gap:3px;flex:none}
+  .ordb{background:none;border:1px solid var(--line);border-radius:7px;color:var(--muted);font-size:10px;line-height:1;padding:4px 7px;cursor:pointer;font-family:inherit}
+  .ordb:active{background:var(--tint)}
+  .ordb:disabled{opacity:.3;cursor:default}
+  /* quick student drawer */
+  #scrim{position:fixed;inset:0;background:rgba(20,32,30,.26);opacity:0;pointer-events:none;transition:opacity .2s;z-index:40}
+  #scrim.on{opacity:1;pointer-events:auto}
+  #drawer{position:fixed;top:0;right:0;height:100dvh;width:468px;max-width:94vw;background:var(--paper);box-shadow:-14px 0 44px rgba(20,32,30,.15);transform:translateX(102%);transition:transform .26s cubic-bezier(.4,0,.2,1);z-index:41;display:flex;flex-direction:column;overflow-y:auto;-webkit-overflow-scrolling:touch}
+  #drawer.on{transform:none}
+  @media (max-width:899px){ #drawer{width:100vw;max-width:100vw;box-shadow:none} #scrim{display:none} }
+  .dwrap{padding:26px 26px calc(30px + env(safe-area-inset-bottom))}
+  .dclose{background:none;border:none;color:var(--muted);font-size:13px;font-weight:500;cursor:pointer;font-family:inherit;padding:0;display:flex;align-items:center;gap:6px}
+  .dname{font-family:var(--serif);font-weight:600;font-size:26px;margin-top:14px;letter-spacing:-.2px}
+  .drow{display:flex;align-items:center;gap:12px;padding:16px 0;border-top:1px solid var(--line);cursor:pointer}
+  .drow:first-child{border-top:none}
+  .drow .dt{flex:1;font-size:16px;font-weight:500}
+  .drow .dt small{display:block;color:var(--muted);font-size:12.5px;font-weight:400;margin-top:3px}
+  .drow.sel{}
+  .dcheck{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--line);flex:none;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px}
+  .drow.sel .dcheck{background:var(--accent);border-color:var(--accent)}
+  .dcard{background:var(--surface);border:1px solid var(--hair);border-radius:16px;padding:18px 20px;margin-top:20px}
+  .dstickybar{position:sticky;bottom:0;background:linear-gradient(to top,var(--paper) 70%,rgba(245,242,236,0));padding:14px 0 calc(10px + env(safe-area-inset-bottom));margin-top:20px}
+  .learnmini{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+  .lmchip{background:#1d1d21;border:1px solid var(--line);border-radius:12px;padding:8px 13px;font-size:13.5px;box-shadow:0 4px 12px rgba(20,32,30,.04)}
+  .lmore{color:var(--muted);font-size:13px;align-self:center}
+  /* student records */
+  .nm .sub2{display:block;color:var(--muted);font-size:12.5px;margin-top:2px}
+  .crumb{display:block;font-size:12.5px;color:var(--muted);margin-top:12px}
+  .crumb a{color:var(--muted);cursor:pointer;text-decoration:none} .crumb a:hover{color:var(--ink)} .crumb b{color:var(--ink);font-weight:600}
+  .menu{background:var(--surface);border:1px solid var(--hair);border-radius:12px;padding:6px;margin-top:10px;box-shadow:0 8px 24px rgba(20,32,30,.1);max-width:280px}
+  .menu button{display:block;width:100%;text-align:left;background:none;border:none;padding:11px 12px;font-size:14px;color:var(--ink);cursor:pointer;font-family:inherit;border-radius:8px}
+  .menu button:hover{background:var(--tint)}
+  .kvs{margin-top:8px}
+  .kv{display:flex;justify-content:space-between;gap:16px;padding:13px 0;border-top:1px solid var(--line);font-size:14px}
+  .kv:first-child{border-top:none} .kv span{color:var(--muted)} .kv b{font-weight:600;text-align:right}
+  .enrrow{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 0;border-top:1px solid var(--line)}
+  .enrrow:first-child{border-top:none} .enrrow b{font-weight:600;font-size:14.5px} .enrrow .sub{color:var(--muted);font-size:12.5px;margin-top:3px}
+  .attrow{display:flex;justify-content:space-between;padding:13px 0;border-top:1px solid var(--line);font-size:14px}
+  .attrow:first-child{border-top:none} .attrow span{color:var(--muted)}
+  .choice{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--surface);border:1px solid var(--hair);border-radius:16px;padding:20px;margin-top:12px;cursor:pointer}
+  .choice:hover{border-color:var(--accent-soft)}
+  .choice b{font-weight:600;font-size:16px} .choice span{display:block;color:var(--muted);font-size:12.5px;margin-top:4px} .choice .chev{color:var(--faint,#B7B0A6);font-size:20px}
+  .seg{display:flex;gap:6px;margin-top:10px;background:var(--tint);padding:4px;border-radius:12px}
+  .segb{flex:1;border:none;background:none;padding:10px;border-radius:9px;font-family:inherit;font-size:13.5px;font-weight:600;color:var(--muted);cursor:pointer}
+  .segb.on{background:#2b2b32;color:var(--ink);box-shadow:0 1px 3px rgba(20,32,30,.08)}
+  #offbar{position:fixed;top:0;left:0;right:0;z-index:60;background:#25302E;color:#fff;text-align:center;font-size:12.5px;font-weight:500;padding:8px 12px;transform:translateY(-100%);transition:transform .25s}
+  #offbar.on{transform:none}
+  #installchip{position:fixed;left:50%;transform:translateX(-50%) translateY(160%);bottom:88px;z-index:55;background:var(--ink);color:#fff;border:none;border-radius:999px;padding:12px 18px;font-family:inherit;font-size:13.5px;font-weight:600;box-shadow:0 8px 24px rgba(20,32,30,.22);display:flex;align-items:center;gap:10px;transition:transform .3s;cursor:pointer}
+  #installchip.on{transform:translateX(-50%)}
+  #installchip .x{opacity:.6;font-weight:400}
+  @media(min-width:900px){ #installchip{bottom:24px} }
+  .attn{display:flex;gap:11px;align-items:flex-start;padding:12px 0;border-top:1px solid var(--hair);cursor:pointer}
+  .attn:first-of-type{border-top:none}
+  .attn .dot{width:8px;height:8px;border-radius:50%;margin-top:6px;flex:none;background:var(--accent)}
+  .attn .dot.amber{background:var(--amber)} .attn .dot.off{background:var(--muted)}
+  .attn b{font-size:13.5px;font-weight:600} .attn span{display:block;color:var(--muted);font-size:12px;margin-top:1px}
+  .attn .go{margin-left:auto;color:var(--accent);font-weight:700}
+  /* stage navigation */
+  .stages{display:flex;gap:7px;flex-wrap:wrap;margin-top:4px}
+  .stg{border:1px solid var(--hair);background:var(--surface);border-radius:11px;padding:8px 11px;cursor:pointer;text-align:left;min-width:78px;font-family:inherit;color:var(--ink)}
+  .stg.on{border-color:var(--accent);background:var(--tint)}
+  .stg .n{font-family:var(--serif);font-weight:600;font-size:13px;color:var(--accent)}
+  .stg .t{font-size:11px;color:var(--muted);display:block;margin-top:2px}
+  .stg .ok{color:var(--accent);font-weight:700;font-size:11px}
+  /* seminars — calm / premium */
+  .scard{display:block;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:22px 24px;margin-top:14px;cursor:pointer;text-decoration:none;color:inherit;transition:border-color .15s}
+  .scard:hover{border-color:var(--accent-soft)}
+  .scard .row2{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+  .scard h3{margin-bottom:3px;font-size:18px} .scard .c{color:var(--muted);font-size:13.5px}
+  .scard .st{font-size:11px;font-weight:600;letter-spacing:.6px;text-transform:uppercase;color:var(--accent)}
+  .scard .foot{display:flex;gap:24px;margin-top:16px;color:var(--muted);font-size:13px}
+  .scard .foot b{font-family:var(--serif);font-weight:600;color:var(--ink)}
+  .tabs{display:flex;gap:2px;margin-top:22px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .tabs::-webkit-scrollbar{display:none}
+  .tabs button{background:none;border:none;padding:9px 14px;font-family:inherit;font-weight:600;font-size:13.5px;color:var(--muted);cursor:pointer;border-radius:10px;white-space:nowrap}
+  .tabs button.on{color:var(--accent);background:var(--tint)}
+  .cohchips{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+  .cohchip{background:var(--surface);border:1px solid var(--hair);border-radius:999px;padding:8px 14px;font-family:inherit;font-weight:600;font-size:13px;color:var(--muted);cursor:pointer}
+  .cohchip.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .lrow{display:flex;gap:14px;align-items:center;padding:16px 2px;border-top:1px solid var(--line);cursor:pointer}
+  .lrow:first-child{border-top:none} .lrow .nm{flex:1;min-width:0} .lrow .nm b{font-weight:600;font-size:15px} .lrow .nm span{display:block;color:var(--muted);font-size:12.5px;margin-top:3px}
+  .lrow .chev{color:var(--hair);font-size:20px;font-weight:400}
+  .st2{font-size:12.5px;font-weight:500;color:var(--muted)} .st2.teal{color:var(--accent)}
+  .kv{display:flex;justify-content:space-between;padding:15px 2px;border-top:1px solid var(--line);font-size:14.5px}
+  .kv:first-child{border-top:none} .kv span{color:var(--muted)} .kv b{font-weight:600}
+  .thumbs{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+  .thumbs .t{width:74px}
+  .thumbs .t img{width:74px;height:74px;object-fit:cover;border-radius:10px;background:#171717;display:block}
+  .thumbs .t span{font-size:10px;color:var(--muted);display:block;margin-top:3px;text-align:center}
+  .acc{border:1px solid var(--line);border-radius:14px;margin-top:12px;overflow:hidden;background:var(--surface)}
+  .acc .hd{display:flex;align-items:center;gap:12px;padding:15px 18px;cursor:pointer}
+  .acc .hd .nm b{font-weight:600;font-size:14.5px} .acc .hd .nm span{display:block;color:var(--muted);font-size:12px;margin-top:1px}
+  .acc .bd{padding:0 18px 18px;display:none} .acc.open .bd{display:block}
+  .badge2{font-size:11px;font-weight:600;border-radius:20px;padding:3px 10px;background:var(--tint);color:var(--accent)}
+  .badge2.done{background:#12331f;color:#6fe0ab} .badge2.prog{background:#2a2016;color:var(--amber)}
+  /* section card + stats */
+  .panelcard{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:8px 20px}
+  .bigstats{display:flex;gap:34px;flex-wrap:wrap;margin-top:18px}
+  .bigstats .s b{font-family:var(--serif);font-weight:600;font-size:30px;display:block;line-height:1}
+  .bigstats .s span{color:var(--muted);font-size:12.5px;letter-spacing:.3px;margin-top:6px;display:block}
+  /* wizard progress dots */
+  .steps{display:flex;gap:8px;margin:20px 0 6px}
+  .steps .s{flex:1;height:3px;border-radius:3px;background:var(--line)} .steps .s.on{background:var(--accent)}
+  /* topic chips */
+  .taglist{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+  .tag{background:var(--tint);color:var(--accent);border-radius:20px;padding:8px 14px;font-size:13px;font-weight:600;display:flex;align-items:center;gap:9px}
+  .tag button{background:none;border:none;color:var(--accent-soft);cursor:pointer;font-size:15px;padding:0;line-height:1}
+  /* edit rows (techniques / stages) — grip + tap, delete inside */
+  .erow{display:flex;gap:14px;align-items:center;padding:16px 2px;border-top:1px solid var(--line)}
+  .erow:first-child{border-top:none}
+  .erow .grip{color:var(--hair);cursor:grab;font-size:16px;flex:none;letter-spacing:-2px;user-select:none}
+  .erow .g{flex:1;min-width:0} .erow .g b{font-weight:600;font-size:15px} .erow .g small{display:block;color:var(--muted);font-size:12.5px;margin-top:3px}
+  .erow .num{font-family:var(--serif);font-weight:600;font-size:15px;color:var(--accent);width:22px;flex:none;text-align:center}
+  .erow .del{background:none;border:none;color:var(--hair);cursor:pointer;font-size:17px;flex:none;padding:4px}
+  .erow.drag{opacity:.4} .erow.over{border-top:2px solid var(--accent)}
+  /* day-of-week pills */
+  .days{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+  .day{width:46px;height:46px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--muted);font-family:inherit;font-weight:600;font-size:13px;cursor:pointer}
+  .day.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  /* segmented toggle */
+  .seg{display:inline-flex;background:var(--tint);border-radius:12px;padding:3px;margin-top:6px}
+  .seg button{border:none;background:none;font-family:inherit;font-weight:600;font-size:13px;color:var(--muted);padding:8px 16px;border-radius:10px;cursor:pointer}
+  .seg button.on{background:var(--surface);color:var(--accent);box-shadow:0 1px 2px rgba(0,0,0,.05)}
+  /* sticky action bar (mobile) */
+  .actionbar{display:flex;gap:10px;margin-top:26px}
+  .exc{font-size:11px;font-weight:600;color:var(--amber);background:#2a2016;border-radius:14px;padding:2px 8px;margin-left:8px}
+  .stickybar{position:sticky;bottom:0;background:linear-gradient(to top,var(--paper) 68%,rgba(245,242,236,0));padding:16px 0 calc(16px + env(safe-area-inset-bottom));margin-top:24px;display:flex;gap:10px;z-index:5}
+  .stickybar .cta{flex:1}
+  .addbtn{display:flex;align-items:center;gap:10px;width:100%;background:var(--surface);border:1px dashed var(--hair);color:var(--accent);font-family:inherit;font-weight:600;font-size:14.5px;padding:16px;border-radius:14px;cursor:pointer;margin-top:14px;justify-content:center}
+  .subtitle{color:var(--muted);font-size:14px;line-height:1.5;margin:8px 0 0;max-width:520px}
+  /* technique editor redesign */
+  .tag.add{background:none;border:1px dashed var(--accent-soft,#ff74cf);color:var(--accent);cursor:pointer;font-family:inherit}
+  .addline{background:none;border:none;color:var(--accent);font-family:inherit;font-weight:500;font-size:14.5px;padding:18px 2px;cursor:pointer;display:block}
+  .dotsbtn{background:none;border:none;color:var(--muted);font-size:18px;letter-spacing:1px;cursor:pointer;padding:4px 8px;line-height:1}
+  .confirmbox{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;margin-top:20px}
+  .confirmbox p{margin:0;font-size:14.5px;font-weight:500}
+  .tename{font-family:var(--serif);font-weight:500;font-size:28px;letter-spacing:-.01em;margin-top:10px}
+  .rowlink{display:flex;align-items:center;justify-content:space-between;padding:16px 2px;border-top:1px solid var(--line);cursor:pointer}
+  .rowlink:first-child{border-top:none} .rowlink .chev{color:var(--hair);font-size:20px}
+  .ovrow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:6px 2px 14px;cursor:pointer}
+  .ovrow .l{min-width:0}
+  .ovrow .l b{font-weight:600;font-size:16px;color:var(--ink)}
+  .ovrow .l .sub{color:var(--muted);font-size:12.5px;margin-top:3px;display:block}
+  .ovrow .chev{color:var(--hair);font-size:20px}
+  .ovhair{height:1px;background:var(--line)}
+  .ovbar{height:6px;border-radius:3px;background:#2b2b32;margin-top:10px;overflow:hidden}
+  .ovbarfill{height:6px;border-radius:3px;background:var(--accent)}
+  /* bottom nav (mobile only) */
+  .botnav{position:fixed;left:0;right:0;bottom:0;height:74px;background:var(--paper);border-top:1px solid var(--hair);display:flex;align-items:flex-start;justify-content:space-around;padding:11px 6px 0;max-width:520px;margin:0 auto;z-index:20}
+  .tab{display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;color:var(--muted);flex:1;border:none;background:none;font-family:var(--sans)}
+  .tab.on{color:var(--accent)} .tab svg{width:22px;height:22px}
+  .tab span{font-size:9px;font-weight:500;letter-spacing:.2px;position:relative} .tab.on span{font-weight:600}
+  .tab .badge{position:absolute;top:-3px;right:-14px;background:var(--accent);color:#fff;border-radius:8px;font-size:10px;font-weight:600;padding:0 5px}
+  .spin{width:26px;height:26px;border:3px solid var(--hair);border-top-color:var(--accent);border-radius:50%;animation:sp 1s linear infinite;margin:70px auto}
+  @keyframes sp{to{transform:rotate(360deg)}}
+  .fade{animation:f .3s both}@keyframes f{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .err{color:var(--red);font-size:13.5px;font-weight:500;margin-top:10px}
+  .sect{margin-top:22px}
+  .today2{display:block}
+  .today2 .attnwrap{margin-top:24px}
+  /* ---------- DESKTOP ---------- */
+  @media(min-width:900px){
+    .side{display:flex}
+    .botnav{display:none}
+    .scroll{padding:44px 46px 46px}
+    h1{font-size:34px}
+    .today2{display:grid;grid-template-columns:1.85fr 1fr;gap:36px;align-items:start}
+    .today2 .attnwrap{margin-top:0;position:sticky;top:0}
+    .rgrid{display:grid;grid-template-columns:1fr 400px;gap:36px;align-items:start}
+    .rgrid .ctrls{margin-top:0}
+    .maxwd{max-width:1040px}
+  }
+  @media(max-width:520px){ .two{grid-template-columns:1fr} }
+  .ovcard{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--surface);border:1px solid var(--hair);border-radius:16px;padding:16px 18px}
+  /* Student Profile — stronger, app-like typography (scoped to .spv2) */
+  .spv2 h1{font-weight:600;color:var(--ink);letter-spacing:-.2px}
+  .spv2 .metaline{color:#42504d;font-weight:600}
+  .spv2 .over{font-weight:700;letter-spacing:.4px;color:#63736f}
+  .spv2 .tabs button{font-weight:600;color:#586a67}
+  .spv2 .tabs button.on{color:var(--accent)}
+  .spv2 .kv span{color:var(--muted)} .spv2 .kv b{color:var(--ink);font-weight:600}
+  .spstats{font-family:var(--sans);font-weight:700;font-size:14px;color:var(--ink);margin:4px 0 0}
+  #supbar{position:fixed;top:0;left:0;right:0;z-index:150;background:#B8791F;color:#fff;display:none;align-items:center;justify-content:space-between;gap:12px;padding:10px 16px;font-size:13px;font-weight:600;padding-top:calc(10px + env(safe-area-inset-top))}
+  #supbar b{font-weight:700} #supbar button{background:rgba(255,255,255,.22);color:#fff;border:none;border-radius:999px;padding:7px 13px;font-family:inherit;font-weight:600;font-size:12.5px;cursor:pointer}
+  .remrow .sub2{color:var(--muted);font-size:12.5px;margin-top:2px}
+  .chev{color:var(--muted);font-size:18px;font-weight:600;line-height:1}
+  .ctd{border-top:1px solid var(--hair)}
+  .ctd .hd{display:flex;align-items:center;gap:12px;padding:12px 0;cursor:pointer}
+  .ctd .thmb{width:44px;height:44px;border-radius:8px;background:#23232a center/cover no-repeat;flex:none}
+  .ctd .nm{flex:1} .ctd .nm b{font-weight:600;font-size:14px} .ctd .nm span{display:block;color:var(--muted);font-size:11.5px;margin-top:2px}
+  .ctd .score{font-family:var(--serif);font-size:17px}
+  .ctd .bd:empty{display:none}
+  .menu button.mamber{color:var(--amber)} .menu button.mred{color:var(--red)}
+  #confirmov{position:fixed;inset:0;z-index:120;background:rgba(20,32,30,.5);display:flex;align-items:flex-end;justify-content:center;padding:0 0 max(16px,env(safe-area-inset-bottom))}
+  @media(min-width:600px){ #confirmov{align-items:center} }
+  .cs-card{background:#151517;border-radius:22px;padding:26px 24px;max-width:400px;width:calc(100% - 24px);box-shadow:0 20px 60px rgba(0,0,0,.28);text-align:center}
+  .cs-card h2{font-family:var(--serif);font-weight:600;font-size:22px;margin:0}
+  .cs-card h2.cs-red{color:var(--red)}
+  .cs-body{color:var(--muted);font-size:14px;line-height:1.55;margin:14px 0 0}
+  .cs-note{background:#2a1512;color:#ff9a86;font-size:12.5px;line-height:1.5;border-radius:12px;padding:12px 14px;margin-top:16px;text-align:left}
+  .cs-ok{margin-top:20px;width:100%;border:none;border-radius:14px;padding:15px;font-family:inherit;font-weight:600;font-size:15px;background:var(--accent);color:#fff;cursor:pointer}
+  .cs-ok.amber{background:#2a2016;color:var(--amber)} .cs-ok.red{background:var(--red);color:#fff}
+  .cs-cancel{margin-top:6px;width:100%;background:none;border:none;color:var(--muted);font-family:inherit;font-weight:600;font-size:14px;padding:12px;cursor:pointer}
+  /* ---- compact review workspace ---- */
+  .rvws{display:flex;flex-direction:column;max-width:560px;margin:0 auto}
+  .rvtop{display:flex;align-items:center;justify-content:space-between}
+  .rvtop .back{padding:0;font-size:20px;color:var(--ink)}
+  .rvcount{font-size:12.5px;color:var(--muted);font-weight:600}
+  .rvsub{font-size:12.5px;color:var(--muted);margin:3px 0 0;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .hwtag{background:var(--amber);color:#fff;font-size:9px;font-weight:700;letter-spacing:.5px;padding:2px 7px;border-radius:999px}
+  .rvphoto{height:38vh;min-height:180px;max-height:340px;margin-top:12px;background:#1d1d21 center/contain no-repeat;border:1px solid var(--hair);border-radius:16px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:12px;overflow:hidden;cursor:zoom-in;position:relative}
+  .rvphoto img{width:100%;height:100%;object-fit:contain}
+  .rvstgs{display:flex;gap:7px;margin-top:12px}
+  .rvstg{flex:1;padding:8px 0;border-radius:9px;font-size:12.5px;font-weight:700;border:1px solid var(--hair);background:var(--surface);color:var(--muted)}
+  .rvstg.done{color:var(--accent);border-color:var(--accent)}
+  .rvstg.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .rvstname{font-weight:600;font-size:15px;margin:12px 0 0}
+  .rvchips{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:10px}
+  .rvchips button{padding:11px 0;border:1px solid var(--hair);border-radius:10px;font-family:inherit;font-weight:600;font-size:14px;background:var(--surface);color:var(--ink);cursor:pointer}
+  .rvchips button.sel{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .rvcbtn{margin-top:12px;background:none;border:none;color:var(--accent);font-family:inherit;font-weight:600;font-size:13.5px;padding:4px 0;text-align:left;cursor:pointer}
+  .rvta{width:100%;border:1px solid var(--hair);border-radius:12px;padding:10px 12px;font:inherit;resize:vertical;margin-top:6px}
+  .rvbar{display:flex;gap:10px;margin-top:16px}
+  .rvsum{display:flex;align-items:center;justify-content:space-between;padding:10px 2px;border-top:1px solid var(--hair);font-size:13.5px}
+  .rvsum:first-of-type{border-top:none}
+  #zoomov{position:fixed;inset:0;z-index:600;background:rgba(0,0,0,.92);display:flex;align-items:center;justify-content:center;cursor:zoom-out}
+  #zoomov img{max-width:100%;max-height:100%;object-fit:contain}
+  .hwsum{display:flex;flex-wrap:wrap;gap:8px}
+  .hwsum span{background:var(--surface);border:1px solid var(--hair);border-radius:12px;padding:8px 12px;font-size:12.5px;color:var(--muted)}
+  .hwsum span b{color:var(--ink);font-weight:700;font-size:15px;margin-right:2px}
+  .hwdone summary{cursor:pointer;color:var(--muted);font-size:12.5px;font-weight:600;letter-spacing:.4px;text-transform:uppercase}
+  .mated{border:1px solid var(--hair);border-radius:14px;padding:12px;margin-top:10px;display:flex;gap:12px;align-items:flex-start}
+  .mated .mth{width:56px;height:56px;border-radius:10px;background:var(--panel2,#1d1d21) center/cover no-repeat;border:1px solid var(--hair);flex:none;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:20px;cursor:pointer;overflow:hidden}
+  .mated .mfields{flex:1;display:flex;flex-direction:column;gap:8px}
+  .mated input{width:100%;border:1px solid var(--hair);border-radius:10px;padding:9px 11px;font:inherit;background:var(--surface);color:var(--ink)}
+  .mated .mdel{background:none;border:none;color:var(--red);font-size:16px;cursor:pointer;flex:none}
+  .hwpanel .chev{margin-left:auto}
+  .hwpr,.hwrow2{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 0;border-top:1px solid var(--hair)}
+  .hwpr .l b,.hwrow2 .l b{font-weight:600;font-size:14px;display:block}
+  .hwpr .sub,.hwrow2 .sub{font-size:12px;color:var(--muted)}
+  .xbtn{background:none;border:none;color:var(--muted);font-size:18px;cursor:pointer;flex:none;line-height:1}
+  #splash .sc{position:relative;width:min(300px,80vw);height:210px;display:flex;align-items:center;justify-content:center;perspective:820px}
+  #splash .bloom{position:absolute;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(246,63,180,.22),transparent 66%);filter:blur(10px);opacity:0;animation:sBloom 2.1s ease-out forwards}
+  #splash .slogo{position:absolute;width:min(300px,80vw);height:auto;border-radius:14px;opacity:0;z-index:2;animation:sLogo 2.1s ease-in-out forwards}
+  #splash .sp{position:absolute;z-index:3;width:22px;height:22px;left:50%;top:50%;margin:-11px;opacity:0}
+  #splash .sp svg{width:100%;height:100%;filter:drop-shadow(0 0 5px rgba(255,150,210,.95))}
+  #splash .sp1{animation:sSp1 2.1s cubic-bezier(.22,1,.36,1) forwards}
+  #splash .sp2{animation:sSp2 2.1s cubic-bezier(.22,1,.36,1) forwards}
+  #splash .sp3{animation:sSp3 2.1s cubic-bezier(.22,1,.36,1) forwards}
+  #splash .dust{position:absolute;width:4px;height:4px;border-radius:50%;background:rgba(255,185,222,.6);filter:blur(.5px);z-index:1}
+  #splash .d1{left:24%;top:34%;animation:sFloat 2.1s ease-in-out forwards}
+  #splash .d2{left:74%;top:60%;animation:sFloat 2.1s ease-in-out .2s forwards}
+  @keyframes sBloom{0%{opacity:0}45%{opacity:.55}75%{opacity:.9}100%{opacity:.72}}
+  @keyframes sLogo{0%,8%{opacity:0;transform:scale(.965)}45%{opacity:1;transform:scale(1)}56%{transform:scale(1.025)}66%{transform:scale(1)}100%{opacity:1;transform:scale(1)}}
+  @keyframes sSp1{0%{opacity:0;transform:translate(-185px,-72px) scale(1.75);filter:blur(3px)}12%{opacity:1}46%{opacity:1;transform:translate(-30px,-56px) scale(1);filter:blur(0)}60%{opacity:0;transform:translate(-30px,-56px) scale(.7)}100%{opacity:0}}
+  @keyframes sSp2{0%{opacity:0;transform:translate(195px,84px) scale(.42);filter:blur(2px)}16%{opacity:1}48%{opacity:1;transform:translate(2px,-62px) scale(1);filter:blur(0)}62%{opacity:0;transform:translate(2px,-62px) scale(.7)}100%{opacity:0}}
+  @keyframes sSp3{0%{opacity:0;transform:translate(64px,-195px) scale(1.28);filter:blur(2.5px)}14%{opacity:1}50%{opacity:1;transform:translate(30px,-56px) scale(1);filter:blur(0)}64%{opacity:0;transform:translate(30px,-56px) scale(.7)}100%{opacity:0}}
+  @keyframes sFloat{0%{opacity:0;transform:translateY(8px)}40%{opacity:.55}60%{opacity:.3;transform:translateY(-6px)}100%{opacity:0}}
+</style>
+</head>
+<body>
+<div id="splash">
+  <div class="sc">
+    <div class="bloom"></div>
+    <div class="dust d1"></div><div class="dust d2"></div>
+    <img class="slogo" src="https://americanstylenails.gr/wp-content/uploads/2026/03/AmericanStyleNailsAcademyLogo.png" alt="American Style Nails Academy"/>
+    <div class="sp sp1"><svg viewBox="0 0 24 24"><path d="M12 1 C13 8 16 11 23 12 C16 13 13 16 12 23 C11 16 8 13 1 12 C8 11 11 8 12 1 Z" fill="#fff"/></svg></div>
+    <div class="sp sp2"><svg viewBox="0 0 24 24"><path d="M12 1 C13 8 16 11 23 12 C16 13 13 16 12 23 C11 16 8 13 1 12 C8 11 11 8 12 1 Z" fill="#fff"/></svg></div>
+    <div class="sp sp3"><svg viewBox="0 0 24 24"><path d="M12 1 C13 8 16 11 23 12 C16 13 13 16 12 23 C11 16 8 13 1 12 C8 11 11 8 12 1 Z" fill="#fff"/></svg></div>
+  </div>
+  <div class="sly"><i></i> Powered by Lyla</div>
+</div>
+<div class="shell">
+  <aside class="side" id="side"></aside>
+  <main class="main"><div class="scroll" id="scroll"><div class="spin"></div></div></main>
+</div>
+<nav class="botnav" id="nav" style="display:none"></nav>
+<div id="scrim"></div>
+<aside id="drawer" aria-hidden="true"></aside>
+<div id="offbar">Χωρίς σύνδεση — κάποια στοιχεία μπορεί να μην είναι ενημερωμένα.</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SB_URL="https://fjfwpxcbqvtxmqffprnx.supabase.co";
+const SB_KEY="sb_publishable_UXgEdtio8nwWJMgwKBvQww_rU4UCKFa";
+const sb=supabase.createClient(SB_URL,SB_KEY);
+/* ---- error reporter → Telegram (Make webhook) + client_errors log ---- */
+const ERR_HOOK="https://hook.eu1.make.com/tu0hj4dekyjei5bob1c8jvjrvpcq3ex6", APP_NAME="educator";
+const _errSeen={};
+function reportErr(message, ctx){
+  try{
+    message=String(message||'').slice(0,400); if(!message) return;
+    if(/ServiceWorker|sw\.js|ResizeObserver loop/i.test(message)) return; // ignore SW/deploy + benign noise
+    const key=message.slice(0,120), now=Date.now();
+    if(_errSeen[key] && now-_errSeen[key]<60000) return; _errSeen[key]=now;
+    const at=new Date().toISOString(), url=location.href, ua=navigator.userAgent, context=ctx?String(ctx).slice(0,300):'';
+    try{ sb.from('client_errors').insert({app:APP_NAME,message,url,stack:context,user_agent:ua,context:APP_NAME}); }catch(e){}
+    try{ fetch(ERR_HOOK,{method:'POST',mode:'no-cors',keepalive:true,headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams({app:APP_NAME,message,url,at}).toString()}); }catch(e){}
+  }catch(e){}
+}
+window.addEventListener('error',e=>{ reportErr((e&&e.message)||'script error', e&&e.filename?(e.filename+':'+e.lineno+':'+e.colno):''); });
+window.addEventListener('unhandledrejection',e=>{ const r=e&&e.reason; reportErr((r&&(r.message||r))||'unhandledrejection', r&&r.stack?String(r.stack):''); });
+const scroll=document.getElementById('scroll'), nav=document.getElementById('nav'), side=document.getElementById('side');
+const LS="lyla_academy_educator_v2";
+let E=null, CUR={cohorts:[],cohort:null}, RV={list:[],idx:0,att:null,stage:0,stageState:[]};
+const todayAthens=()=>new Date().toLocaleDateString('en-CA',{timeZone:'Europe/Athens'});
+const initials=n=>(n||'?').trim().split(/\s+/).map(x=>x[0]).slice(0,2).join('').toUpperCase();
+const esc=s=>(s==null?'':String(s)).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const timeOf=ts=>ts?new Date(ts).toLocaleTimeString('el-GR',{timeZone:'Europe/Athens',hour:'2-digit',minute:'2-digit'}):'';
+const hm=t=>t?String(t).slice(0,5):'';
+const num1=v=>(v==null?'':Number(v).toFixed(1));
+const pad2=n=>String(n).padStart(2,'0');
+async function signed(p){ if(!p)return null; if(/^https?:\/\//.test(p))return p;
+  try{const{data}=await sb.storage.from('submissions').createSignedUrl(p,3600);return data&&data.signedUrl||null;}catch(e){return null;} }
+function showError(m,e){ if(e)console.error(e); setNav(E?'today':false); scroll.className='scroll';
+  scroll.innerHTML=`<div class="fade" style="margin-top:40px"><h2>Ουπς</h2><p class="role">${esc(m)}</p><button class="link" style="margin-top:14px" onclick="viewToday()">Δοκίμασε ξανά</button></div>`; }
+
+async function boot(){
+  try{ const {data:{session}}=await sb.auth.getSession();
+    const s=JSON.parse(localStorage.getItem(LS)||"null");
+    if(session && s && s.educatorId){ E=s; await loadOwner(); viewToday(); } else login();
+  }catch(e){ showError("Πρόβλημα σύνδεσης."); }
+}
+
+/* ---------- NAV ---------- */
+const ICONS={
+  today:'<rect x="3.5" y="5" width="15" height="13.5" rx="3" fill="none" stroke="currentColor" stroke-width="1.6"/><line x1="3.5" y1="8.4" x2="18.5" y2="8.4" stroke="currentColor" stroke-width="1.6"/>',
+  seminars:'<rect x="3" y="3" width="6.5" height="6.5" rx="1.6" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="12.5" y="3" width="6.5" height="6.5" rx="1.6" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="3" y="12.5" width="6.5" height="6.5" rx="1.6" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="12.5" y="12.5" width="6.5" height="6.5" rx="1.6" fill="none" stroke="currentColor" stroke-width="1.6"/>',
+  students:'<circle cx="11" cy="7" r="3.4" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M4.5 18.5c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>',
+  reviews:'<rect x="5" y="3" width="12" height="16" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="8" y="1.6" width="6" height="3" rx="1.3" fill="currentColor"/><line x1="8" y1="10" x2="14" y2="10" stroke="currentColor" stroke-width="1.5"/><line x1="8" y1="13.4" x2="14" y2="13.4" stroke="currentColor" stroke-width="1.5"/>',
+  support:'<circle cx="11" cy="11" r="7.5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="11" cy="11" r="2.6" fill="none" stroke="currentColor" stroke-width="1.6"/><line x1="11" y1="3.5" x2="11" y2="6" stroke="currentColor" stroke-width="1.6"/><line x1="11" y1="16" x2="11" y2="18.5" stroke="currentColor" stroke-width="1.6"/><line x1="3.5" y1="11" x2="6" y2="11" stroke="currentColor" stroke-width="1.6"/><line x1="16" y1="11" x2="18.5" y2="11" stroke="currentColor" stroke-width="1.6"/>'
+};
+const NAVDEF=[['today','Σήμερα','ΣΗΜΕΡΑ'],['seminars','Σεμινάρια','ΣΕΜΙΝΑΡΙΑ'],['students','Μαθήτριες','ΜΑΘΗΤΡΙΕΣ'],['reviews','Αξιολογήσεις','ΑΞΙΟΛΟΓΗΣΕΙΣ']];
+function navList(){ return NAVDEF; }
+let CURNAV=null, EDU_LIVE=null;
+function setNav(active){
+  if(!active){ nav.style.display='none'; side.style.display='none'; return; }
+  CURNAV=active; startEduLive();
+  side.style.display=''; nav.style.display='';
+  const p=(E&&E._pend)||0; const NAV=navList();
+  side.innerHTML=`<div class="brand"><b>${esc((E&&E.academyName)||'Academy')}</b><span>EDUCATOR</span></div>
+    <div style="margin-top:22px">${NAV.map(([k,l])=>`<div class="navitem ${active===k?'on':''}" data-t="${k}"><svg viewBox="0 0 22 22">${ICONS[k]}</svg>${l}${k==='reviews'&&p?`<span class="bd">${p}</span>`:''}</div>`).join('')}</div>
+    <div class="sidefoot"><div class="sideacc"><div class="av">${initials(E&&E.name)}</div><div><b>${esc((E&&E.name)||'Educator')}</b><span onclick="logout()">Έξοδος</span></div></div>
+      <p class="plyla">Powered by <b>Lyla</b></p></div>`;
+  side.querySelectorAll('.navitem').forEach(b=>b.onclick=()=>route(b.dataset.t));
+  nav.innerHTML=NAV.map(([k,l,m])=>`<button class="tab ${active===k?'on':''}" data-t="${k}"><svg viewBox="0 0 22 22">${ICONS[k]}</svg><span>${m}${k==='reviews'&&p?`<span class="badge">${p}</span>`:''}</span></button>`).join('');
+  nav.querySelectorAll('.tab').forEach(b=>b.onclick=()=>route(b.dataset.t));
+}
+function route(t){ if(t==='today')viewToday(); else if(t==='seminars')viewSeminars(); else if(t==='students')viewStudents(); else viewReviews(); }
+async function loadOwner(){ try{ const {data}=await sb.rpc('is_owner'); E._owner=!!data; }catch(e){ E._owner=false; } }
+/* ---------- LIVE: pending reviews notification ---------- */
+function eduToast(title){
+  let t=document.getElementById('edutoast');
+  if(!t){ t=document.createElement('div'); t.id='edutoast'; t.style.cssText='position:fixed;left:50%;top:16px;transform:translateX(-50%);z-index:400;background:var(--accent);color:#fff;padding:12px 18px;border-radius:14px;font-weight:600;font-size:14px;box-shadow:0 10px 26px rgba(246,63,180,.4);opacity:0;transition:opacity .25s;cursor:pointer;max-width:90%;text-align:center'; document.body.appendChild(t); }
+  t.textContent=title; t.style.opacity='1'; t.onclick=()=>{ t.style.opacity='0'; viewReviews(); };
+  clearTimeout(eduToast._t); eduToast._t=setTimeout(()=>{ t.style.opacity='0'; }, 7000);
+}
+async function eduPulse(){
+  if(document.hidden||!E) return;
+  const prev=(E&&E._pend)||0;
+  await refreshPending();
+  const now=(E&&E._pend)||0;
+  if(now>prev) eduToast('📥 Νέα εργασία για αξιολόγηση');
+  if(CURNAV) setNav(CURNAV);
+}
+function startEduLive(){
+  if(EDU_LIVE||!E) return;
+  EDU_LIVE=setInterval(eduPulse, 25000);
+  document.addEventListener('visibilitychange',()=>{ if(!document.hidden) eduPulse(); });
+  window.addEventListener('focus',eduPulse);
+  try{ sb.channel('edu-live').on('postgres_changes',{event:'*',schema:'public',table:'training_attempts'},()=>eduPulse()).subscribe(); }catch(e){}
+}
+
+/* ---------- AUTH ---------- */
+function login(msg,mode){ mode=mode||'in'; setNav(false); scroll.className='scroll noNav';
+  scroll.innerHTML=`<div class="fade" style="max-width:420px;margin:6vh auto 0">
+    <div class="brandarea">
+      <div class="wm">
+        <img src="https://americanstylenails.gr/wp-content/uploads/2026/03/AmericanStyleNailsAcademyLogo.png" alt="American Style Nails Academy" style="width:min(280px,72vw);height:auto;display:block;border-radius:16px"/>
+      </div>
+    </div>
+    <p class="over" style="margin-top:14px;text-align:center">EDUCATOR</p>
+    <div class="brandsep">— ✦ —</div>
+    <h1 style="margin-top:4px;text-align:center">${mode==='up'?'Όρισε κωδικό':'Σύνδεση'}</h1>
+    <p class="role" style="text-align:center">${mode==='up'?'Πρώτη φορά — όρισε τον κωδικό σου.':'Email & κωδικός.'}</p>
+    <div class="field"><input id="em" type="email" placeholder="email" autocapitalize="none" autocomplete="email"/></div>
+    <div class="field"><input id="pw" type="password" placeholder="${mode==='up'?'Νέος κωδικός (6+)':'Κωδικός'}" autocomplete="${mode==='up'?'new-password':'current-password'}"/></div>
+    ${msg?`<div class="err">${esc(msg)}</div>`:''}
+    <button class="cta full" id="go" style="margin-top:16px">${mode==='up'?'Δημιουργία →':'Είσοδος →'}</button>
+    <p class="link" id="tog" style="text-align:center;margin-top:16px">${mode==='up'?'Έχεις κωδικό; Σύνδεση':'Πρώτη φορά; Όρισε κωδικό'}</p></div>`;
+  document.getElementById('go').onclick=()=>doAuth(mode);
+  document.getElementById('tog').onclick=()=>login(null,mode==='up'?'in':'up');
+  document.getElementById('pw').addEventListener('keydown',e=>{if(e.key==='Enter')doAuth(mode);});
+}
+async function doAuth(mode){
+  const em=document.getElementById('em').value.trim(), pw=document.getElementById('pw').value; if(!em||!pw)return;
+  const b=document.getElementById('go'); b.disabled=true; b.textContent="…";
+  try{
+    const res=mode==='up'?await sb.auth.signUp({email:em,password:pw}):await sb.auth.signInWithPassword({email:em,password:pw});
+    if(res.error){ const m=res.error.message||'';
+      if(mode==='in') login(/invalid/i.test(m)?"Λάθος email ή κωδικός. (Πρώτη φορά; πάτα «Όρισε κωδικό».)":m,'in');
+      else login(/registered|exists/i.test(m)?"Υπάρχει ήδη λογαριασμός — κάνε Σύνδεση.":("Σφάλμα: "+m),'up'); return; }
+    const {data,error}=await sb.rpc('claim_educator',{p_email:em});
+    if(error||!data||!data.length){ await sb.auth.signOut(); login("Αυτό το email δεν είναι educator.",mode); return; }
+    const r=data[0]; E={educatorId:r.educator_id,name:r.educator_name,academyId:r.academy_id,academyName:r.academy_name,logo:r.academy_logo,accent:r.accent};
+    localStorage.setItem(LS,JSON.stringify(E)); await loadOwner(); viewToday();
+  }catch(e){ login("Πρόβλημα σύνδεσης.",mode); }
+}
+function logout(){ localStorage.removeItem(LS); sb.auth.signOut(); location.reload(); }
+
+/* ---------- SUPPORT MODE (owner-only, read-only) ---------- */
+let SUPPORT=null;
+function viewSupport(){
+  if(!(E&&E._owner)){ showError("Δεν έχεις πρόσβαση."); return; }
+  setNav('support'); scroll.className='scroll';
+  scroll.innerHTML=`<div class="fade maxw">
+    <p class="over">Support</p><h1 style="margin-top:10px">Άνοιγμα λογαριασμού μαθήτριας</h1>
+    <p class="role">Μόνο για owner/admin · read-only προβολή για debugging.</p>
+    <div class="field" style="margin-top:14px"><input id="sup_q" placeholder="Όνομα / τηλέφωνο / email" autocapitalize="none"/></div>
+    <div id="sup_res" style="margin-top:8px"></div></div>`;
+  const inp=document.getElementById('sup_q'); let t=null;
+  inp.oninput=()=>{ clearTimeout(t); t=setTimeout(()=>supSearch(inp.value), 300); };
+  inp.focus();
+}
+async function supSearch(q){
+  const box=document.getElementById('sup_res'); if(!box) return;
+  if(!q||q.trim().length<2){ box.innerHTML=''; return; }
+  box.innerHTML='<div class="spin" style="margin:16px auto"></div>';
+  try{
+    const {data,error}=await sb.rpc('support_students',{p_query:q}); if(error) throw error;
+    const list=data||[];
+    box.innerHTML = list.length? list.map(s=>`<div class="rowlink supres" data-id="${s.student_id}" data-enr="${s.enrollment_id||''}" data-name="${esc(s.student_name)}" style="cursor:pointer"><div><b style="font-weight:600">${esc(s.student_name)}</b><div style="color:var(--muted);font-size:12.5px;margin-top:2px">${esc(s.academy_name||'')}${s.course_title?(' · '+esc(s.course_title)):''} · ${s.completed}/${s.curriculum_total}</div></div><span class="st2 teal">Προβολή ως μαθήτρια →</span></div>`).join('') : '<p class="role" style="margin-top:12px">Καμία μαθήτρια.</p>';
+    box.querySelectorAll('.supres').forEach(el=>el.onclick=()=>supportView(el.dataset.id, el.dataset.enr||null, el.dataset.name));
+  }catch(e){ box.innerHTML=(e&&/not_owner/.test(e.message||''))?'<p class="role" style="color:var(--red)">Δεν έχεις πρόσβαση.</p>':'<p class="role">Σφάλμα αναζήτησης.</p>'; }
+}
+async function supportView(id, enr, name){
+  try{ await sb.rpc('support_log_view',{p_student:id}); }catch(e){}
+  SUPPORT={id, name}; showSupportBar(name);
+  studentProfile(id, enr||null, {support:true, back:viewSupport});
+}
+function showSupportBar(name){
+  let el=document.getElementById('supbar'); if(!el){ el=document.createElement('div'); el.id='supbar'; document.body.appendChild(el); }
+  el.innerHTML=`<span>Support mode · Προβολή ως <b>${esc(name)}</b></span><button id="supexit">Έξοδος από Support Mode</button>`;
+  el.style.display='flex';
+  document.getElementById('supexit').onclick=exitSupport;
+}
+function exitSupport(){ SUPPORT=null; const el=document.getElementById('supbar'); if(el) el.style.display='none'; viewSupport(); }
+
+/* ---------- DATA HELPERS ---------- */
+async function loadCohorts(){
+  const {data,error}=await sb.from('cohorts').select('id,name,start_date, courses(id,title,total_sessions)').eq('academy_id',E.academyId).order('start_date',{ascending:true});
+  if(error) throw error;
+  const out=[]; const today=todayAthens();
+  for(const co of (data||[])){
+    const total=co.courses?co.courses.total_sessions:0;
+    const [{count:enrCount},{data:sdone},{data:snext}]=await Promise.all([
+      sb.from('enrollments').select('id',{count:'exact',head:true}).eq('cohort_id',co.id).eq('status','active'),
+      sb.from('sessions').select('sequence_number',{count:'exact'}).eq('cohort_id',co.id).lte('session_date',today).order('sequence_number',{ascending:false}).limit(1),
+      sb.from('sessions').select('sequence_number,session_date,start_time,end_time,id').eq('cohort_id',co.id).gte('session_date',today).order('session_date',{ascending:true}).limit(1)
+    ]);
+    const done=(sdone&&sdone[0])?sdone[0].sequence_number:0;
+    let status='active'; if(total&&done>=total) status='completed'; else if(done===0 && co.start_date && co.start_date>today) status='upcoming';
+    out.push({id:co.id,name:co.name,course:co.courses?co.courses.title:'',courseId:co.courses?co.courses.id:null,total,done,students:enrCount||0,status,start:co.start_date});
+  }
+  CUR.cohorts=out; return out;
+}
+async function reviewList(){
+  const {data,error}=await sb.from('training_attempts')
+    .select('id,submitted_at,technique_id,work_type, techniques!training_attempts_technique_id_fkey(title,course_id), sessions(sequence_number,cohort_id, cohorts(name)), enrollments(students(name))')
+    .eq('status','submitted').order('submitted_at',{ascending:true});
+  if(error) throw error;
+  return (data||[]).map(a=>({id:a.id,tech:a.techniques?a.techniques.title:'',courseId:a.techniques?a.techniques.course_id:null,techId:a.technique_id,
+    homework:a.work_type==='homework',
+    seq:a.sessions?a.sessions.sequence_number:'?',cohort:a.sessions&&a.sessions.cohorts?a.sessions.cohorts.name:'',
+    name:a.enrollments&&a.enrollments.students?a.enrollments.students.name:'—',at:a.submitted_at}));
+}
+async function refreshPending(){ try{ const l=await reviewList(); E._pend=l.length; localStorage.setItem(LS,JSON.stringify(E)); return l; }catch(e){ return []; } }
+
+/* ---------- TODAY ---------- */
+async function viewToday(opts){
+  setNav('today'); scroll.className='scroll'; scroll.innerHTML='<div class="spin"></div>';
+  try{
+    const cohorts=await loadCohorts();
+    const today=todayAthens();
+    // collect ALL cohorts with a session today → if 2+, show a switcher instead of one giant mixed list
+    const todayList=[];
+    for(const co of cohorts){
+      const {data:ses}=await sb.from('sessions').select('id,sequence_number,start_time,end_time').eq('cohort_id',co.id).eq('session_date',today).order('start_time').limit(1);
+      if(ses&&ses[0]) todayList.push({co, ses:ses[0]});
+    }
+    let chosen=null, todaySession=null;
+    if(opts&&opts.cohortId){ const m=todayList.find(x=>x.co.id===opts.cohortId); if(m){ chosen=m.co; todaySession=m.ses; } else chosen=cohorts.find(c=>c.id===opts.cohortId)||null; }
+    if(!chosen && todayList.length){ chosen=todayList[0].co; todaySession=todayList[0].ses; }
+    if(!chosen) chosen=cohorts.find(c=>c.status==='active')||cohorts[0];
+    CUR.cohort=chosen;
+    await refreshPending(); setNav('today');
+    if(!chosen){ scroll.innerHTML=`<div class="fade"><h1>Σήμερα</h1><p class="role">Δεν υπάρχουν σεμινάρια ακόμη.</p><button class="cta sm" style="margin-top:16px" onclick="wizard()">+ Νέο Σεμινάριο</button></div>`; return; }
+
+    const {data:rows,error}=await sb.rpc('educator_today',{p_cohort:chosen.id}); if(error) throw error;
+    const list=rows||[];
+    let HW=[]; try{ const {data:hwo}=await sb.rpc('homework_overview',{p_cohort:chosen.id}); HW=hwo||[]; }catch(e){}
+    const PRIO={submitted:0,in_progress:1,no_assignment:2,reviewed:3};
+    let submittedCount=0;
+    const present=[], absent=[];
+    for(const st of list){
+      if(st.state==='not_checked_in'){ absent.push(st); continue; }
+      if(st.state==='submitted') submittedCount++;
+      present.push(st);
+    }
+    present.sort((a,b)=>((PRIO[a.state]??9)-(PRIO[b.state]??9)) || (a.checked_in_at||'').localeCompare(b.checked_in_at||''));
+
+    function presentRow(st){
+      const plan=st.plan_count>1?` <span class="exc" style="background:var(--tint);color:var(--accent)">+${st.plan_count-1}</span>`:'';
+      let techLine, rt, cls='';
+      if(st.state==='no_assignment'){
+        cls=' needsassign';
+        techLine=`<span class="tech" style="color:var(--amber)">Χωρίς σημερινή ανάθεση</span><span class="sub">Παρούσα · ${timeOf(st.checked_in_at)}</span>`;
+        rt=`<span class="pill wait assign" data-enr="${st.enrollment_id}" data-name="${esc(st.student_name)}">Ανάθεση →</span>`;
+      } else if(st.state==='submitted'){
+        techLine=`<span class="tech">${esc(st.current_technique)}</span><span class="sub">Παρούσα · ${timeOf(st.checked_in_at)}</span>`;
+        rt=`<span class="prog">${st.stages_done}/${st.stages_total}<span class="d"> φωτο</span></span><span class="pill rev" data-att="${st.attempt_id}">Προς αξιολόγηση →</span>`;
+      } else if(st.state==='in_progress'){
+        techLine=`<span class="tech">${esc(st.current_technique)}</span><span class="sub">Παρούσα · ${timeOf(st.checked_in_at)}</span>`;
+        rt=`<span class="prog">${st.stages_done}/${st.stages_total}<span class="d"> στάδια</span></span><span class="pill wait">Σε εξέλιξη</span>`;
+      } else {
+        techLine=`<span class="tech">${esc(st.current_technique)}</span><span class="sub">Ολοκληρώθηκε · ${num1(st.overall_score)}</span>`;
+        rt=`<span class="pill rev assign" data-enr="${st.enrollment_id}" data-name="${esc(st.student_name)}">Επόμενο →</span>`;
+      }
+      return `<div class="srow${cls}" data-enr="${st.enrollment_id}"><div class="nmwrap" data-enr="${st.enrollment_id}" style="display:flex;align-items:center;gap:12px;flex:1;cursor:pointer"><div class="avatar">${initials(st.student_name)}</div>
+        <div class="nm"><b>${esc(st.student_name)}${plan}</b>${techLine}</div></div>
+        <div class="rt">${rt}</div></div>`;
+    }
+    const presentHtml=present.map(presentRow).join('');
+    const absRow=st=>`<div class="absrow"><b>${esc(st.student_name)}</b><span>${esc(chosen.course||'')}</span></div>`;
+    const absMoreN=3;
+    const absentHtml = absent.length? `<div class="panel absentpanel">
+        <p class="over">Δεν έχουν κάνει check-in ακόμη</p>
+        <p class="role" style="margin-top:4px">${absent.length} ${absent.length===1?'μαθήτρια':'μαθήτριες'}</p>
+        <div id="absList" style="margin-top:10px">${absent.slice(0,absMoreN).map(absRow).join('')}</div>
+        ${absent.length>absMoreN?`<button class="link" id="absMore" style="margin-top:10px">Δες όλες (${absent.length}) →</button>`:''}
+      </div>` : '';
+
+    const sumParts=[]; const presentCount=present.length;
+    if(presentCount>0) sumParts.push(`${presentCount} ${presentCount===1?'παρούσα':'παρούσες'}`);
+    if(submittedCount>0) sumParts.push(`${submittedCount} προς αξιολόγηση`);
+    const opSummary=sumParts.join(' · ');
+    const dayLabel=new Date(today+'T00:00:00').toLocaleDateString('el-GR',{weekday:'long',day:'2-digit',month:'long'});
+    const cohortChips = todayList.length>1
+      ? `<div class="cohchips">${todayList.map(x=>`<button class="cohchip${x.co.id===chosen.id?' on':''}" data-coh="${x.co.id}">${esc(x.co.name||x.co.course||'Σεμινάριο')}${x.ses.start_time?' · '+String(x.ses.start_time).slice(0,5):''}</button>`).join('')}</div>`
+      : '';
+    const chosenName = todayList.length>1 ? `<p class="metaline" style="margin-top:2px">${esc(chosen.course||'')}${chosen.name?' · '+esc(chosen.name):''}</p>` : '';
+
+    scroll.innerHTML=`<div class="fade maxwd">
+      <h1 style="margin-top:2px">Σήμερα</h1>
+      <p class="metaline" style="text-transform:capitalize">${esc(dayLabel)}</p>
+      ${cohortChips}
+      ${chosenName}
+      ${opSummary?`<p class="role" style="margin-top:2px">${esc(opSummary)}</p>`:''}
+      <div class="today2" style="margin-top:26px">
+        <div>
+          <p class="over">Παρούσες τώρα</p>
+          <div style="margin-top:8px">${presentHtml||'<p class="role">Καμία μαθήτρια δεν έχει κάνει check-in ακόμη.</p>'}</div>
+        </div>
+        ${absentHtml?`<div class="attnwrap">${absentHtml}</div>`:''}
+      </div>
+      ${HW.length?`<div class="panel hwpanel" id="hwPanel" style="margin-top:22px;cursor:pointer">
+        <div class="rowc"><p class="over">🏠 Εργασίες για το σπίτι</p><span class="chev">›</span></div>
+        <p class="role" style="margin-top:4px">${HW.length} ανατέθηκαν · <b style="color:var(--amber)">${HW.filter(h=>h.status==='not_submitted'||h.status==='in_progress').length} δεν έχουν κάνει</b>${HW.filter(h=>h.status==='to_review').length?` · <b style="color:var(--accent)">${HW.filter(h=>h.status==='to_review').length} προς αξιολόγηση</b>`:''}</p>
+      </div>`:''}
+      </div>`;
+    const byEnr={}; present.forEach(p=>byEnr[p.enrollment_id]=p);
+    { const hp=document.getElementById('hwPanel'); if(hp) hp.onclick=()=>hwPopup(HW); }
+    scroll.querySelectorAll('.nmwrap[data-enr]').forEach(el=>el.onclick=()=>{ const st=byEnr[el.dataset.enr]; if(st) studentProfile(st.student_id, st.enrollment_id, {back:viewToday}); });
+    scroll.querySelectorAll('.pill.rev:not(.assign)').forEach(el=>el.onclick=(e)=>{ e.stopPropagation(); openReview(el.dataset.att); });
+    scroll.querySelectorAll('.pill.assign').forEach(el=>el.onclick=(e)=>{ e.stopPropagation(); const st=byEnr[el.dataset.enr]; if(st) openStudentDrawer({...st, course:chosen.course}); });
+    const absMore=document.getElementById('absMore'); if(absMore) absMore.onclick=()=>{ document.getElementById('absList').innerHTML=absent.map(absRow).join(''); absMore.remove(); };
+    scroll.querySelectorAll('.cohchip').forEach(el=>el.onclick=()=>{ if(el.dataset.coh!==chosen.id) viewToday({cohortId:el.dataset.coh}); });
+  }catch(e){ showError("Δεν φόρτωσε το Σήμερα.",e); }
+}
+function hwPopup(HW){
+  HW=HW||[];
+  const by=s=>HW.filter(r=>r.status===s);
+  const rev=by('to_review'), prog=by('in_progress'), notsub=by('not_submitted'), comp=by('completed');
+  const dshort=d=>{ try{ return new Date(d).toLocaleDateString('el-GR',{day:'2-digit',month:'short'}); }catch(e){ return ''; } };
+  const rowR=r=>`<div class="hwpr" data-att="${r.attempt_id}" style="cursor:pointer"><div class="l"><b>${esc(r.student_name)}</b><span class="sub">${esc(r.technique_name)} · ${r.submitted_at?('Υποβλήθηκε '+dshort(r.submitted_at)):'Υποβλήθηκε'}</span></div><span class="pill rev">Αξιολόγηση →</span></div>`;
+  const rowP=r=>`<div class="hwrow2"><div class="l"><b>${esc(r.student_name)}</b><span class="sub">${esc(r.technique_name)} · ${r.progress_done||0}/${r.progress_total||0} φωτο</span></div></div>`;
+  const rowN=r=>`<div class="hwrow2"><div class="l"><b>${esc(r.student_name)}</b><span class="sub">${esc(r.technique_name)} · Απαιτείται</span></div></div>`;
+  const rowC=r=>`<div class="hwrow2"><div class="l"><b>${esc(r.student_name)}</b><span class="sub">${esc(r.technique_name)}${r.overall_score!=null?(' · '+num1(r.overall_score)+'/10'):''}</span></div></div>`;
+  const grp=(t,a,f)=>a.length?`<p class="over" style="margin-top:18px">${t}</p><div style="margin-top:2px">${a.map(f).join('')}</div>`:'';
+  let el=document.getElementById('confirmov'); if(el) el.remove();
+  el=document.createElement('div'); el.id='confirmov';
+  el.innerHTML=`<div class="cs-card" style="max-width:460px;text-align:left;max-height:82vh;overflow:auto">
+    <div class="rowc" style="align-items:center"><h2 style="margin:0">🏠 Εργασίες για το σπίτι</h2><button class="xbtn" id="hw_x" aria-label="κλείσιμο">✕</button></div>
+    <p class="role" style="margin-top:4px">${HW.length} ανατέθηκαν · ${notsub.length+prog.length} δεν έχουν κάνει</p>
+    ${grp('Προς αξιολόγηση',rev,rowR)}
+    ${grp('Σε εξέλιξη',prog,rowP)}
+    ${grp('Δεν έχει υποβληθεί',notsub,rowN)}
+    ${comp.length?`<details style="margin-top:18px"><summary style="cursor:pointer;color:var(--muted);font-size:12.5px;font-weight:600;letter-spacing:.4px;text-transform:uppercase">Ολοκληρώθηκαν (${comp.length})</summary><div style="margin-top:2px">${comp.map(rowC).join('')}</div></details>`:''}
+    ${!HW.length?'<p class="role" style="margin-top:14px">Καμία εργασία για το σπίτι ακόμη.</p>':''}
+  </div>`;
+  document.body.appendChild(el);
+  el.onclick=(e)=>{ if(e.target===el) el.remove(); };
+  document.getElementById('hw_x').onclick=()=>el.remove();
+  el.querySelectorAll('.hwpr').forEach(r=>r.onclick=()=>{ el.remove(); openReview(r.dataset.att); });
+}
+
+/* ---------- ASSIGN TRAINING (curriculum picker) ---------- */
+async function assignPicker(enrollmentId, name){
+  setNav(false); scroll.className='scroll noNav'; scroll.innerHTML='<div class="spin"></div>';
+  try{
+    const [{data,error},{data:revs},{data:actData}]=await Promise.all([
+      sb.rpc('curriculum_picker',{p_enrollment:enrollmentId}),
+      sb.from('training_attempts').select('technique_id,overall_score,lesson_final_score,reviewed_at').eq('enrollment_id',enrollmentId).eq('status','reviewed').order('reviewed_at',{ascending:false}),
+      sb.rpc('active_assignment',{p_enrollment:enrollmentId})
+    ]);
+    if(error) throw error;
+    const items=data||[];
+    // Lesson score = educator-set final if present, else latest reviewed overall (History keeps every attempt).
+    const scoreMap={}; const finalMap={};
+    (revs||[]).forEach(r=>{
+      if(r.lesson_final_score!=null && finalMap[r.technique_id]==null) finalMap[r.technique_id]=r.lesson_final_score;
+      if(scoreMap[r.technique_id]==null && r.overall_score!=null) scoreMap[r.technique_id]=r.overall_score;
+    });
+    Object.keys(finalMap).forEach(k=>{ scoreMap[k]=finalMap[k]; });
+    // Strict split by status only (is_open is unreliable — true for completed items too).
+    // Every item lands in exactly one bucket: completed | remaining(not_started) | in-progress(anything active).
+    const completed = items.filter(i=>i.status==='completed');
+    const remaining = items.filter(i=>i.status==='not_started');
+    const pendingHw = items.filter(i=>i.status==='class_done_homework_pending');
+    const inprog    = items.filter(i=>i.status==='in_progress');
+    const first=((name||'').split(' ')[0])||'η μαθήτρια';
+    // One active assignment at a time: label reflects whether one already exists.
+    const active=(actData&&actData[0])||null;
+    const actionLabel = active ? 'Αλλαγή' : 'Ανάθεση';
+
+    const remRow=i=>`<div class="rowlink pickrow" data-tec="${i.technique_id}"><div><b style="font-weight:600">${esc(i.title)}</b><div style="color:var(--muted);font-size:12.5px;margin-top:2px">${i.topics_count} θέματα · ${i.stages_count} στάδια</div></div><span class="st2 teal">${actionLabel}</span></div>`;
+    const inprogHtml = inprog.length ? `<p class="over" style="margin-top:22px">Σε εξέλιξη</p>
+      <div style="margin-top:6px">${inprog.map(i=>`<div class="rowlink openrow" data-tec="${i.technique_id}" style="background:var(--tint);border-radius:14px;padding:14px 16px;border-top:none"><div><b style="font-weight:600;font-family:var(--serif);font-size:16px">${esc(i.title)}</b><div style="color:var(--muted);font-size:12px;margin-top:2px">Ανοιχτή εργασία</div></div><span class="st2 teal">Συνέχεια</span></div>`).join('')}</div>` : '';
+    const remHtml = remaining.length
+      ? `<div class="field" style="margin-top:8px"><input id="ap_search" placeholder="Αναζήτηση στην υπόλοιπη ύλη…" autocapitalize="none"/></div><div id="ap_all" style="margin-top:2px">${remaining.map(remRow).join('')}</div>`
+      : `<p class="role" style="margin-top:8px;color:var(--accent)">✓ Η ${esc(first)} έχει ολοκληρώσει όλη την ύλη.</p>`;
+    const compHtml = completed.length
+      ? `<div class="rowlink" id="ap_completed" style="margin-top:14px"><div><b style="font-weight:600">Ολοκληρωμένα</b></div><div style="display:flex;align-items:center;gap:10px"><span style="color:var(--muted);font-size:12.5px">${completed.length} ${completed.length===1?'τεχνική':'τεχνικές'}</span><span class="chev">›</span></div></div>`
+      : '';
+
+    scroll.innerHTML=`<div class="fade maxw"><button class="back" id="ap_back">← Σήμερα</button>
+      <p class="over">Επιλογή εκπαίδευσης</p>
+      <h1 style="font-size:28px;margin-top:6px">${esc(name)}</h1>
+      <p class="subtitle">Διάλεξε τι θα δουλέψει τώρα.</p>
+      ${inprogHtml}
+      ${pendingHw.length?`<p class="over" style="margin-top:22px">Εκκρεμεί εργασία για το σπίτι</p>
+        <div style="margin-top:6px">${pendingHw.map(i=>`<div class="rowlink" style="cursor:default"><div><b style="font-weight:600">${esc(i.title)}</b><div style="color:var(--amber);font-size:12px;margin-top:2px">Η τάξη ολοκληρώθηκε · εκκρεμεί η εργασία για το σπίτι</div></div></div>`).join('')}</div>`:''}
+      <p class="over" style="margin-top:24px">Υπόλοιπη ύλη</p>
+      ${remHtml}
+      ${compHtml}</div>`;
+    document.getElementById('ap_back').onclick=()=>viewToday();
+    function wirePick(){ scroll.querySelectorAll('.pickrow').forEach(el=>{ const it=items.find(x=>x.technique_id===el.dataset.tec); el.onclick=()=>applyAssignment(enrollmentId, el.dataset.tec, {title:it?it.title:'', name, after:viewToday, onBack:()=>assignPicker(enrollmentId,name)}); }); }
+    scroll.querySelectorAll('.openrow').forEach(el=>el.onclick=()=>viewToday());
+    const s=document.getElementById('ap_search');
+    if(s){ const all=document.getElementById('ap_all'); s.oninput=e=>{const q=normtext(e.target.value); all.innerHTML=(remaining.filter(i=>normtext(i.title).includes(q)).map(remRow).join(''))||'<p class="role">Καμία τεχνική.</p>'; wirePick();}; }
+    wirePick();
+    const cb=document.getElementById('ap_completed'); if(cb) cb.onclick=()=>completedList(enrollmentId, name, completed, scoreMap);
+  }catch(e){ showError("Δεν άνοιξε η επιλογή εκπαίδευσης.",e); }
+}
+function completedList(enrollmentId, name, completed, scoreMap){
+  scroll.className='scroll noNav';
+  const row=i=>{ const s=scoreMap[i.technique_id]; const low=(s!=null&&s<7);
+    return `<div class="rowlink complrow" data-tec="${i.technique_id}" data-title="${esc(i.title)}"><div><b style="font-weight:600">${esc(i.title)}</b></div><div style="display:flex;align-items:center;gap:12px"><span class="score" style="font-size:17px;color:${low?'var(--amber)':'var(--ink)'}">${s!=null?num1(s):'—'}</span><span class="chev">›</span></div></div>`; };
+  scroll.innerHTML=`<div class="fade maxw"><button class="back" id="cl_back">← Επιλογή εκπαίδευσης</button>
+    <p class="over">Ολοκληρωμένα</p>
+    <h1 style="font-size:24px;margin-top:6px">${completed.length} ${completed.length===1?'τεχνική':'τεχνικές'}</h1>
+    <div style="margin-top:14px">${completed.map(row).join('')||'<p class="role">Καμία ακόμη.</p>'}</div></div>`;
+  document.getElementById('cl_back').onclick=()=>assignPicker(enrollmentId, name);
+  scroll.querySelectorAll('.complrow').forEach(el=>el.onclick=()=>completedTechDetail(el.dataset.tec, el.dataset.title, enrollmentId, ()=>completedList(enrollmentId,name,completed,scoreMap), ()=>viewToday()));
+}
+// ONE active assignment at a time. Central gate for every assign/change/repeat path.
+//  • no active            → assign directly
+//  • active, not started  → confirm replace (Case A), then set
+//  • active, started      → block (Case B) — never queue/overwrite
+async function applyAssignment(enr, tec, opts){
+  opts=opts||{};
+  const after=opts.after||viewToday;
+  let active=null;
+  try{ const {data}=await sb.rpc('active_assignment',{p_enrollment:enr}); active=(data&&data[0])||null; }catch(e){}
+  const doSet=async()=>{
+    scroll.innerHTML='<div class="spin"></div>';
+    try{ const {error}=await sb.rpc('set_active_assignment',{p_enrollment:enr, p_technique:tec}); if(error) throw error; after(); }
+    catch(e){ const m=(e&&e.message)||'';
+      if(/active_started/.test(m)){ blockActiveSheet((m.split('active_started:')[1]||'').trim()||(active&&active.title), opts.name, opts.onBack); }
+      else showError("Δεν ανατέθηκε — δοκίμασε ξανά.", e); }
+  };
+  if(active && active.technique_id!==tec){
+    const note = active.started
+      ? `Η τρέχουσα εργασία “${active.title}” έχει ξεκινήσει — θα διατηρηθεί στο ιστορικό.`
+      : `Η τρέχουσα εργασία “${active.title}” δεν έχει ξεκινήσει.`;
+    confirmSheet({ title:'Αλλαγή μαθήματος;',
+      body:`${note} Θέλεις να αλλάξεις σε “${opts.title||'νέα τεχνική'}”;`,
+      ok:'Αλλαγή', okClass:'', onOk:()=>{ closeConfirm(); doSet(); } });
+    return;
+  }
+  await doSet();
+}
+function blockActiveSheet(title, name, onBack){
+  const first=((name||'').split(' ')[0])||'Η μαθήτρια';
+  let el=document.getElementById('confirmov'); if(el) el.remove();
+  el=document.createElement('div'); el.id='confirmov';
+  el.innerHTML=`<div class="cs-card"><h2>Υπάρχει ήδη εργασία σε εξέλιξη</h2>
+    <p class="cs-body">Η ${esc(first)} έχει ξεκινήσει: <b>${esc(title||'')}</b>. Ολοκλήρωσε ή κλείσε πρώτα την τρέχουσα εργασία πριν αναθέσεις άλλη τεχνική.</p>
+    <button class="cs-ok" id="cs_ok">Πίσω στην εργασία</button></div>`;
+  document.body.appendChild(el);
+  el.onclick=(e)=>{ if(e.target===el) closeConfirm(); };
+  document.getElementById('cs_ok').onclick=()=>{ closeConfirm(); if(onBack) onBack(); };
+}
+// Back-compat shim: any legacy caller routes through the one-active gate.
+async function doAssign(enrollmentId, techId){ return applyAssignment(enrollmentId, techId, {after:viewToday}); }
+
+/* ---------- QUICK STUDENT DRAWER (Educator Today command center) ---------- */
+const drawer=document.getElementById('drawer'), scrim=document.getElementById('scrim');
+let DR=null;
+function openDrawer(){ drawer.classList.add('on'); scrim.classList.add('on'); drawer.setAttribute('aria-hidden','false'); }
+function closeDrawer(){ drawer.classList.remove('on'); scrim.classList.remove('on'); drawer.setAttribute('aria-hidden','true'); }
+scrim.onclick=closeDrawer;
+const stGr=s=>({in_progress:'Σε εξέλιξη',submitted:'Προς αξιολόγηση',reviewed:'Ολοκληρώθηκε',assigned:'Δεν ξεκίνησε',no_assignment:'Χωρίς σημερινή ανάθεση',not_checked_in:'Χωρίς check-in'}[s]||s);
+function drawerStarted(st){ return (st.state==='in_progress'||st.state==='submitted') && (st.stages_done||0)>0; }
+
+async function openStudentDrawer(st){
+  DR={st}; openDrawer(); drawer.innerHTML='<div class="dwrap"><div class="spin"></div></div>';
+  try{
+    const {data:q,error}=await sb.rpc('educator_student_quick',{p_enrollment:st.enrollment_id}); if(error) throw error;
+    DR.q=q; DR.sel=null; renderDrawerProfile();
+  }catch(e){ drawer.innerHTML=`<div class="dwrap"><button class="dclose" onclick="closeDrawer()">✕ Κλείσιμο</button><p class="role" style="margin-top:20px">Δεν φόρτωσε το προφίλ.</p></div>`; }
+}
+function renderDrawerProfile(){
+  const st=DR.st, q=DR.q; const first=(st.student_name||'').split(' ')[0];
+  const comp=(q.curriculum||[]).filter(c=>c.status==='completed');
+  const remaining=(q.curriculum||[]).filter(c=>c.status!=='completed').length;
+  const noAssign=st.state==='no_assignment'||st.state==='not_checked_in'||!st.current_technique;
+  const sColor=st.state==='no_assignment'?'var(--amber)':'var(--muted)';
+  const todayBlock = noAssign
+    ? `<p class="over" style="margin-top:22px">Σήμερα</p><p class="role" style="margin-top:6px;color:var(--amber)">Χωρίς σημερινή ανάθεση</p>
+       <button class="cta" id="dr_change" style="margin-top:14px">Ανάθεση →</button>`
+    : `<div class="dcard"><div class="rowc"><div><p class="over">Σήμερα</p><p style="margin:8px 0 0;font-family:var(--serif);font-weight:600;font-size:20px">${esc(st.current_technique)}</p>
+         <p class="st2" style="margin-top:6px;color:${sColor}">${stGr(st.state)} · ${st.stages_done||0}/${st.stages_total||0} στάδια</p></div></div>
+       <button class="link" id="dr_change" style="margin-top:14px">Αλλαγή →</button></div>`;
+  const compChips = comp.slice(0,3).map(c=>`<span class="lmchip">${esc(c.title)}</span>`).join('') + (comp.length>3?`<span class="lmore">+${comp.length-3} ακόμη</span>`:'');
+  drawer.innerHTML=`<div class="dwrap">
+    <button class="dclose" onclick="closeDrawer()">✕ Κλείσιμο</button>
+    <div class="dname">${esc(st.student_name)}</div>
+    <p class="role" style="margin-top:4px">${esc(st.course||'')}</p>
+    <p class="role" style="margin-top:8px">${q.attendance_days||0} ${(q.attendance_days===1)?'παρουσία':'παρουσίες'} · ${q.completed||0}/${q.total_tech||0} ολοκληρωμένα</p>
+    ${todayBlock}
+    ${comp.length?`<p class="over" style="margin-top:26px">Ολοκληρωμένα</p><div class="learnmini">${compChips}</div>`:''}
+    <p class="over" style="margin-top:22px">Απομένουν</p><p class="role" style="margin-top:6px">${remaining} ${remaining===1?'τεχνική':'τεχνικές'}</p>
+    <div class="hair" style="margin-top:24px"></div>
+    <button class="link" id="dr_full" style="margin-top:16px;display:block;color:var(--muted)">Προβολή πλήρους προφίλ →</button>
+  </div>`;
+  const ch=document.getElementById('dr_change'); if(ch) ch.onclick=()=>renderDrawerPicker('change');
+  document.getElementById('dr_full').onclick=()=>{ closeDrawer(); studentProfile(DR.q.student_id, DR.st.enrollment_id); };
+}
+function renderDrawerPicker(intent){
+  DR.intent=intent; DR.sel=null; DR.showDone=false;
+  const st=DR.st, first=(st.student_name||'').split(' ')[0];
+  const head = intent==='add' ? `Επόμενη ανάθεση για τη ${esc(first)}` : `Τι θα δουλέψει σήμερα η ${esc(first)};`;
+  paintPicker(head);
+}
+function paintPicker(head){
+  const q=DR.q; const cur=(q.curriculum||[]);
+  const prog=cur.filter(c=>c.status==='in_progress');
+  const todo=cur.filter(c=>c.status==='not_started');
+  const done=cur.filter(c=>c.status==='completed');
+  const filt=DR._q?cur.filter(c=>normtext(c.title).includes(DR._q)):null;
+  const row=c=>`<div class="drow ${DR.sel===c.technique_id?'sel':''}" data-tec="${c.technique_id}"><div class="dt">${esc(c.title)}<small>${c.topics_count||0} θέματα · ${c.stages_count||0} στάδια</small></div><span class="dcheck">${DR.sel===c.technique_id?'✓':''}</span></div>`;
+  const sect=(label,arr)=>arr.length?`<p class="over" style="margin-top:22px">${label} · ${arr.length}</p><div>${arr.map(row).join('')}</div>`:'';
+  let body;
+  if(filt){ body=`<div>${filt.length?filt.map(row).join(''):'<p class="role" style="margin-top:16px">Καμία τεχνική.</p>'}</div>`; }
+  else{
+    body = sect('Σε εξέλιξη',prog) + sect('Δεν έχει κάνει ακόμη',todo)
+      + (done.length?`<p class="over" style="margin-top:22px">Ολοκληρωμένα · ${done.length}</p>${DR.showDone?`<div>${done.map(row).join('')}</div>`:`<button class="link" id="dr_showdone" style="margin-top:8px">Δες ολοκληρωμένα →</button>`}`:'');
+  }
+  const ctaLabel = DR.st.current_technique ? 'Αλλαγή' : 'Ανάθεση';
+  drawer.innerHTML=`<div class="dwrap">
+    <button class="dclose" id="dr_back">← ${esc((DR.st.student_name||'').split(' ')[0])}</button>
+    <h2 style="font-family:var(--serif);font-weight:600;font-size:22px;margin-top:14px;line-height:1.2">${head}</h2>
+    <div class="field" style="margin-top:14px"><input id="dr_search" placeholder="Αναζήτηση στην ύλη…" value="${DR._raw||''}"/></div>
+    <div id="dr_list">${body}</div>
+    <div class="dstickybar"><button class="cta" id="dr_cta" ${DR.sel?'':'disabled'} style="width:100%">${ctaLabel}</button></div>
+  </div>`;
+  document.getElementById('dr_back').onclick=()=>renderDrawerProfile();
+  const sd=document.getElementById('dr_showdone'); if(sd) sd.onclick=()=>{ DR.showDone=true; paintPicker(head); };
+  const se=document.getElementById('dr_search'); se.oninput=e=>{ DR._raw=e.target.value; DR._q=normtext(e.target.value); paintPicker(head); const el=document.getElementById('dr_search'); el.focus(); el.setSelectionRange(el.value.length,el.value.length); };
+  drawer.querySelectorAll('.drow').forEach(el=>el.onclick=()=>{ DR.sel=el.dataset.tec; paintPicker(head); });
+  document.getElementById('dr_cta').onclick=()=>onPickerConfirm();
+}
+function onPickerConfirm(){
+  if(!DR.sel) return;
+  const st=DR.st;
+  const it=((DR.q&&DR.q.curriculum)||[]).find(c=>c.technique_id===DR.sel);
+  // One active assignment — same gate as the full picker (Case A confirm / Case B block).
+  applyAssignment(st.enrollment_id, DR.sel, {
+    name: st.student_name,
+    title: it?it.title:'',
+    after: ()=>{ closeDrawer(); viewToday(); },
+    onBack: ()=>renderDrawerProfile()
+  });
+}
+function renderStartedChoice(){
+  const st=DR.st, first=(st.student_name||'').split(' ')[0];
+  drawer.innerHTML=`<div class="dwrap">
+    <button class="dclose" id="sc_back">← Πίσω</button>
+    <h2 style="font-family:var(--serif);font-weight:600;font-size:21px;margin-top:16px;line-height:1.25">Η ${esc(first)} έχει ήδη ξεκινήσει το ${esc(st.current_technique)}</h2>
+    <p class="role" style="margin-top:8px">${st.stages_done||0}/${st.stages_total||0} στάδια έχουν ανέβει. Δεν θα χαθεί τίποτα.</p>
+    <button class="cta" id="sc_keep" style="margin-top:24px;width:100%">Κράτησέ το και πρόσθεσε επόμενο</button>
+    <button class="cta ghost" id="sc_stop" style="margin-top:12px;width:100%">Σταμάτησε αυτή την προσπάθεια και άλλαξε</button>
+  </div>`;
+  document.getElementById('sc_back').onclick=()=>paintPicker(DR.intent==='add'?`Επόμενη ανάθεση για τη ${esc(first)}`:`Τι θα δουλέψει σήμερα η ${esc(first)};`);
+  document.getElementById('sc_keep').onclick=()=>commitTraining('add');
+  document.getElementById('sc_stop').onclick=()=>commitTraining('stop');
+}
+async function commitTraining(mode){
+  drawer.innerHTML='<div class="dwrap"><div class="spin"></div></div>';
+  try{
+    const {error}=await sb.rpc('set_today_training',{p_enrollment:DR.st.enrollment_id, p_technique:DR.sel, p_mode:mode, p_current_attempt:DR.st.attempt_id||null});
+    if(error) throw error;
+    closeDrawer(); viewToday();
+  }catch(e){ drawer.innerHTML=`<div class="dwrap"><button class="dclose" onclick="closeDrawer()">✕ Κλείσιμο</button><p class="err" style="margin-top:20px">Δεν αποθηκεύτηκε — δοκίμασε ξανά.</p></div>`; }
+}
+
+/* ---------- REVIEWS ---------- */
+async function viewReviews(){
+  setNav('reviews'); scroll.className='scroll'; scroll.innerHTML='<div class="spin"></div>';
+  try{
+    const list=await reviewList(); RV.list=list; E._pend=list.length; localStorage.setItem(LS,JSON.stringify(E)); setNav('reviews');
+    if(!list.length){ scroll.innerHTML=`<div class="fade" style="text-align:center;margin-top:64px"><h2>Καμία εκκρεμότητα</h2><p class="role">Όλες οι εργασίες αξιολογήθηκαν.</p></div>`; return; }
+    const rows=list.map(a=>`<div class="lrow" data-att="${a.id}" style="cursor:pointer"><div class="avatar">${initials(a.name)}</div>
+      <div class="nm"><b>${esc(a.name)}</b><span>${esc(a.tech)} · ${a.homework?'Εργασία για το σπίτι 🏠':'Session '+pad2(a.seq)+' · '+esc(a.cohort)}</span></div>
+      <span class="st2 teal">Αξιολόγηση →</span></div>`).join('');
+    scroll.innerHTML=`<div class="fade maxw"><p class="over">Αξιολογήσεις</p><h1 style="margin-top:10px">Προς αξιολόγηση</h1>
+      <p class="role">${list.length} ${list.length===1?'εργασία':'εργασίες'} περιμένουν</p>
+      <div class="sect">${rows}</div></div>`;
+    scroll.querySelectorAll('.lrow').forEach(el=>el.onclick=()=>openReview(el.dataset.att));
+  }catch(e){ showError("Δεν φόρτωσαν οι αξιολογήσεις.",e); }
+}
+async function openReview(attId){
+  setNav('reviews'); scroll.className='scroll'; scroll.innerHTML='<div class="spin"></div>';
+  try{
+    if(!RV.list.length) RV.list=await reviewList();
+    RV.idx=Math.max(0,RV.list.findIndex(a=>a.id===attId));
+    const {data,error}=await sb.rpc('educator_attempt',{p_attempt:attId}); if(error) throw error;
+    const rows=data||[]; if(!rows.length){ viewReviews(); return; }
+    const meta=rows[0];
+    const stages=rows.map(r=>({step_id:r.step_id,submission_id:r.submission_id,title:r.stage_title,order:r.stage_order,photo:r.photo_path,
+      score:(r.stage_score!=null?Number(r.stage_score):null),feedback:r.stage_feedback||''})).sort((a,b)=>a.order-b.order);
+    const item=RV.list.find(a=>a.id===attId);
+    const {data:ta}=await sb.from('training_attempts').select('enrollment_id,work_type').eq('id',attId).single();
+    const isHw=(ta&&ta.work_type==='homework')||!!(item&&item.homework);
+    RV.att={id:attId,meta,stages,enrollmentId:ta?ta.enrollment_id:null,name:(item&&item.name)||meta.student_name,tech:meta.technique,seq:meta.sequence_number,overall:'',ofb:'',isHomework:isHw,finalScore:null,finalFb:''};
+    RV.stage=0; renderReview();
+  }catch(e){ showError("Δεν άνοιξε η αξιολόγηση.",e); }
+}
+function reviewCtxLabel(A){ return A.isHomework?'Εργασία για το σπίτι':'Εργασία στην τάξη'; }
+async function loadStagePhoto(st){
+  const ph=document.getElementById('ph'); if(!ph) return;
+  ph.innerHTML='<div class="spin"></div>'; RV._curPhoto=null;
+  try{ const u=st.photo?await signed(st.photo):null; RV._curPhoto=u; if(document.getElementById('ph')) document.getElementById('ph').innerHTML=u?`<img src="${u}"/>`:'<span>Χωρίς φωτό</span>'; }
+  catch(e){ if(document.getElementById('ph')) document.getElementById('ph').innerHTML='<span>Η φωτό δεν φορτώνει</span>'; }
+}
+function openZoom(){ const u=RV._curPhoto; if(!u) return; let o=document.getElementById('zoomov'); if(!o){ o=document.createElement('div'); o.id='zoomov'; o.onclick=()=>o.remove(); document.body.appendChild(o); } o.innerHTML=`<img src="${u}"/>`; }
+function renderReview(){
+  setNav(false); scroll.className='scroll noNav';
+  const A=RV.att; const st=A.stages[RV.stage]; const total=A.stages.length; const last=RV.stage===total-1; const hasC=!!(st.feedback&&st.feedback.trim());
+  scroll.innerHTML=`<div class="fade rvws">
+    <div class="rvtop"><button class="back" onclick="viewReviews()">←</button><span class="rvcount">Αξιολόγηση ${RV.stage+1}/${total}</span></div>
+    <h2 style="font-size:20px;margin:6px 0 0">${esc(A.name)}</h2>
+    <p class="rvsub">${esc(A.tech)} · ${reviewCtxLabel(A)}${A.isHomework?' <span class="hwtag">ΕΡΓΑΣΙΑ ΓΙΑ ΤΟ ΣΠΙΤΙ</span>':''}</p>
+    <div class="rvphoto" id="ph" onclick="openZoom()"><div class="spin"></div></div>
+    <div class="rvstgs" id="stgs">${A.stages.map((s,i)=>`<button class="rvstg ${i===RV.stage?'on':''} ${s.score!=null?'done':''}" data-i="${i}">${pad2(s.order)}${s.score!=null?' ✓':''}</button>`).join('')}</div>
+    <p class="rvstname">${esc(st.title)}</p>
+    <div class="rvchips" id="sc">${[6,6.5,7,7.5,8,8.5,9,9.5,10].map(n=>`<button data-n="${n}" class="${st.score===n?'sel':''}">${n}</button>`).join('')}</div>
+    <button class="rvcbtn" id="cbtn">${hasC?'Σχόλιο ✓ · επεξεργασία':'+ Προσθήκη σχολίου'}</button>
+    <div id="cwrap" style="display:${hasC?'block':'none'}"><textarea id="fb" rows="2" class="rvta" placeholder="Σχόλιο σταδίου (προαιρετικό)">${esc(st.feedback)}</textarea></div>
+    <div class="rvbar">
+      <button class="cta ghost sm" id="prev" ${RV.stage===0?'disabled':''}>← Προηγ.</button>
+      <button class="cta sm" id="next" style="flex:1.4">${last?'Ολοκλήρωση αξιολόγησης →':'Επόμενο στάδιο →'}</button>
+    </div>
+    <div id="rverr"></div></div>`;
+  loadStagePhoto(st);
+  document.querySelectorAll('#sc button').forEach(b=>b.onclick=()=>{ st.score=parseFloat(b.dataset.n); document.querySelectorAll('#sc button').forEach(x=>x.classList.remove('sel')); b.classList.add('sel'); const sg=document.querySelector(`.rvstg[data-i="${RV.stage}"]`); if(sg){sg.classList.add('done'); sg.innerHTML=pad2(st.order)+' ✓';} });
+  document.getElementById('cbtn').onclick=()=>{ const w=document.getElementById('cwrap'); const open=w.style.display!=='none'; w.style.display=open?'none':'block'; if(!open){ const t=document.getElementById('fb'); if(t) t.focus(); } };
+  const fb=document.getElementById('fb'); if(fb) fb.oninput=e=>{ st.feedback=e.target.value; };
+  document.getElementById('prev').onclick=()=>{ if(RV.stage>0){RV.stage--;renderReview();} };
+  document.getElementById('next').onclick=()=>{
+    if(!last){ RV.stage++; renderReview(); }
+    else { const miss=A.stages.findIndex(s=>s.score==null); if(miss>=0){ RV.stage=miss; renderReview(); const e=document.getElementById('rverr'); if(e) e.innerHTML='<div class="err">Βαθμολόγησε όλα τα στάδια.</div>'; return; } renderFinalReview(); }
+  };
+  document.querySelectorAll('#stgs .rvstg').forEach(b=>b.onclick=()=>{ RV.stage=+b.dataset.i; renderReview(); });
+}
+function renderReviewBack(){ RV.stage=RV.att.stages.length-1; renderReview(); }
+function renderFinalReview(){
+  setNav(false); scroll.className='scroll noNav';
+  const A=RV.att; const avg=A.stages.reduce((a,s)=>a+(s.score||0),0)/A.stages.length; A.overall=avg;
+  if(A.isHomework && A.finalScore==null) A.finalScore=Math.round(avg*2)/2;
+  const cur=A.isHomework?A.finalScore:A.overall;
+  scroll.innerHTML=`<div class="fade rvws">
+    <div class="rvtop"><button class="back" onclick="renderReviewBack()">←</button><span class="rvcount">Σύνοψη</span></div>
+    <p class="over" style="margin-top:10px">Συνολική αξιολόγηση</p>
+    <h2 style="font-size:20px;margin:4px 0 0">${esc(A.tech)}</h2>
+    <p class="rvsub">${esc(A.name)}${A.isHomework?' <span class="hwtag">ΕΡΓΑΣΙΑ ΓΙΑ ΤΟ ΣΠΙΤΙ</span>':''}</p>
+    <div style="margin-top:12px">${A.stages.map(s=>`<div class="rvsum"><span>${pad2(s.order)} ${esc(s.title)}</span><span class="score">${s.score!=null?num1(s.score):'—'}</span></div>`).join('')}</div>
+    <p class="role" style="margin-top:12px;font-size:12.5px">Προτεινόμενος βαθμός: <b class="score" style="color:var(--accent)">${num1(avg)}</b></p>
+    <p class="over" style="margin-top:12px">Τελικός βαθμός</p>
+    <div class="rvchips" id="fsc">${[6,6.5,7,7.5,8,8.5,9,9.5,10].map(n=>`<button data-n="${n}" class="${cur===n?'sel':''}">${n}</button>`).join('')}</div>
+    <div style="margin-top:10px"><textarea id="ofb" rows="2" class="rvta" placeholder="Συνολικό σχόλιο">${esc(A.isHomework?A.finalFb:A.ofb)}</textarea></div>
+    <div class="rvbar">${A.isHomework
+      ? `<button class="cta ghost sm" id="hrep" style="flex:1">Χρειάζεται επανάληψη</button><button class="cta sm" id="hdone" style="flex:1">Ολοκληρώθηκε</button>`
+      : `<button class="cta ghost sm" id="cont" style="flex:1">Συνέχεια αυτής</button><button class="cta sm" id="comp" style="flex:1">Ολοκλήρωση</button>`}</div>
+    <div id="rverr"></div></div>`;
+  document.querySelectorAll('#fsc button').forEach(b=>b.onclick=()=>{ const v=parseFloat(b.dataset.n); if(A.isHomework)A.finalScore=v; else A.overall=v; document.querySelectorAll('#fsc button').forEach(x=>x.classList.remove('sel')); b.classList.add('sel'); });
+  const ofb=document.getElementById('ofb'); if(ofb) ofb.oninput=e=>{ if(A.isHomework)A.finalFb=e.target.value; else A.ofb=e.target.value; };
+  const cont=document.getElementById('cont'); if(cont) cont.onclick=()=>submitReview('continue');
+  const comp=document.getElementById('comp'); if(comp) comp.onclick=()=>submitReview('complete');
+  const hrep=document.getElementById('hrep'); if(hrep) hrep.onclick=()=>submitHomeworkReview('homework_repeat');
+  const hdone=document.getElementById('hdone'); if(hdone) hdone.onclick=()=>submitHomeworkReview('homework_done');
+}
+async function submitHomeworkReview(decision){
+  const A=RV.att; const scored=A.stages.filter(s=>s.score!=null); const errBox=document.getElementById('rverr');
+  if(scored.length<A.stages.length){ errBox.innerHTML='<div class="err">Βαθμολόγησε όλα τα στάδια πρώτα.</div>'; return; }
+  if(decision==='homework_done' && A.finalScore==null){ errBox.innerHTML='<div class="err">Όρισε τον τελικό βαθμό μαθήματος.</div>'; return; }
+  const btns=document.querySelectorAll('#hrep,#hdone'); btns.forEach(b=>b.disabled=true);
+  try{
+    const p_stages=A.stages.map(s=>({submission_id:s.submission_id,score:s.score,feedback:s.feedback||null}));
+    const {error}=await sb.rpc('review_homework',{p_attempt:A.id,p_stages,p_overall_score:A.overall,p_overall_feedback:A.ofb||null,p_decision:decision,p_final_score:(decision==='homework_done'?A.finalScore:null),p_final_feedback:(decision==='homework_done'?(A.finalFb||null):null)});
+    if(error) throw error;
+    RV.list=RV.list.filter(a=>a.id!==A.id); E._pend=RV.list.length; localStorage.setItem(LS,JSON.stringify(E));
+    if(RV.list.length){ openReview(RV.list[0].id); } else { viewReviews(); }
+  }catch(e){ btns.forEach(b=>b.disabled=false); errBox.innerHTML='<div class="err">Δεν αποθηκεύτηκε — δοκίμασε ξανά.</div>'; console.error(e); }
+}
+function refreshOverall(){
+  const A=RV.att; const scored=A.stages.filter(s=>s.score!=null); const box=document.getElementById('overallBox');
+  if(scored.length===A.stages.length){ if(box)box.style.display='';
+    const avg=scored.reduce((a,s)=>a+s.score,0)/scored.length; A.overall=avg; const el=document.getElementById('avg'); if(el)el.textContent=avg.toFixed(1);
+    if(A.isHomework && A.finalScore==null){ A.finalScore=Math.round(avg*2)/2; const fb=document.querySelector(`#fsc button[data-n="${A.finalScore}"]`); if(fb){ document.querySelectorAll('#fsc button').forEach(x=>x.classList.remove('sel')); fb.classList.add('sel'); } }
+  }
+}
+async function submitReview(decision){
+  const A=RV.att; const scored=A.stages.filter(s=>s.score!=null);
+  const errBox=document.getElementById('rverr');
+  if(scored.length<A.stages.length){ errBox.innerHTML='<div class="err">Βαθμολόγησε όλα τα στάδια πρώτα.</div>'; return; }
+  const btns=document.querySelectorAll('#cont,#comp'); btns.forEach(b=>b.disabled=true);
+  try{
+    const p_stages=A.stages.map(s=>({submission_id:s.submission_id,score:s.score,feedback:s.feedback||null}));
+    const {error}=await sb.rpc('review_attempt',{p_attempt_id:A.id,p_stages,p_overall_score:A.overall,p_overall_feedback:A.ofb||null,p_decision:decision,p_next_technique_id:null});
+    if(error) throw error;
+    // Enforce homework rule: if this class lesson has homework, unlock it (decision→class_done) instead of completing.
+    if(decision==='complete'){ try{ await sb.rpc('finish_class_review',{p_attempt:A.id}); }catch(e){} }
+    RV.list=RV.list.filter(a=>a.id!==A.id); E._pend=RV.list.length; localStorage.setItem(LS,JSON.stringify(E));
+    if(decision==='complete'){ eduToast('✓ Ολοκληρώθηκε'); }
+    if(RV.list.length){ openReview(RV.list[0].id); } else { viewReviews(); }
+  }catch(e){ btns.forEach(b=>b.disabled=false); errBox.innerHTML='<div class="err">Δεν αποθηκεύτηκε — δοκίμασε ξανά.</div>'; console.error(e); }
+}
+let CN=null;
+async function completeAndChooseNext(A){
+  setNav(false); scroll.className='scroll noNav'; scroll.innerHTML='<div class="spin"></div>';
+  try{
+    const [{data:items,error},{data:revs}]=await Promise.all([
+      sb.rpc('curriculum_picker',{p_enrollment:A.enrollmentId}),
+      sb.from('training_attempts').select('technique_id,overall_score,reviewed_at').eq('enrollment_id',A.enrollmentId).eq('status','reviewed').order('reviewed_at',{ascending:false})
+    ]);
+    if(error) throw error;
+    const scores={}; (revs||[]).forEach(r=>{ if(scores[r.technique_id]==null && r.overall_score!=null) scores[r.technique_id]=r.overall_score; });
+    CN={A, items:items||[], scores, showAll:false, searchOpen:false, q:''};
+    paintNext();
+  }catch(e){ nextAfterComplete(); }
+}
+function paintNext(){
+  const A=CN.A, items=CN.items, sc=CN.scores||{};
+  const remaining=items.filter(i=>i.status!=='completed');
+  const completed=items.filter(i=>i.status==='completed');
+  const first=(A.name||'').split(' ')[0];
+  const remRow=i=>`<div class="rowlink remrow" data-tec="${i.technique_id}" data-title="${esc(i.title)}"><div><b style="font-weight:600">${esc(i.title)}</b><div class="sub2">${i.status==='in_progress'?'Σε εξέλιξη':'Δεν έχει ξεκινήσει'}</div></div><span class="chev">→</span></div>`;
+  const doneRow=i=>{const s=sc[i.technique_id]; const low=(s!=null&&s<7);
+    return `<div class="rowlink donerow" data-tec="${i.technique_id}" data-title="${esc(i.title)}"><div><b style="font-weight:600">${esc(i.title)}</b></div><div style="display:flex;align-items:center;gap:12px"><span class="score" style="font-size:18px;color:${low?'var(--amber)':'var(--ink)'}">${s!=null?num1(s):'—'}</span><span class="chev">→</span></div></div>`;};
+  const remShown = CN.showAll ? remaining : remaining.slice(0,5);
+  const doneScore=A.overall!=null?A.overall.toFixed(1):num1(A.overall);
+  const searchBlock = CN.searchOpen
+    ? `<div class="field" style="margin-top:16px"><input id="cn_search" placeholder="Αναζήτηση στην ύλη…" value="${esc(CN.q)}"/></div>${CN.q?`<div style="margin-top:6px">${items.filter(i=>normtext(i.title).includes(normtext(CN.q))).map(i=>i.status==='completed'?doneRow(i):remRow(i)).join('')||'<p class="role">Καμία τεχνική.</p>'}</div>`:''}`
+    : `<button class="link" id="cn_searchopen" style="margin-top:20px;color:var(--muted)">Αναζήτηση στην ύλη →</button>`;
+  scroll.innerHTML=`<div class="fade maxw">
+    <div class="rowc"><div style="display:flex;gap:12px;align-items:center"><div class="avatar" style="background:var(--accent);color:#fff">✓</div><div><b style="font-family:var(--serif);font-size:19px">${esc(A.tech)} ολοκληρώθηκε</b></div></div><span class="score" style="color:var(--accent);font-size:22px">${doneScore}</span></div>
+    <div class="hair" style="margin-top:18px"></div>
+    <h1 style="font-size:26px;margin-top:16px">Τι θα δουλέψει μετά${first?(' η '+esc(first)):''};</h1>
+    <p class="subtitle">${remaining.length} ${remaining.length===1?'τεχνική απομένει':'τεχνικές απομένουν'}</p>
+    ${CN.searchOpen? searchBlock : `
+      <p class="over" style="margin-top:22px">Απομένουν</p>
+      <div style="margin-top:6px">${remShown.map(remRow).join('')||'<p class="role">Ολοκλήρωσε όλη την ύλη 🎉</p>'}</div>
+      ${remaining.length>remShown.length?`<button class="link" id="cn_more" style="margin-top:8px">Δες όλες τις υπόλοιπες (${remaining.length}) →</button>`:''}
+      ${completed.length?`<p class="over" style="margin-top:30px">Έχει ήδη ολοκληρώσει · ${completed.length}</p><div style="margin-top:6px">${completed.map(doneRow).join('')}</div>`:''}
+      ${searchBlock}`}
+    <div class="stickybar"><button class="cta ghost" id="cn_skip">Όχι τώρα</button></div></div>`;
+  scroll.querySelectorAll('.remrow').forEach(el=>el.onclick=()=>applyAssignment(CN.A.enrollmentId, el.dataset.tec, {title:el.dataset.title||'', after:nextAfterComplete}));
+  scroll.querySelectorAll('.donerow').forEach(el=>el.onclick=()=>completedTechDetail(el.dataset.tec, el.dataset.title, CN.A.enrollmentId, ()=>paintNext(), nextAfterComplete));
+  const more=document.getElementById('cn_more'); if(more) more.onclick=()=>{ CN.showAll=true; paintNext(); };
+  const so=document.getElementById('cn_searchopen'); if(so) so.onclick=()=>{ CN.searchOpen=true; paintNext(); };
+  const se=document.getElementById('cn_search'); if(se){ se.oninput=e=>{ CN.q=e.target.value; paintNext(); const el=document.getElementById('cn_search'); if(el){el.focus(); el.setSelectionRange(el.value.length,el.value.length);} }; se.focus(); }
+  document.getElementById('cn_skip').onclick=nextAfterComplete;
+}
+let CTD=null;
+async function completedTechDetail(techId, title, enrId, backFn, afterRepeat){
+  CTD={techId,title,enrId,backFn,afterRepeat,stages_class:[],stages_hw:[]};
+  scroll.className='scroll noNav'; scroll.innerHTML='<div class="spin"></div>';
+  try{
+    const {data:atts}=await sb.from('training_attempts')
+      .select('id,work_type,overall_score,overall_feedback,lesson_final_score,lesson_final_feedback,reviewed_at')
+      .eq('enrollment_id',enrId).eq('technique_id',techId).eq('status','reviewed').order('reviewed_at',{ascending:false});
+    const list=atts||[];
+    const cls=list.find(a=>a.work_type==='class')||list.find(a=>a.work_type==null);
+    const hw=list.find(a=>a.work_type==='homework');
+    const finalScore=(cls&&cls.lesson_final_score!=null)?cls.lesson_final_score:(cls?cls.overall_score:(hw?hw.overall_score:null));
+    const finalFb=(cls&&cls.lesson_final_feedback)||'';
+    async function blockHtml(att,key,label){
+      if(!att) return '';
+      const {data:rows}=await sb.rpc('educator_attempt',{p_attempt:att.id});
+      const r=rows||[]; const ofb=r[0]?r[0].overall_feedback:'';
+      const stages=r.map(x=>({title:x.stage_title,order:x.stage_order,photo:x.photo_path,score:x.stage_score,feedback:x.stage_feedback})).sort((a,b)=>a.order-b.order);
+      CTD['stages_'+key]=stages;
+      const low=(att.overall_score!=null&&att.overall_score<7);
+      const sh=stages.map((s,i)=>`<div class="ctd" data-blk="${key}" data-i="${i}"><div class="hd"><div class="thmb" id="th_${key}_${i}"></div><div class="nm"><b>${pad2(s.order)} · ${esc(s.title)}</b><span>${s.feedback?'Φωτό & σχόλιο':'Φωτό'}</span></div><span class="score">${s.score!=null?num1(s.score):'—'}</span></div><div class="bd" id="cbd_${key}_${i}"></div></div>`).join('')||'<p class="role">Χωρίς εργασία.</p>';
+      return `<p class="over" style="margin-top:26px">${label} · <span class="score" style="color:${low?'var(--amber)':'var(--ink)'}">${att.overall_score!=null?num1(att.overall_score):'—'}</span></p>
+        ${ofb?`<p class="quote" style="margin-top:8px">“${esc(ofb)}”</p>`:''}
+        <div style="margin-top:8px">${sh}</div>`;
+    }
+    const clsHtml=await blockHtml(cls,'class','Στην τάξη');
+    const hwHtml=await blockHtml(hw,'hw','Εργασία για το σπίτι');
+    const lowF=(finalScore!=null&&finalScore<7);
+    scroll.innerHTML=`<div class="fade maxw">
+      <button class="back" id="ctd_back">← Πίσω</button>
+      <h1 style="font-size:26px">${esc(title)}</h1>
+      <p class="metaline">Ολοκληρώθηκε</p>
+      <p class="over" style="margin-top:22px">Συνολική αξιολόγηση</p>
+      <div style="font-family:var(--serif);font-size:40px;color:${lowF?'var(--amber)':'var(--accent)'};line-height:1;margin-top:6px">${finalScore!=null?num1(finalScore):'—'} <span style="font-size:16px;color:var(--muted)">/ 10</span></div>
+      ${finalFb?`<p class="quote" style="margin-top:8px">“${esc(finalFb)}”</p>`:''}
+      ${clsHtml}
+      ${hwHtml}
+      <button class="cta" id="ctd_repeat" style="margin-top:26px">Να το ξανακάνει</button>
+    </div>`;
+    document.getElementById('ctd_back').onclick=()=> (CTD.backFn?CTD.backFn():viewStudents());
+    document.getElementById('ctd_repeat').onclick=()=>repeatConfirm(techId,title);
+    ['class','hw'].forEach(key=>{ (CTD['stages_'+key]||[]).forEach(async(s,i)=>{ if(s.photo){ try{const u=await signed(s.photo); const th=document.getElementById('th_'+key+'_'+i); if(th&&u){ th.style.backgroundImage=`url(${u})`; } }catch(e){} } }); });
+    scroll.querySelectorAll('.ctd .hd').forEach(hd=>hd.onclick=()=>toggleCtdBlk(hd.parentNode));
+  }catch(e){ if(CTD&&CTD.backFn)CTD.backFn(); }
+}
+function toggleCtdBlk(acc){
+  const open=acc.classList.toggle('open'); const key=acc.dataset.blk; const i=+acc.dataset.i; const bd=document.getElementById('cbd_'+key+'_'+i); if(!bd) return;
+  if(!open){ bd.innerHTML=''; return; }
+  const s=(CTD&&CTD['stages_'+key]||[])[i]; if(!s){ return; }
+  bd.innerHTML='<div class="spin" style="margin:14px auto"></div>';
+  (async()=>{ let u=null; try{ u=s.photo?await signed(s.photo):null; }catch(e){} bd.innerHTML=`<div class="photo" style="height:260px;margin:10px 0 6px">${u?`<img src="${u}"/>`:'—'}</div>${s.feedback?`<p class="quote">“${esc(s.feedback)}”</p>`:''}`; })();
+}
+function toggleCtd(acc){
+  const open=acc.classList.toggle('open'); const i=+acc.dataset.i; const bd=document.getElementById('cbd_'+i); if(!bd) return;
+  if(!open){ bd.innerHTML=''; return; }
+  const s=(CTD&&CTD.stages||[])[i]; if(!s){ return; }
+  bd.innerHTML='<div class="spin" style="margin:14px auto"></div>';
+  (async()=>{ let u=null; try{ u=s.photo?await signed(s.photo):null; }catch(e){} bd.innerHTML=`<div class="photo" style="height:260px;margin:10px 0 6px">${u?`<img src="${u}"/>`:'—'}</div>${s.feedback?`<p class="quote">“${esc(s.feedback)}”</p>`:''}`; })();
+}
+function repeatConfirm(techId,title){
+  const enrId=CTD?CTD.enrId:null, after=CTD?CTD.afterRepeat:null;
+  confirmSheet({ title:'Νέα προσπάθεια για '+title+';',
+    body:'Η προηγούμενη εργασία, οι φωτογραφίες και η βαθμολογία θα παραμείνουν στο ιστορικό.',
+    note:'Δημιουργείται νέα προσπάθεια — η προηγούμενη δεν διαγράφεται.',
+    ok:'Νέα προσπάθεια', okClass:'', onOk:async()=>{
+      closeConfirm(); scroll.innerHTML='<div class="spin"></div>';
+      try{ const {error}=await sb.rpc('set_active_assignment',{p_enrollment:enrId, p_technique:techId}); if(error) throw error; (after?after():viewStudents()); }
+      catch(e){ const m=(e&&e.message)||''; if(/active_started/.test(m)){ blockActiveSheet((m.split('active_started:')[1]||'').trim(), null, after||viewStudents); } else showError("Δεν ανατέθηκε — δοκίμασε ξανά.", e); }
+    } });
+}
+// Shared work/review detail for a SPECIFIC attempt (History + Completed reuse the same UX)
+async function openAttemptDetail(attemptId, title, backFn, repeat){
+  scroll.className='scroll noNav'; scroll.innerHTML='<div class="spin"></div>';
+  try{
+    const {data:rows}=await sb.rpc('educator_attempt',{p_attempt:attemptId});
+    const r=rows||[]; const head=r[0]||{};
+    CTD={stages:r.map(x=>({title:x.stage_title,order:x.stage_order,photo:x.photo_path,score:x.stage_score,feedback:x.stage_feedback})).sort((a,b)=>a.order-b.order)};
+    const sc=head.overall_score, ofb=head.overall_feedback, low=(sc!=null&&sc<7);
+    const ttl=title||head.technique||'';
+    const stagesHtml=CTD.stages.map((s,i)=>`<div class="ctd" data-i="${i}"><div class="hd"><div class="thmb" id="th_${i}"></div><div class="nm"><b>${pad2(s.order)} · ${esc(s.title)}</b><span>${s.feedback?'Φωτό & σχόλιο':'Φωτό'}</span></div><span class="score">${s.score!=null?num1(s.score):'—'}</span></div><div class="bd" id="cbd_${i}"></div></div>`).join('')||'<p class="role">Χωρίς εργασία.</p>';
+    scroll.innerHTML=`<div class="fade maxw">
+      <button class="back" id="ad_back">← Πίσω</button>
+      <h1 style="font-size:26px">${esc(ttl)}</h1>
+      <p class="over" style="margin-top:22px">Συνολική αξιολόγηση</p>
+      <div style="font-family:var(--serif);font-size:40px;color:${low?'var(--amber)':'var(--accent)'};line-height:1;margin-top:6px">${sc!=null?num1(sc):'—'} <span style="font-size:16px;color:var(--muted)">/ 10</span></div>
+      ${ofb?`<p class="over" style="margin-top:22px">Σχόλιο εκπαιδεύτριας</p><p class="quote" style="margin-top:8px">“${esc(ofb)}”</p>`:''}
+      <p class="over" style="margin-top:26px">Εργασία</p>
+      <div style="margin-top:6px">${stagesHtml}</div>
+      ${repeat?`<button class="cta" id="ad_repeat" style="margin-top:26px">Να το ξανακάνει</button>`:''}</div>`;
+    document.getElementById('ad_back').onclick=backFn||viewStudents;
+    if(repeat){ CTD.enrId=repeat.enrId; CTD.afterRepeat=repeat.after; const rb=document.getElementById('ad_repeat'); if(rb) rb.onclick=()=>repeatConfirm(repeat.techId, ttl); }
+    (CTD.stages||[]).forEach(async(s,i)=>{ if(s.photo){ try{const u=await signed(s.photo); const th=document.getElementById('th_'+i); if(th&&u){ th.style.backgroundImage=`url(${u})`; } }catch(e){} } });
+    scroll.querySelectorAll('.ctd .hd').forEach(hd=>hd.onclick=()=>toggleCtd(hd.parentNode));
+  }catch(e){ (backFn||viewStudents)(); }
+}
+function nextAfterComplete(){ if(RV.list.length){ openReview(RV.list[0].id); } else { viewReviews(); } }
+
+/* ---------- STUDENTS ---------- */
+let ST={list:[]};
+const normtext=s=>(s||'').toString().toLowerCase().normalize('NFD').replace(/[̀-ͯ΄΅̈́]/g,'');
+async function viewStudents(){
+  setNav('students'); scroll.className='scroll'; scroll.innerHTML='<div class="spin"></div>';
+  try{
+    const {data,error}=await sb.rpc('educator_students',{p_academy:E.academyId}); if(error) throw error;
+    ST.list=data||[];
+    ST.grouped=groupStudents(ST.list);
+    scroll.innerHTML=`<div class="fade maxw"><div class="row" style="align-items:flex-start"><div><p class="over">${esc(E.academyName||'')}</p><h1 style="margin-top:10px">Μαθήτριες</h1>
+      <p class="role">${ST.grouped.length} ${ST.grouped.length===1?'μαθήτρια':'μαθήτριες'}</p></div>
+      <button class="cta sm" id="stu_new">+ Νέα μαθήτρια</button></div>
+      <div class="field" style="margin-top:14px"><input id="stu_search" placeholder="Αναζήτηση μαθήτριας..." autocapitalize="none"/></div>
+      <div id="stu_list" style="margin-top:8px"></div></div>`;
+    renderStudentRows('');
+    document.getElementById('stu_search').oninput=e=>renderStudentRows(e.target.value);
+    document.getElementById('stu_new').onclick=()=>studentAdd({global:true, back:viewStudents});
+  }catch(e){ showError("Δεν φόρτωσαν οι μαθήτριες.",e); }
+}
+function groupStudents(list){
+  const m=new Map();
+  (list||[]).forEach(s=>{ if(!m.has(s.student_id)) m.set(s.student_id,{student_id:s.student_id,name:s.name,first_name:s.first_name,last_name:s.last_name,phone:s.phone,email:s.email,attendance_days:s.attendance_days,enr:[]}); m.get(s.student_id).enr.push(s); });
+  return [...m.values()];
+}
+function renderStudentRows(q){
+  const nq=normtext(q);
+  const list=ST.grouped||[];
+  const filtered=!nq?list:list.filter(g=>[g.name,g.phone,g.email, ...g.enr.map(e=>e.course_title), ...g.enr.map(e=>e.cohort_name)].some(v=>normtext(v).includes(nq)));
+  const rows=filtered.map(g=>{
+    const p=g.enr[0]||{};
+    const seminar = g.enr.length>1 ? `${g.enr.length} σεμινάρια` : `${esc(p.course_title||'—')}${p.cohort_name?' · '+esc(p.cohort_name):''}`;
+    const contact = [g.phone,g.email].filter(Boolean).map(esc).join(' · ') || '—';
+    const cur=p.current_technique?`Τώρα: ${esc(p.current_technique)}`:'';
+    return `<div class="lrow" data-id="${g.student_id}" data-enr="${p.enrollment_id||''}" style="cursor:pointer"><div class="avatar">${initials(g.name)}</div>
+      <div class="nm"><b>${esc(g.name)}</b><span>${contact}</span>
+      <span class="sub2">${seminar} · ${p.completed||0}/${pad2(p.total_tech||0)} ολοκληρωμένα · ${g.attendance_days||0} παρουσίες</span>
+      ${cur?`<span style="display:block;color:var(--accent);font-size:12px;margin-top:2px">${cur}</span>`:''}</div>
+      <span class="chev">›</span></div>`;
+  }).join('');
+  const el=document.getElementById('stu_list'); if(el) el.innerHTML=rows||'<p class="role" style="margin-top:10px">Καμία μαθήτρια.</p>';
+  document.querySelectorAll('#stu_list .lrow').forEach(row=>row.onclick=()=>studentProfile(row.dataset.id,row.dataset.enr||null,{back:viewStudents}));
+}
+
+let SP={enr:null};
+const spVal=id=>((document.getElementById(id)||{}).value||'').trim();
+async function studentProfile(id, enrId, ctx){
+  setNav('students'); scroll.className='scroll'; scroll.innerHTML='<div class="spin"></div>';
+  try{
+    const [{data:st},{data:enrs}]=await Promise.all([
+      sb.from('students').select('id,name,first_name,last_name,phone,email,notes,created_at,auth_user_id').eq('id',id).single(),
+      sb.from('enrollments').select('id,status,created_at, cohorts(id,name, courses(title))').eq('student_id',id).order('created_at',{ascending:true})
+    ]);
+    const active=(enrs||[]).filter(e=>e.status==='active');
+    const enr = enrId || (active[0]&&active[0].id) || ((enrs||[])[0]&&enrs[0].id) || null;
+    SP={id, enr, tab:(ctx&&ctx.tab)||'overview', ctx:ctx||{}, st, enrs:enrs||[], q:null, scores:{}};
+    if(enr){ try{
+      const [{data:q},{data:revs}]=await Promise.all([
+        sb.rpc('educator_student_quick',{p_enrollment:enr}),
+        sb.from('training_attempts').select('technique_id,overall_score,lesson_final_score,reviewed_at').eq('enrollment_id',enr).eq('status','reviewed').order('reviewed_at',{ascending:false})
+      ]);
+      SP.q=q||null; const sc={}; const fin={}; (revs||[]).forEach(r=>{ if(r.lesson_final_score!=null && fin[r.technique_id]==null) fin[r.technique_id]=r.lesson_final_score; if(sc[r.technique_id]==null && r.overall_score!=null) sc[r.technique_id]=r.overall_score; }); Object.keys(fin).forEach(k=>{sc[k]=fin[k];}); SP.scores=sc;
+    }catch(e){} }
+    renderProfileShell();
+  }catch(e){ showError("Δεν φόρτωσε το προφίλ.",e); }
+}
+function currentEnr(){ return SP.enrs.find(e=>e.id===SP.enr) || SP.enrs[0]; }
+function renderProfileShell(){
+  const st=SP.st, ce=currentEnr();
+  const crumb = (SP.ctx&&SP.ctx.seminar)
+    ? `<span class="crumb"><a onclick="viewSeminars()">Σεμινάρια</a> / <a onclick="seminarDetail('${SP.ctx.seminar.cohortId}','students')">${esc(SP.ctx.seminar.courseTitle||'')}</a> / <b>${esc(st.name)}</b></span>`
+    : `<span class="crumb"><a onclick="viewStudents()">Μαθήτριες</a> / <b>${esc(st.name)}</b></span>`;
+  const sub = ce&&ce.cohorts ? `${esc(ce.cohorts.courses?ce.cohorts.courses.title:'')} · ${esc(ce.cohorts.name)}` : '';
+  const q=SP.q||{}; const statParts=[];
+  if(q.total_tech!=null) statParts.push(`${q.completed||0}/${q.total_tech} ολοκληρωμένα`);
+  if(q.attendance_days!=null) statParts.push(`${q.attendance_days} ${q.attendance_days===1?'παρουσία':'παρουσίες'}`);
+  const statLine=statParts.join(' · ');
+  const TABS=[['overview','Επισκόπηση'],['curriculum','Ύλη'],['history','Ιστορικό'],['attendance','Παρουσίες']];
+  scroll.innerHTML=`<div class="fade maxw spv2">
+    <button class="back" id="sp_back">← Πίσω</button>
+    ${crumb}
+    <div class="row" style="align-items:flex-start;margin-top:8px"><div><h1>${esc(st.name)}</h1>${sub?`<p class="metaline">${sub}</p>`:''}${statLine?`<p class="spstats">${statLine}</p>`:''}</div>
+      ${(SP.ctx&&SP.ctx.support)?'':'<button class="dotsbtn" id="sp_menu">•••</button>'}</div>
+    <div id="sp_menubox"></div>
+    <div class="tabs" id="sp_tabs" style="margin-top:16px">${TABS.map(([k,l])=>`<button data-t="${k}" class="${k===SP.tab?'on':''}">${l}</button>`).join('')}</div>
+    <div id="sp_tab" style="margin-top:20px"><div class="spin"></div></div>`;
+  document.getElementById('sp_back').onclick=()=> ((SP.ctx&&SP.ctx.back)? SP.ctx.back(): viewStudents());
+  { const m=document.getElementById('sp_menu'); if(m) m.onclick=toggleProfileMenu; }
+  document.querySelectorAll('#sp_tabs button').forEach(b=>b.onclick=()=>{ SP.tab=b.dataset.t; renderProfileShell(); });
+  renderProfileTab();
+}
+function toggleProfileMenu(){
+  const box=document.getElementById('sp_menubox'); if(box.innerHTML){ box.innerHTML=''; return; }
+  box.innerHTML=`<div class="menu"><button data-a="details">Στοιχεία μαθήτριας</button><button data-a="edit">Επεξεργασία στοιχείων</button><button data-a="enroll">Διαχείριση εγγραφής</button><button data-a="archive" class="mamber">Αρχειοθέτηση μαθήτριας</button><button data-a="del" class="mred">Διαγραφή μαθήτριας</button></div>`;
+  box.querySelectorAll('button').forEach(b=>b.onclick=()=>{ box.innerHTML=''; const a=b.dataset.a;
+    if(a==='details'){ studentDetailsSheet(); }
+    else if(a==='edit'){ SP.tab='overview'; renderProfileShell(); setTimeout(editStudent,30); }
+    else if(a==='enroll'){ SP.tab='overview'; renderProfileShell(); setTimeout(profileEnrollments,30); }
+    else if(a==='archive'){ archiveStudent(); }
+    else if(a==='del'){ deleteStudentAnon(); } });
+}
+function studentDetailsSheet(){
+  const st=SP.st; let el=document.getElementById('confirmov'); if(el) el.remove();
+  el=document.createElement('div'); el.id='confirmov';
+  el.innerHTML=`<div class="cs-card"><h2>Στοιχεία μαθήτριας</h2>
+    <div class="kvs" style="margin-top:10px;text-align:left">
+      <div class="kv"><span>Τηλέφωνο</span><b>${esc(st.phone||'—')}</b></div>
+      <div class="kv"><span>Email</span><b>${esc(st.email||'—')}</b></div>
+    </div>
+    <button class="cs-ok" id="cs_edit">Επεξεργασία στοιχείων</button>
+    <button class="cs-cancel" id="cs_close">Κλείσιμο</button></div>`;
+  document.body.appendChild(el);
+  el.onclick=(e)=>{ if(e.target===el) closeConfirm(); };
+  document.getElementById('cs_close').onclick=closeConfirm;
+  document.getElementById('cs_edit').onclick=()=>{ closeConfirm(); SP.tab='overview'; renderProfileShell(); setTimeout(editStudent,30); };
+}
+async function generateActivationCode(){
+  try{
+    const {data,error}=await sb.rpc('educator_generate_activation',{p_student:SP.id});
+    if(error) throw error;
+    showCodeSheet(String(data), SP.st&&SP.st.name);
+  }catch(e){ confirmSheet({ title:'Δεν έγινε', body: (e&&/rate/.test(e.message||''))?'Πολλοί κωδικοί σε λίγη ώρα — δοκίμασε αργότερα.':'Δεν δημιουργήθηκε κωδικός. Δοκίμασε ξανά.', ok:'ΟΚ', okClass:'', onOk:closeConfirm }); }
+}
+function showCodeSheet(code, name){
+  let el=document.getElementById('confirmov'); if(el) el.remove();
+  el=document.createElement('div'); el.id='confirmov';
+  el.innerHTML=`<div class="cs-card"><h2>Κωδικός ενεργοποίησης</h2>
+    <p class="cs-body">Δώσε αυτόν τον κωδικό στη ${esc(name||'μαθήτρια')} για να συνδεθεί σε νέα συσκευή. Ισχύει 24 ώρες, μιας χρήσης.</p>
+    <div style="font-family:var(--serif);font-weight:600;font-size:40px;letter-spacing:6px;color:var(--ink);margin:16px 0 4px">${esc(code)}</div>
+    <button class="cs-ok" id="cs_ok">Έγινε</button></div>`;
+  document.body.appendChild(el);
+  el.onclick=(e)=>{ if(e.target===el) closeConfirm(); };
+  document.getElementById('cs_ok').onclick=closeConfirm;
+}
+function activeEnrIds(){ return (SP.enrs||[]).filter(e=>e.status==='active').map(e=>e.id); }
+function archiveStudent(){
+  confirmSheet({ title:'Αρχειοθέτηση μαθήτριας;', amber:true,
+    body:'Θα αφαιρεθεί από τις ενεργές λίστες και δεν θα παίρνει νέες αναθέσεις. Ιστορικό, αξιολογήσεις & φωτογραφίες διατηρούνται — μπορείς να την επαναφέρεις.',
+    ok:'Αρχειοθέτηση', okClass:'amber', onOk:async()=>{
+      const ids=activeEnrIds();
+      try{ if(ids.length) await sb.from('enrollments').update({status:'dropped'}).in('id',ids); }catch(e){}
+      closeConfirm(); ((SP.ctx&&SP.ctx.back)?SP.ctx.back():viewStudents());
+    }});
+}
+function deleteStudentAnon(){
+  confirmSheet({ title:'Μόνιμη διαγραφή;', red:true,
+    body:'Η διαγραφή είναι μόνιμη. Για προστασία του ιστορικού και των αρχείων, τα προσωπικά στοιχεία ανωνυμοποιούνται και η μαθήτρια αφαιρείται από τις ενεργές λίστες.',
+    note:'Ιστορικό & αξιολογήσεις παραμένουν ανώνυμα — δεν διαγράφονται φυσικά αρχεία.',
+    ok:'Διαγραφή (ανωνυμοποίηση)', okClass:'red', onOk:async()=>{
+      try{
+        await sb.from('students').update({ name:'Διαγραμμένη μαθήτρια', first_name:null, last_name:null, phone:null, email:null, notes:null }).eq('id',SP.id);
+        const ids=activeEnrIds(); if(ids.length) await sb.from('enrollments').update({status:'dropped'}).in('id',ids);
+      }catch(e){}
+      closeConfirm(); ((SP.ctx&&SP.ctx.back)?SP.ctx.back():viewStudents());
+    }});
+}
+function confirmSheet(o){
+  let el=document.getElementById('confirmov'); if(el) el.remove();
+  el=document.createElement('div'); el.id='confirmov';
+  el.innerHTML=`<div class="cs-card"><h2 class="${o.red?'cs-red':''}">${esc(o.title)}</h2>
+    <p class="cs-body">${esc(o.body)}</p>
+    ${o.note?`<div class="cs-note">⚠ ${esc(o.note)}</div>`:''}
+    <button class="cs-ok ${o.okClass||''}" id="cs_ok">${esc(o.ok)}</button>
+    <button class="cs-cancel" id="cs_cancel">Άκυρο</button></div>`;
+  document.body.appendChild(el);
+  document.getElementById('cs_cancel').onclick=closeConfirm;
+  el.onclick=(e)=>{ if(e.target===el) closeConfirm(); };
+  document.getElementById('cs_ok').onclick=o.onOk;
+}
+function closeConfirm(){ const el=document.getElementById('confirmov'); if(el) el.remove(); }
+function profileEnrollments(){
+  const box=document.getElementById('sp_tab'); if(!box) return;
+  const enrHtml=SP.enrs.map(e=>{const c=e.cohorts||{};const crs=c.courses||{};const stl=e.status==='active'?'Ενεργή':(e.status==='dropped'?'Αρχειοθετημένη':'Ολοκληρωμένη');
+    return `<div class="enrrow"><div><b>${esc(crs.title||'—')}</b><div class="sub">${esc(c.name||'')} · ${stl}</div></div>${e.status==='active'?`<button class="link enrarch" data-enr="${e.id}">Αρχειοθέτηση</button>`:''}</div>`;}).join('');
+  SP.tab='overview';
+  document.querySelectorAll('#sp_tabs button').forEach(b=>b.classList.toggle('on',b.dataset.t==='overview'));
+  box.innerHTML=`<div class="rowc"><p class="over">Εγγραφές σε σεμινάρια</p><button class="link" id="sp_addenr">+ Προσθήκη</button></div>
+    <div style="margin-top:8px">${enrHtml||'<p class="role">Καμία εγγραφή.</p>'}</div>
+    <button class="link" id="sp_ovback" style="margin-top:22px;color:var(--muted)">← Επισκόπηση</button>`;
+  document.getElementById('sp_addenr').onclick=addEnrollment;
+  document.getElementById('sp_ovback').onclick=()=>renderProfileTab();
+  box.querySelectorAll('.enrarch').forEach(b=>b.onclick=()=>archiveEnrollment(b.dataset.enr));
+}
+async function renderProfileTab(){
+  const box=document.getElementById('sp_tab'); if(!box) return; box.innerHTML='<div class="spin"></div>';
+  const st=SP.st;
+  try{
+    if(SP.tab==='overview'){
+      const q=SP.q||{}; const cur=q.curriculum||[];
+      const activeTech=cur.find(x=>x.status==='in_progress');
+      const completedCount=(q.completed!=null?q.completed:cur.filter(x=>x.status==='completed').length);
+      const total=(q.total_tech!=null?q.total_tech:cur.length);
+      const remain=Math.max(0,total-completedCount);
+      const pct=total>0?Math.round(completedCount/total*100):0;
+      let hwPending=null, latest=null;
+      try{
+        const [{data:hw},{data:lr}]=await Promise.all([
+          sb.from('training_attempts').select('technique_id,status,decision,technique_title_snapshot, techniques!training_attempts_technique_id_fkey(title)').eq('enrollment_id',SP.enr).eq('work_type','homework').neq('decision','homework_done').in('status',['assigned','submitted']).order('id',{ascending:false}),
+          sb.from('training_attempts').select('id,technique_id,technique_title_snapshot,overall_score,lesson_final_score, techniques!training_attempts_technique_id_fkey(title)').eq('enrollment_id',SP.enr).eq('status','reviewed').order('reviewed_at',{ascending:false}).limit(1)
+        ]);
+        hwPending=(hw&&hw.length)?hw:null;
+        if(lr&&lr[0]) latest=lr[0];
+      }catch(e){}
+      const todayHtml = activeTech
+        ? `<div class="ovrow" id="ov_today"><div class="l"><b>${esc(activeTech.title)}</b><span class="sub">Σε εξέλιξη</span></div><button class="link" id="sp_reassign">Αλλαγή →</button></div>`
+        : `<div class="ovrow" style="cursor:default"><div class="l"><b style="color:var(--amber)">Δεν υπάρχει ενεργή ανάθεση.</b><button class="link" id="sp_reassign" style="margin-top:6px;display:block">Ανάθεση μαθήματος →</button></div></div>`;
+      const hwHtml = (hwPending && hwPending.length)
+        ? `<p class="over" style="margin-top:22px;color:var(--amber)">Εκκρεμεί</p>`
+          + hwPending.map(h=>{ const ht=h.technique_title_snapshot||(h.techniques&&h.techniques.title)||''; const lbl=h.status==='submitted'?'Προς αξιολόγηση':'Απαιτείται';
+              return `<div class="ovrow ov_hw"><div class="l"><b>${esc(ht)}</b><span class="sub">Εργασία για το σπίτι · ${lbl}</span></div><span class="chev">›</span></div>`; }).join('')
+          + `<div class="ovhair"></div>` : '';
+      const latestTitle = latest ? (latest.technique_title_snapshot || (latest.techniques&&latest.techniques.title) || '') : '';
+      const latestScore = latest ? (latest.lesson_final_score!=null?latest.lesson_final_score:latest.overall_score) : null;
+      const latestHtml = latest
+        ? `<div class="ovrow" id="ov_latest" data-tec="${latest.technique_id}" data-title="${esc(latestTitle)}"><div class="l"><b>${esc(latestTitle)}</b></div><div style="display:flex;align-items:center;gap:12px"><span class="score" style="color:var(--ink)">${latestScore!=null?num1(latestScore):'—'}</span><span class="chev">›</span></div></div>`
+        : `<p class="role" style="margin-top:8px;color:var(--muted)">Δεν υπάρχει ολοκληρωμένη εργασία ακόμη.</p>`;
+      box.innerHTML=`
+        <p class="over">Σήμερα</p>
+        <div style="margin-top:6px">${todayHtml}</div>
+        <div class="ovhair"></div>
+        ${hwHtml}
+        <p class="over" style="margin-top:22px">Πρόοδος</p>
+        <div class="ovrow" id="ov_progress"><div class="l" style="width:100%"><b>${completedCount} ολοκληρωμένο · ${remain} απομένουν</b><div class="ovbar"><div class="ovbarfill" style="width:${pct}%"></div></div><span class="link" style="margin-top:8px;display:block">Δες την ύλη →</span></div></div>
+        <div class="ovhair"></div>
+        <p class="over" style="margin-top:22px">Τελευταία εργασία</p>
+        <div style="margin-top:2px">${latestHtml}</div>`;
+      const rb=document.getElementById('sp_reassign'); if(rb){ if(SP.ctx&&SP.ctx.support){ rb.style.display='none'; } else rb.onclick=(e)=>{ e.stopPropagation(); if(SP.enr) assignPicker(SP.enr, SP.st.name); } }
+      const goCur=()=>{ SP.tab='curriculum'; renderProfileShell(); };
+      const tRow=document.getElementById('ov_today'); if(tRow&&activeTech) tRow.onclick=goCur;
+      box.querySelectorAll('.ov_hw').forEach(el=>el.onclick=goCur);
+      const pRow=document.getElementById('ov_progress'); if(pRow) pRow.onclick=goCur;
+      const lRow=document.getElementById('ov_latest'); if(lRow) lRow.onclick=()=>completedTechDetail(lRow.dataset.tec, lRow.dataset.title, SP.enr, ()=>{SP.tab='overview'; renderProfileShell();}, ()=>{SP.tab='overview'; renderProfileShell();});
+    }
+    else if(SP.tab==='curriculum'){
+      const {data:curr}=await sb.rpc('educator_student_curriculum',{p_enrollment:SP.enr});
+      const cl=curr||[]; const total=cl.length, completed=cl.filter(c=>c.status==='completed').length;
+      const mk=s=>s==='completed'?['✓','done','Ολοκληρώθηκε']:(s==='in_progress'?['●','prog','Σε εξέλιξη']:['○','','Δεν έχει ξεκινήσει']);
+      const clHtml=cl.map(c=>{const [ic,cls,txt]=mk(c.status);const clickable=c.status!=='not_started';
+        return `<div class="acc curitem" data-tec="${c.technique_id}" ${clickable?'':'style="cursor:default"'}><div class="hd"><span style="color:${c.status==='completed'?'#2e7d4f':(c.status==='in_progress'?'var(--accent)':'var(--hair)')};font-size:16px;width:18px">${ic}</span><div class="nm" style="flex:1"><b>${esc(c.title)}</b></div><span class="badge2 ${cls}">${txt}</span></div><div class="bd" id="ci_${c.technique_id}"></div></div>`;}).join('');
+      box.innerHTML=`<p class="role" style="margin-bottom:10px">${completed} από ${total} ολοκληρωμένα</p>
+        <p class="subtitle">Η σειρά είναι ενδεικτική — η ολοκλήρωση μπορεί να γίνει με άλλη σειρά.</p>
+        <div style="margin-top:8px">${clHtml||'<p class="role">Καμία ύλη.</p>'}</div>`;
+      box.querySelectorAll('.curitem').forEach(el=>{ if(el.querySelector('.badge2').textContent!=='Δεν έχει ξεκινήσει') el.querySelector('.hd').onclick=()=>toggleCurItem(el); });
+    }
+    else if(SP.tab==='history'){
+      const {data:atts}=await sb.from('training_attempts').select('id,status,overall_score,decision,technique_id,technique_title_snapshot, techniques!training_attempts_technique_id_fkey(title), sessions(session_date)').eq('enrollment_id',SP.enr).order('id',{ascending:false});
+      const list=atts||[]; const groups={}; list.forEach(a=>{ const d=a.sessions?a.sessions.session_date:'—'; (groups[d]=groups[d]||{date:d,items:[]}).items.push(a); });
+      const gk=Object.values(groups).sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+      const hist=gk.map(g=>`<div style="margin-top:14px"><p class="over">${g.date&&g.date!=='—'?new Date(g.date+'T00:00:00').toLocaleDateString('el-GR',{weekday:'short',day:'2-digit',month:'long'}):'—'}</p>
+        ${g.items.map(a=>{const ttl=a.technique_title_snapshot || (a.techniques&&a.techniques.title) || '';
+          const reviewed=(a.status==='reviewed'); const low=(a.overall_score!=null&&a.overall_score<7);
+          const right=reviewed?`<span class="score" style="font-size:17px;color:${low?'var(--amber)':'var(--ink)'}">${num1(a.overall_score)}</span><span class="chev">›</span>`:(a.status==='submitted'?'<span class="st2 teal">Προς αξιολόγηση</span>':'<span class="st2">Σε εξέλιξη</span>');
+          return `<div class="rowlink${reviewed?' histrow':''}" ${reviewed?`data-att="${a.id}" data-title="${esc(ttl)}" data-tec="${a.technique_id}" style="cursor:pointer"`:'style="cursor:default"'}><div><b style="font-weight:600">${esc(ttl)}</b></div><div style="display:flex;align-items:center;gap:12px">${right}</div></div>`;}).join('')}</div>`).join('');
+      box.innerHTML=hist||'<p class="role">Καμία εργασία ακόμη.</p>';
+      box.querySelectorAll('.histrow[data-att]').forEach(el=>el.onclick=()=>openAttemptDetail(el.dataset.att, el.dataset.title, ()=>{SP.tab='history'; renderProfileShell();}, {techId:el.dataset.tec, enrId:SP.enr, after:()=>{SP.tab='history'; renderProfileShell();}}));
+    }
+    else if(SP.tab==='attendance'){
+      const {data:att}=await sb.rpc('educator_student_attendance',{p_student:SP.id});
+      const rows=(att||[]).map(a=>{const d=a.session_date?new Date(a.session_date+'T00:00:00').toLocaleDateString('el-GR',{weekday:'short',day:'2-digit',month:'long'}):'—';
+        const t=a.checked_in_at?new Date(a.checked_in_at).toLocaleTimeString('el-GR',{timeZone:'Europe/Athens',hour:'2-digit',minute:'2-digit'}):'';
+        return `<div class="attrow"><b style="font-weight:500">${d}</b><span>${t}</span></div>`;}).join('');
+      box.innerHTML=`<p class="role" style="margin-bottom:8px">${(att||[]).length} ${((att||[]).length===1)?'παρουσία':'παρουσίες'}</p>${rows||'<p class="role">Καμία παρουσία ακόμη.</p>'}`;
+    }
+  }catch(e){ box.innerHTML='<p class="role">Δεν φόρτωσε.</p>'; }
+}
+function editStudent(){
+  const st=SP.st, box=document.getElementById('sp_tab'); if(!box) return;
+  box.innerHTML=`<p class="over">Επεξεργασία στοιχείων</p>
+    <div class="field" style="margin-top:12px"><label>Όνομα</label><input id="ed_first" value="${esc(st.first_name||'')}"/></div>
+    <div class="field"><label>Επώνυμο</label><input id="ed_last" value="${esc(st.last_name||'')}"/></div>
+    <div class="field"><label>Τηλέφωνο</label><input id="ed_phone" value="${esc(st.phone||'')}"/></div>
+    <div class="field"><label>Email</label><input id="ed_email" value="${esc(st.email||'')}"/></div>
+    <div class="field"><label>Σημειώσεις</label><input id="ed_notes" value="${esc(st.notes||'')}"/></div>
+    <div id="ed_err"></div>
+    <div style="display:flex;gap:8px;margin-top:14px"><button class="cta ghost sm" id="ed_cancel">Άκυρο</button><button class="cta sm" id="ed_save" style="flex:1">Αποθήκευση</button></div>`;
+  document.getElementById('ed_cancel').onclick=()=>{ renderProfileTab(); };
+  document.getElementById('ed_save').onclick=async()=>{
+    const first=spVal('ed_first'), last=spVal('ed_last'), phone=spVal('ed_phone'), email=spVal('ed_email'), notes=spVal('ed_notes');
+    const name=(first+' '+last).trim()||first||st.name;
+    const b=document.getElementById('ed_save'); b.disabled=true; b.textContent='Αποθήκευση…';
+    try{ const {error}=await sb.from('students').update({first_name:first||null,last_name:last||null,name,phone:phone||null,email:email||null,notes:notes||null}).eq('id',SP.id); if(error) throw error;
+      SP.st={...st,first_name:first,last_name:last,name,phone,email,notes}; renderProfileShell();
+    }catch(e){ b.disabled=false; b.textContent='Αποθήκευση'; document.getElementById('ed_err').innerHTML='<div class="err">Δεν αποθηκεύτηκε.</div>'; }
+  };
+}
+async function addEnrollment(){
+  const box=document.getElementById('sp_tab'); if(!box) return; box.innerHTML='<div class="spin"></div>';
+  try{
+    const cohorts=await loadCohorts();
+    const activeCoh=new Set(SP.enrs.filter(e=>e.status==='active').map(e=>e.cohorts&&e.cohorts.id));
+    const avail=cohorts.filter(c=>!activeCoh.has(c.id));
+    box.innerHTML=`<p class="over">Πρόσθεση σε σεμινάριο</p>
+      <div style="margin-top:10px">${avail.map(c=>`<div class="rowlink enroption" data-coh="${c.id}"><div><b style="font-weight:600">${esc(c.course)}</b><div style="color:var(--muted);font-size:12.5px;margin-top:2px">${esc(c.name)}</div></div><span class="st2 teal">Εγγραφή</span></div>`).join('')||'<p class="role">Είναι ήδη εγγεγραμμένη σε όλα τα σεμινάρια.</p>'}</div>
+      <button class="link" id="enr_cancel" style="margin-top:16px">Άκυρο</button>`;
+    document.getElementById('enr_cancel').onclick=()=>renderProfileTab();
+    box.querySelectorAll('.enroption').forEach(el=>el.onclick=async()=>{ el.style.opacity=.5; try{ await sb.from('enrollments').insert({cohort_id:el.dataset.coh,student_id:SP.id,status:'active'}); }catch(e){} studentProfile(SP.id, null, SP.ctx); });
+  }catch(e){ box.innerHTML='<p class="role">Δεν φόρτωσαν τα σεμινάρια.</p>'; }
+}
+async function archiveEnrollment(enrId){
+  try{ await sb.from('enrollments').update({status:'dropped'}).eq('id',enrId); }catch(e){}
+  studentProfile(SP.id, null, SP.ctx);
+}
+async function toggleCurItem(acc){
+  const open=acc.classList.toggle('open'); if(!open) return;
+  const tec=acc.dataset.tec; const bd=document.getElementById('ci_'+tec); if(bd.dataset.loaded) return;
+  bd.innerHTML='<div class="spin" style="margin:16px auto"></div>';
+  try{
+    const {data,error}=await sb.rpc('educator_technique_attempts',{p_enrollment:SP.enr,p_technique:tec}); if(error) throw error;
+    const rows=data||[];
+    bd.dataset.loaded='1';
+    bd.innerHTML=rows.map((a,i)=>`<div class="acc" data-att="${a.attempt_id}" style="margin-top:8px;background:var(--paper)"><div class="hd" style="padding:12px 14px"><div class="nm" style="flex:1"><b>Attempt ${i+1}</b><span>${a.session_date?new Date(a.session_date+'T00:00:00').toLocaleDateString('el-GR',{day:'2-digit',month:'short'}):''} · ${a.stages_done}/${a.stages_total} στάδια</span></div><span class="badge2 ${a.decision==='complete'?'done':'prog'}">${a.overall_score!=null?num1(a.overall_score):'—'}${a.decision==='complete'?' · Completed':(a.decision==='continue'?' · Continue':'')}</span></div><div class="bd" id="bd_${a.attempt_id}"></div></div>`).join('')||'<p class="role" style="padding:8px 0">Καμία προσπάθεια.</p>';
+    bd.querySelectorAll('.acc .hd').forEach(hd=>hd.onclick=()=>toggleAttempt(hd.parentNode));
+  }catch(e){ bd.innerHTML='<p class="role">Δεν φόρτωσαν οι προσπάθειες.</p>'; }
+}
+async function toggleAttempt(acc){
+  const open=acc.classList.toggle('open'); if(!open) return;
+  const id=acc.dataset.att; const bd=document.getElementById('bd_'+id); if(bd.dataset.loaded) return;
+  bd.innerHTML='<div class="spin" style="margin:20px auto"></div>';
+  try{
+    const {data,error}=await sb.rpc('educator_attempt',{p_attempt:id}); if(error) throw error; const rows=data||[];
+    const stages=rows.map(r=>({title:r.stage_title,order:r.stage_order,photo:r.photo_path,score:r.stage_score,feedback:r.stage_feedback})).sort((a,b)=>a.order-b.order);
+    const ofb=rows[0]?rows[0].overall_feedback:'';
+    let thumbs=await Promise.all(stages.map(async s=>{ const u=await signed(s.photo); return `<div class="t"><img src="${u||''}" onerror="this.style.opacity=.25"/><span>${pad2(s.order)} ${esc(s.title)}${s.score!=null?' · '+num1(s.score):''}</span></div>`; }));
+    bd.dataset.loaded='1';
+    bd.innerHTML=`<div class="thumbs">${thumbs.join('')}</div>${ofb?`<p class="role" style="margin-top:12px"><b>Feedback:</b> ${esc(ofb)}</p>`:''}`;
+  }catch(e){ bd.innerHTML='<p class="role">Δεν φόρτωσαν τα στάδια.</p>'; }
+}
+
+/* ================= SEMINARS (calm / editable) ================= */
+const DOW=['Κυ','Δε','Τρ','Τε','Πε','Πα','Σα'];
+const DOWfull=['Κυριακή','Δευτέρα','Τρίτη','Τετάρτη','Πέμπτη','Παρασκευή','Σάββατο'];
+function rhythmGen(start, days, total, st, en){
+  const out=[]; let d=new Date(start+'T00:00:00'); let guard=0;
+  while(out.length<total && guard<3660){ if(days.includes(d.getDay())) out.push({date:d.toISOString().slice(0,10),start:st,end:en}); d=new Date(d.getTime()+864e5); guard++; }
+  return out;
+}
+function enableDrag(container, sel, onReorder){
+  let from=null;
+  container.querySelectorAll(sel).forEach((el,i)=>{
+    el.setAttribute('draggable','true');
+    el.addEventListener('dragstart',()=>{from=i;el.classList.add('drag');});
+    el.addEventListener('dragend',()=>{el.classList.remove('drag');container.querySelectorAll(sel).forEach(x=>x.classList.remove('over'));});
+    el.addEventListener('dragover',e=>{e.preventDefault();el.classList.add('over');});
+    el.addEventListener('dragleave',()=>el.classList.remove('over'));
+    el.addEventListener('drop',e=>{e.preventDefault();el.classList.remove('over');if(from!=null&&from!==i)onReorder(from,i);});
+  });
+}
+
+async function viewSeminars(){
+  setNav('seminars'); scroll.className='scroll'; scroll.innerHTML='<div class="spin"></div>';
+  try{
+    const cohorts=await loadCohorts();
+    const groups={active:[],upcoming:[],completed:[]};
+    cohorts.forEach(c=>groups[c.status].push(c));
+    const label={active:'Ενεργό',upcoming:'Προσεχώς',completed:'Ολοκληρωμένο'};
+    const card=c=>`<a class="scard" data-id="${c.id}"><div class="row2"><div><h3>${esc(c.course)}</h3><div class="c">${esc(c.name)}</div></div><span class="st">${label[c.status]}</span></div>
+      <div class="foot"><span>Session <b>${pad2(c.done)} / ${pad2(c.total)}</b></span><span><b>${c.students}</b> μαθήτριες</span></div></a>`;
+    const block=(t,arr)=>arr.length?`<div class="sect"><p class="over">${t}</p>${arr.map(card).join('')}</div>`:'';
+    scroll.innerHTML=`<div class="fade maxw"><div class="row" style="align-items:flex-start"><div><p class="over">${esc(E.academyName||'')}</p><h1 style="margin-top:10px">Σεμινάρια</h1></div>
+      <button class="cta sm" id="newSem">+ Νέο Σεμινάριο</button></div>
+      ${block('Ενεργά',groups.active)}${block('Προσεχώς',groups.upcoming)}${block('Ολοκληρωμένα',groups.completed)}
+      ${cohorts.length?'':'<p class="subtitle" style="margin-top:24px">Δεν υπάρχουν σεμινάρια ακόμη. Δημιούργησε το πρώτο σε δύο βήματα.</p>'}</div>`;
+    document.getElementById('newSem').onclick=()=>wizard();
+    scroll.querySelectorAll('.scard').forEach(el=>el.onclick=()=>seminarDetail(el.dataset.id));
+  }catch(e){ showError("Δεν φόρτωσαν τα σεμινάρια.",e); }
+}
+
+async function seminarDetail(id,tab){
+  tab=tab||'overview'; setNav('seminars'); scroll.className='scroll'; scroll.innerHTML='<div class="spin"></div>';
+  try{
+    const {data:co}=await sb.from('cohorts').select('id,name,start_date,rhythm,course_id, courses(title,total_sessions)').eq('id',id).single();
+    const course=co.courses||{}; const total=course.total_sessions||0;
+    const today=todayAthens();
+    const [{count:students},{count:done},{count:techCount},{data:nextS}]=await Promise.all([
+      sb.from('enrollments').select('id',{count:'exact',head:true}).eq('cohort_id',id).eq('status','active'),
+      sb.from('sessions').select('id',{count:'exact',head:true}).eq('cohort_id',id).lte('session_date',today),
+      sb.from('techniques').select('id',{count:'exact',head:true}).eq('course_id',co.course_id),
+      sb.from('sessions').select('sequence_number,session_date,start_time,end_time').eq('cohort_id',id).gte('session_date',today).order('session_date').limit(1)
+    ]);
+    const TABS=[['overview','Επισκόπηση'],['techniques','Τεχνικές'],['students','Μαθήτριες'],['homework','Εργασίες'],['schedule','Πρόγραμμα'],['settings','Ρυθμίσεις']];
+    scroll.innerHTML=`<div class="fade maxw"><button class="back" onclick="viewSeminars()">← Σεμινάρια</button>
+      <p class="over">${esc(course.title||'')}</p><h1 style="margin-top:8px">${esc(co.name)}</h1>
+      <div class="tabs" id="stabs">${TABS.map(([k,l])=>`<button data-t="${k}" class="${k===tab?'on':''}">${l}</button>`).join('')}</div>
+      <div id="stab" style="margin-top:22px"><div class="spin"></div></div></div>`;
+    document.querySelectorAll('#stabs button').forEach(b=>b.onclick=()=>seminarDetail(id,b.dataset.t));
+    const box=document.getElementById('stab');
+    const ctx={cohortId:id, courseId:co.course_id, back:()=>seminarDetail(id,tab)};
+
+    if(tab==='overview'){
+      const nx=nextS&&nextS[0];
+      box.innerHTML=`<div class="bigstats">
+          <div class="s"><b>${pad2(done||0)}<span style="font-family:var(--sans);font-weight:400;font-size:18px;color:var(--muted)"> / ${pad2(total)}</span></b><span>sessions</span></div>
+          <div class="s"><b>${students||0}</b><span>μαθήτριες</span></div>
+          <div class="s"><b>${techCount||0}</b><span>τεχνικές</span></div>
+        </div>
+        <div class="panelcard" style="margin-top:24px">
+          <div class="kv"><span>Έναρξη</span><b>${co.start_date?new Date(co.start_date).toLocaleDateString('el-GR'):'—'}</b></div>
+          <div class="kv"><span>Επόμενο session</span><b>${nx?new Date(nx.session_date).toLocaleDateString('el-GR',{weekday:'short',day:'2-digit',month:'short'})+' · '+hm(nx.start_time):'—'}</b></div>
+          <div class="kv"><span>Ρυθμός</span><b>${co.rhythm&&co.rhythm.days?co.rhythm.days.map(d=>DOW[d]).join(' · ')+' · '+co.rhythm.start+'–'+co.rhythm.end:'Προσαρμοσμένο'}</b></div>
+        </div>`;
+    }
+    else if(tab==='techniques'){
+      const {data:techs}=await sb.from('techniques').select('id,title,order_index,topics').eq('course_id',co.course_id).order('order_index');
+      const counts={}; for(const t of (techs||[])){ const {count}=await sb.from('technique_steps').select('id',{count:'exact',head:true}).eq('technique_id',t.id); counts[t.id]=count||0; }
+      const T=(techs||[]);
+      const rows=T.map((t,i)=>`<div class="erow" data-id="${t.id}"><span class="grip">⋮⋮</span><div class="ord"><button class="ordb" data-up="${i}" ${i===0?'disabled':''} aria-label="πάνω">▲</button><button class="ordb" data-down="${i}" ${i===T.length-1?'disabled':''} aria-label="κάτω">▼</button></div><div class="g"><b>${esc(t.title)}</b><small>${(t.topics?t.topics.length:0)} θέματα · ${counts[t.id]} φωτο-στάδια</small></div><span class="chev">›</span></div>`).join('');
+      box.innerHTML=`<p class="subtitle">Οι τεχνικές που θα διδαχθούν, με τη σειρά. Πάτησε μία για επεξεργασία, ή άλλαξε σειρά με ▲▼.</p>
+        <div id="tlist" style="margin-top:8px">${rows||'<p class="role" style="margin-top:8px">Καμία τεχνική ακόμη.</p>'}</div>
+        <button class="addbtn" id="addTech">+ Νέα τεχνική</button>`;
+      box.querySelectorAll('.erow').forEach(el=>el.querySelector('.g').onclick=()=>techEditor({...ctx, techId:el.dataset.id}));
+      box.querySelectorAll('.erow .chev').forEach((el,i)=>el.onclick=()=>techEditor({...ctx, techId:(T[i].id)}));
+      document.getElementById('addTech').onclick=()=>techEditor({...ctx, techId:null});
+      const persistOrder=async(arr)=>{ for(let i=0;i<arr.length;i++){ await sb.from('techniques').update({order_index:i+1}).eq('id',arr[i].id); } seminarDetail(id,'techniques'); };
+      box.querySelectorAll('.ordb[data-up]').forEach(b=>b.onclick=(e)=>{ e.stopPropagation(); const i=+b.dataset.up; if(i<=0)return; const arr=T.slice(); [arr[i-1],arr[i]]=[arr[i],arr[i-1]]; persistOrder(arr); });
+      box.querySelectorAll('.ordb[data-down]').forEach(b=>b.onclick=(e)=>{ e.stopPropagation(); const i=+b.dataset.down; if(i>=T.length-1)return; const arr=T.slice(); [arr[i+1],arr[i]]=[arr[i],arr[i+1]]; persistOrder(arr); });
+      const list=document.getElementById('tlist');
+      enableDrag(list,'.erow', async (from,to)=>{ const arr=T.slice(); const [m]=arr.splice(from,1); arr.splice(to,0,m); persistOrder(arr); });
+    }
+    else if(tab==='students'){
+      const {data:roster}=await sb.rpc('educator_students',{p_academy:E.academyId});
+      const mine=(roster||[]).filter(r=>r.cohort_id===id);
+      const semctx={seminar:{cohortId:id,courseTitle:course.title,cohortName:co.name}, back:()=>seminarDetail(id,'students')};
+      const rows=mine.map(r=>`<div class="lrow" data-id="${r.student_id}" data-enr="${r.enrollment_id}" style="cursor:pointer"><div class="avatar">${initials(r.name)}</div>
+        <div class="nm"><b>${esc(r.name)}</b><span>${[r.phone,r.email].filter(Boolean).map(esc).join(' · ')||'—'}</span>
+        <span class="sub2">${r.completed||0}/${pad2(r.total_tech||0)} ολοκληρωμένα · ${r.attendance_days||0} παρουσίες</span></div>
+        <span class="badge2 done">Ενεργή</span></div>`).join('');
+      box.innerHTML=`<p class="subtitle">Οι μαθήτριες εγγράφονται από εσένα.</p>
+        <div style="margin-top:8px">${rows||'<p class="role" style="margin-top:8px">Καμία μαθήτρια ακόμη.</p>'}</div>
+        <button class="addbtn" id="addStu">+ Προσθήκη μαθήτριας</button>`;
+      box.querySelectorAll('.lrow').forEach(el=>el.onclick=()=>studentProfile(el.dataset.id, el.dataset.enr, semctx));
+      document.getElementById('addStu').onclick=()=>studentAdd({...ctx, back:()=>seminarDetail(id,'students')});
+    }
+    else if(tab==='homework'){
+      const {data:hw,error:he}=await sb.rpc('homework_overview',{p_cohort:id});
+      if(he){ box.innerHTML='<p class="role">Δεν φόρτωσαν οι εργασίες για το σπίτι.</p>'; }
+      else {
+        const list=hw||[]; const by=s=>list.filter(r=>r.status===s);
+        const rev=by('to_review'), prog=by('in_progress'), notsub=by('not_submitted'), comp=by('completed');
+        const dshort=d=>{ try{ return new Date(d).toLocaleDateString('el-GR',{day:'2-digit',month:'short'}); }catch(e){ return ''; } };
+        const summary=`<div class="hwsum"><span><b>${list.length}</b> Ανατέθηκαν</span><span><b>${notsub.length}</b> Δεν ξεκίνησαν</span><span><b>${prog.length}</b> Σε εξέλιξη</span><span><b>${rev.length}</b> Προς αξιολόγηση</span><span><b>${comp.length}</b> Ολοκληρώθηκαν</span></div>`;
+        const rowR=r=>`<div class="lrow hwr" data-att="${r.attempt_id}" style="cursor:pointer"><div class="avatar">${initials(r.student_name)}</div><div class="nm"><b>${esc(r.student_name)}</b><span>${esc(r.technique_name)} · Εργασία για το σπίτι · ${r.submitted_at?('Υποβλήθηκε '+dshort(r.submitted_at)):'Υποβλήθηκε'}</span></div><span class="st2 teal">Αξιολόγηση →</span></div>`;
+        const rowP=r=>`<div class="lrow"><div class="avatar">${initials(r.student_name)}</div><div class="nm"><b>${esc(r.student_name)}</b><span>${esc(r.technique_name)} · ${r.progress_done||0}/${r.progress_total||0} φωτογραφίες</span></div></div>`;
+        const rowN=r=>`<div class="lrow"><div class="avatar">${initials(r.student_name)}</div><div class="nm"><b>${esc(r.student_name)}</b><span>${esc(r.technique_name)} · Απαιτείται</span></div></div>`;
+        const rowC=r=>`<div class="lrow"><div class="avatar">${initials(r.student_name)}</div><div class="nm"><b>${esc(r.student_name)}</b><span>${esc(r.technique_name)}${r.overall_score!=null?(' · '+num1(r.overall_score)+'/10'):''}</span></div></div>`;
+        const grp=(title,arr,fn)=>arr.length?`<p class="over" style="margin-top:22px">${title}</p><div style="margin-top:6px">${arr.map(fn).join('')}</div>`:'';
+        box.innerHTML=`${summary}
+          ${grp('Προς αξιολόγηση',rev,rowR)}
+          ${grp('Σε εξέλιξη',prog,rowP)}
+          ${grp('Δεν έχει υποβληθεί',notsub,rowN)}
+          ${comp.length?`<details class="hwdone" style="margin-top:22px"><summary>Ολοκληρώθηκαν (${comp.length})</summary><div style="margin-top:6px">${comp.map(rowC).join('')}</div></details>`:''}
+          ${!list.length?'<p class="role" style="margin-top:18px">Καμία εργασία για το σπίτι σε αυτό το σεμινάριο ακόμη.</p>':''}`;
+        box.querySelectorAll('.hwr').forEach(el=>el.onclick=()=>openReview(el.dataset.att));
+      }
+    }
+    else if(tab==='schedule'){
+      const {data:ses}=await sb.from('sessions').select('id,sequence_number,session_date,start_time,end_time').eq('cohort_id',id).order('sequence_number');
+      const rhy=co.rhythm;
+      const flexible = !(ses&&ses.length) && !(rhy&&rhy.days&&rhy.days.length);
+      if(flexible){
+        box.innerHTML=`<div class="panelcard" style="padding:20px"><p class="over">Ευέλικτο πρόγραμμα</p>
+          <p class="subtitle" style="margin-top:8px">Αυτό το σεμινάριο δεν έχει σταθερές ώρες. Οι μέρες παρουσίας καταγράφονται αυτόματα από τα check-in των μαθητριών — δεν χρειάζεται να ορίσεις ωράριο.</p></div>
+          <button class="link" id="addRhy" style="margin-top:16px">+ Πρόσθεσε σταθερό πρόγραμμα</button>`;
+        document.getElementById('addRhy').onclick=()=>scheduleEditor(ctx);
+        return;
+      }
+      const summary=rhy&&rhy.days&&rhy.days.length?`${rhy.days.map(d=>DOW[d]).join(' · ')} · ${rhy.start}–${rhy.end}`:'Προσαρμοσμένο πρόγραμμα';
+      const isExc=(s)=>{ if(!rhy||!rhy.days) return false; const wd=new Date(s.session_date+'T00:00:00').getDay(); return !rhy.days.includes(wd)||hm(s.start_time)!==rhy.start||hm(s.end_time)!==rhy.end; };
+      const rows=(ses||[]).map(s=>`<div class="rowlink" data-id="${s.id}"><div style="display:flex;gap:14px;align-items:center"><span class="num" style="color:var(--accent);font-family:var(--serif);font-weight:600">${pad2(s.sequence_number)}</span>
+        <div><b style="font-weight:600">${new Date(s.session_date+'T00:00:00').toLocaleDateString('el-GR',{weekday:'short',day:'2-digit',month:'short'})}</b>${isExc(s)?'<span class="exc">εξαίρεση</span>':''}<div style="color:var(--muted);font-size:12.5px;margin-top:2px">${hm(s.start_time)}–${hm(s.end_time)}</div></div></div><span class="chev">›</span></div>`).join('');
+      box.innerHTML=`<div class="panelcard" style="padding:18px 20px"><div class="rowc"><div><p class="over">Ρυθμός</p><p style="margin:6px 0 0;font-weight:600;font-size:14.5px">${summary}</p></div>
+          <button class="link" id="editRhy">Επεξεργασία</button></div></div>
+        <p class="over" style="margin-top:24px">Sessions</p>
+        <div style="margin-top:6px">${rows||'<p class="role">Χωρίς πρόγραμμα.</p>'}</div>`;
+      document.getElementById('editRhy').onclick=()=>scheduleEditor(ctx);
+      box.querySelectorAll('.rowlink').forEach(el=>el.onclick=()=>sessionEdit({...ctx, sessionId:el.dataset.id}));
+    }
+    else if(tab==='settings'){
+      box.innerHTML=`<div class="field"><label>Όνομα σεμιναρίου</label><input id="se_name" value="${esc(course.title||'')}"/></div>
+        <div class="field"><label>Group / run</label><input id="se_group" value="${esc(co.name)}"/></div>
+        <div class="field"><label>Ημ. έναρξης</label><input id="se_start" type="date" value="${co.start_date||''}"/></div>
+        <div id="se_err"></div>
+        <div class="hair" style="margin-top:30px"></div>
+        <p class="over" style="margin-top:22px">Διαγραφή σεμιναρίου</p>
+        <p class="subtitle" style="margin-top:6px">Διαγράφει οριστικά το σεμινάριο, τα sessions και τις εργασίες. <b style="color:var(--ink)">Οι μαθήτριες παραμένουν στη σχολή</b> και μπορείς να τις προσθέσεις σε άλλο σεμινάριο. Δεν αναιρείται.</p>
+        <button class="link" id="se_del" style="color:var(--red);margin-top:10px">Διαγραφή σεμιναρίου</button>
+        <div id="se_delbox"></div>
+        <div class="stickybar"><button class="cta" id="se_save">Αποθήκευση</button></div>`;
+      document.getElementById('se_save').onclick=async()=>{
+        const b=document.getElementById('se_save'); b.disabled=true; b.textContent='Αποθήκευση…';
+        try{
+          await sb.from('courses').update({title:document.getElementById('se_name').value.trim()}).eq('id',co.course_id);
+          await sb.from('cohorts').update({name:document.getElementById('se_group').value.trim(),start_date:document.getElementById('se_start').value||null}).eq('id',id);
+          seminarDetail(id,'settings');
+        }catch(e){ b.disabled=false; b.textContent='Αποθήκευση'; document.getElementById('se_err').innerHTML='<div class="err">Δεν αποθηκεύτηκε.</div>'; }
+      };
+      document.getElementById('se_del').onclick=()=>{
+        document.getElementById('se_delbox').innerHTML=`<div class="confirmbox" style="margin-top:12px"><p>Σίγουρα; Θα διαγραφεί το «${esc(co.name)}» και οι εργασίες του. Οι μαθήτριες παραμένουν στη σχολή.</p>
+          <div style="display:flex;gap:8px;margin-top:12px"><button class="cta ghost sm" id="se_cancel" style="flex:1">Άκυρο</button><button class="cta sm" id="se_confirm" style="flex:1;background:var(--red)">Ναι, διαγραφή</button></div></div>`;
+        document.getElementById('se_cancel').onclick=()=>{ document.getElementById('se_delbox').innerHTML=''; };
+        document.getElementById('se_confirm').onclick=async()=>{
+          const c=document.getElementById('se_confirm'); c.disabled=true; c.textContent='Διαγραφή…';
+          try{ const {error}=await sb.rpc('delete_cohort',{p_cohort:id}); if(error) throw error; viewSeminars(); }
+          catch(e){ c.disabled=false; c.textContent='Ναι, διαγραφή'; document.getElementById('se_delbox').insertAdjacentHTML('beforeend','<div class="err">Δεν διαγράφηκε — δοκίμασε ξανά.</div>'); }
+        };
+      };
+    }
+  }catch(e){ showError("Δεν φόρτωσε το σεμινάριο.",e); }
+}
+
+/* ---------- TECHNIQUE EDITOR (dedicated screen) ---------- */
+let TE=null;
+async function techEditor(ctx){
+  setNav(false); scroll.className='scroll noNav'; scroll.innerHTML='<div class="spin"></div>';
+  try{
+    if(ctx.techId){
+      const {data:t}=await sb.from('techniques').select('id,title,topics,order_index,has_homework,homework_instructions').eq('id',ctx.techId).single();
+      const [{data:steps},{data:mats}]=await Promise.all([
+        sb.from('technique_steps').select('id,title,order_index,is_required,step_kind').eq('technique_id',ctx.techId).order('order_index'),
+        sb.from('lesson_materials').select('id,name,image_path,product_url,sort_order').eq('technique_id',ctx.techId).eq('is_active',true).order('sort_order')
+      ]);
+      const all=(steps||[]);
+      TE={ctx, id:t.id, order:t.order_index, name:t.title, topics:(t.topics||[]).slice(),
+          stages:all.filter(s=>(s.step_kind||'class')==='class').map(s=>({id:s.id,title:s.title})),
+          hwStages:all.filter(s=>s.step_kind==='homework').map(s=>({id:s.id,title:s.title})),
+          materials:(mats||[]),
+          hasHomework:!!t.has_homework, hwInstructions:t.homework_instructions||'', removed:[], removedHw:[]};
+    } else {
+      TE={ctx, id:null, order:null, name:'', topics:[], stages:[{id:null,title:'Προετοιμασία'},{id:null,title:'Τοποθέτηση υλικού'},{id:null,title:'Λιμάρισμα'},{id:null,title:'Τελικό Αποτέλεσμα'}], hwStages:[], materials:[], hasHomework:false, hwInstructions:'', removed:[], removedHw:[]};
+    }
+    renderTechEditor();
+  }catch(e){ showError("Δεν άνοιξε η τεχνική.",e); }
+}
+function renderTechEditor(){
+  const isNew=!TE.id;
+  const editName = isNew || TE.editName;
+  const nameBlock = editName
+    ? `<div class="field" style="margin-top:12px"><input id="te_name" value="${esc(TE.name)}" placeholder="π.χ. Builder Gel"/></div>`
+    : `<div class="tename">${esc(TE.name)||'—'}</div><button class="link" id="te_rename" style="margin-top:8px">Αλλαγή ονόματος</button>`;
+  const topicHtml = TE.topics.map((tp,i)=>`<span class="tag">${esc(tp)}<button data-tp="${i}">✕</button></span>`).join('')
+    + (TE.addingTopic?'':`<button class="tag add" id="te_addtopic_btn">+ Προσθήκη θέματος</button>`);
+  const addTopicInput = TE.addingTopic
+    ? `<div class="field" style="display:flex;gap:8px;margin-top:10px"><input id="te_newtopic" placeholder="Πρόσθεσε θέμα…"/><button class="cta ghost sm" id="te_addtopic" style="flex:none">Προσθήκη</button></div>` : '';
+  scroll.innerHTML=`<div class="fade maxw">
+    <div class="rowc"><button class="back" id="te_back" style="margin:0">← Τεχνικές</button>${isNew?'':`<button class="dotsbtn" id="te_menu">•••</button>`}</div>
+    <p class="over" style="margin-top:16px">${isNew?'Νέα τεχνική':'Επεξεργασία'}</p>
+    ${nameBlock}
+
+    <p class="over" style="margin-top:30px">Θέματα</p>
+    <div class="taglist" id="te_topics">${topicHtml}</div>
+    ${addTopicInput}
+
+    <p class="over" style="margin-top:32px">Φωτογραφίες εργασίας</p>
+    <div id="te_stages" style="margin-top:8px">${TE.stages.map((s,i)=>`<div class="erow" data-i="${i}"><span class="grip">⠿</span><span class="num">${pad2(i+1)}</span><input class="g stgname" data-i="${i}" value="${esc(s.title)}" placeholder="Στάδιο" style="border:none;background:none;padding:8px 0;font-weight:600;font-size:15px"/><button class="del" data-del="${i}">✕</button></div>`).join('')}</div>
+    <button class="addline" id="te_addstage">+ Προσθήκη σταδίου</button>
+
+    <p class="over" style="margin-top:32px">Εργασία για το σπίτι</p>
+    <label style="display:flex;align-items:center;gap:10px;margin-top:8px;cursor:pointer">
+      <input type="checkbox" id="te_hw_on" ${TE.hasHomework?'checked':''} style="width:18px;height:18px"/>
+      <span style="font-weight:600;font-size:14px">Έχει εργασία για το σπίτι</span>
+    </label>
+    ${TE.hasHomework?`
+      <div class="field" style="margin-top:12px"><textarea id="te_hw_instr" placeholder="Οδηγίες, π.χ. «Κάνε ξανά σε 5 tips.»" style="width:100%;min-height:70px;border:1px solid var(--hair);border-radius:12px;padding:10px 13px;font:inherit;resize:vertical">${esc(TE.hwInstructions)}</textarea></div>
+      <p class="over" style="margin-top:18px">Φωτογραφίες εργασίας για το σπίτι</p>
+      <div id="te_hwstages" style="margin-top:8px">${TE.hwStages.map((s,i)=>`<div class="erow" data-i="${i}"><span class="grip">⠿</span><span class="num">${pad2(i+1)}</span><input class="g hwstgname" data-i="${i}" value="${esc(s.title)}" placeholder="Στάδιο" style="border:none;background:none;padding:8px 0;font-weight:600;font-size:15px"/><button class="del" data-hwdel="${i}">✕</button></div>`).join('')}</div>
+      <button class="addline" id="te_hwaddstage">+ Προσθήκη σταδίου</button>
+    `:''}
+
+    <p class="over" style="margin-top:32px">Υλικά που χρησιμοποιούνται</p>
+    ${isNew
+      ? '<p class="role" style="margin-top:6px;color:var(--muted)">Αποθήκευσε πρώτα το μάθημα για να προσθέσεις υλικά.</p>'
+      : '<div id="te_materials" style="margin-top:6px"></div><button class="addline" id="te_addmat">+ Προσθήκη υλικού</button>'}
+
+    ${(TE.menuOpen&&!isNew)?`<div class="confirmbox" id="te_confirm"><p>Διαγραφή αυτής της τεχνικής;</p><div style="display:flex;gap:8px;margin-top:12px"><button class="cta ghost sm" id="te_cancel" style="flex:1">Άκυρο</button><button class="cta sm" id="te_del2" style="flex:1;background:var(--red)">Διαγραφή</button></div></div>`:''}
+    <div id="te_err"></div>
+    <div class="stickybar"><button class="cta" id="te_save">Αποθήκευση</button></div></div>`;
+
+  document.getElementById('te_back').onclick=()=>TE.ctx.back();
+  const nameEl=document.getElementById('te_name'); if(nameEl) nameEl.oninput=e=>TE.name=e.target.value;
+  const renameEl=document.getElementById('te_rename'); if(renameEl) renameEl.onclick=()=>{TE.editName=true;renderTechEditor();document.getElementById('te_name').focus();};
+  const menuEl=document.getElementById('te_menu'); if(menuEl) menuEl.onclick=()=>{TE.menuOpen=!TE.menuOpen;renderTechEditor();};
+  const addBtn=document.getElementById('te_addtopic_btn'); if(addBtn) addBtn.onclick=()=>{TE.addingTopic=true;renderTechEditor();document.getElementById('te_newtopic').focus();};
+  const addTopic=document.getElementById('te_addtopic'); if(addTopic) addTopic.onclick=()=>{const el=document.getElementById('te_newtopic');const v=el.value.trim();if(v){TE.topics.push(v);}TE.addingTopic=false;renderTechEditor();};
+  const newTopic=document.getElementById('te_newtopic'); if(newTopic) newTopic.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();document.getElementById('te_addtopic').click();}});
+  scroll.querySelectorAll('[data-tp]').forEach(b=>b.onclick=()=>{TE.topics.splice(+b.dataset.tp,1);renderTechEditor();});
+  scroll.querySelectorAll('.stgname').forEach(inp=>inp.oninput=e=>TE.stages[+inp.dataset.i].title=e.target.value);
+  scroll.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{const i=+b.dataset.del;const s=TE.stages[i];if(s.id)TE.removed.push(s.id);TE.stages.splice(i,1);renderTechEditor();});
+  document.getElementById('te_addstage').onclick=()=>{TE.stages.push({id:null,title:''});renderTechEditor();};
+  enableDrag(document.getElementById('te_stages'),'.erow',(from,to)=>{const [m]=TE.stages.splice(from,1);TE.stages.splice(to,0,m);renderTechEditor();});
+  const cancel=document.getElementById('te_cancel'); if(cancel) cancel.onclick=()=>{TE.menuOpen=false;renderTechEditor();};
+  const del2=document.getElementById('te_del2'); if(del2) del2.onclick=deleteTechnique;
+  const hwOn=document.getElementById('te_hw_on'); if(hwOn) hwOn.onchange=e=>{ TE.hasHomework=e.target.checked; if(TE.hasHomework&&!TE.hwStages.length){TE.hwStages=[{id:null,title:'Προετοιμασία'},{id:null,title:'Τοποθέτηση υλικού'},{id:null,title:'Λιμάρισμα'},{id:null,title:'Τελικό Αποτέλεσμα'}];} renderTechEditor(); };
+  const hwInstr=document.getElementById('te_hw_instr'); if(hwInstr) hwInstr.oninput=e=>TE.hwInstructions=e.target.value;
+  scroll.querySelectorAll('.hwstgname').forEach(inp=>inp.oninput=e=>TE.hwStages[+inp.dataset.i].title=e.target.value);
+  scroll.querySelectorAll('[data-hwdel]').forEach(b=>b.onclick=()=>{const i=+b.dataset.hwdel;const s=TE.hwStages[i];if(s.id)TE.removedHw.push(s.id);TE.hwStages.splice(i,1);renderTechEditor();});
+  const hwAdd=document.getElementById('te_hwaddstage'); if(hwAdd) hwAdd.onclick=()=>{TE.hwStages.push({id:null,title:''});renderTechEditor();};
+  const hwStagesEl=document.getElementById('te_hwstages'); if(hwStagesEl) enableDrag(hwStagesEl,'.erow',(from,to)=>{const [m]=TE.hwStages.splice(from,1);TE.hwStages.splice(to,0,m);renderTechEditor();});
+  document.getElementById('te_save').onclick=saveTechnique;
+  if(!isNew){ renderMaterials(); const am=document.getElementById('te_addmat'); if(am) am.onclick=addMaterial; }
+}
+async function signedMat(p){ if(!p)return null; if(/^https?:\/\//.test(p))return p; try{const{data}=await sb.storage.from('materials').createSignedUrl(p,3600);return data&&data.signedUrl||null;}catch(e){return null;} }
+function renderMaterials(){
+  const box=document.getElementById('te_materials'); if(!box) return;
+  const mats=TE.materials||[];
+  box.innerHTML = mats.length ? mats.map(m=>`
+    <div class="mated" data-id="${m.id}">
+      <div class="mth" data-thumb="${m.id}">${m.image_path?'…':'📷'}</div>
+      <div class="mfields">
+        <input class="mname" data-id="${m.id}" value="${esc(m.name||'')}" placeholder="Όνομα υλικού (π.χ. Base Gel)"/>
+        <input class="murl" data-id="${m.id}" value="${esc(m.product_url||'')}" placeholder="https://… (link προϊόντος)" inputmode="url"/>
+      </div>
+      <button class="mdel" data-del="${m.id}" aria-label="διαγραφή">✕</button>
+    </div>`).join('') : '<p class="role" style="color:var(--muted)">Κανένα υλικό ακόμη.</p>';
+  mats.forEach(async m=>{ if(!m.image_path)return; const u=await signedMat(m.image_path); const el=box.querySelector(`[data-thumb="${m.id}"]`); if(el){ if(u){ el.style.backgroundImage=`url(${u})`; el.textContent=''; } else el.textContent='📷'; } });
+  box.querySelectorAll('.mname').forEach(inp=>inp.onchange=()=>updateMaterial(inp.dataset.id,{name:inp.value.trim()}));
+  box.querySelectorAll('.murl').forEach(inp=>inp.onchange=()=>{ const v=inp.value.trim(); if(v && !/^https:\/\//i.test(v)){ inp.style.borderColor='var(--red)'; return; } inp.style.borderColor=''; updateMaterial(inp.dataset.id,{product_url:v||null}); });
+  box.querySelectorAll('.mth[data-thumb]').forEach(el=>el.onclick=()=>pickMaterialImage(el.dataset.thumb));
+  box.querySelectorAll('.mdel').forEach(b=>b.onclick=()=>deleteMaterial(b.dataset.del));
+}
+async function addMaterial(){ if(!TE.id)return; const ord=(TE.materials||[]).length; const {data,error}=await sb.from('lesson_materials').insert({technique_id:TE.id,name:'',sort_order:ord}).select('id,name,image_path,product_url,sort_order').single(); if(!error&&data){ (TE.materials=TE.materials||[]).push(data); renderMaterials(); } }
+async function updateMaterial(id,patch){ try{ await sb.from('lesson_materials').update(patch).eq('id',id); const m=(TE.materials||[]).find(x=>x.id===id); if(m)Object.assign(m,patch); }catch(e){} }
+async function deleteMaterial(id){ try{ await sb.from('lesson_materials').delete().eq('id',id); TE.materials=(TE.materials||[]).filter(x=>x.id!==id); renderMaterials(); }catch(e){} }
+function pickMaterialImage(id){ let inp=document.getElementById('te_matfile'); if(!inp){ inp=document.createElement('input'); inp.type='file'; inp.accept='image/*'; inp.id='te_matfile'; inp.style.display='none'; document.body.appendChild(inp); } inp.onchange=async()=>{ const f=inp.files&&inp.files[0]; inp.value=''; if(f) await uploadMaterialImage(id,f); }; inp.click(); }
+async function uploadMaterialImage(id,file){
+  const el=document.querySelector(`.mth[data-thumb="${id}"]`); if(el) el.textContent='…';
+  try{
+    const ext=((file.name.split('.').pop()||'jpg').toLowerCase().replace(/[^a-z0-9]/g,''))||'jpg';
+    const uid=(window.crypto&&crypto.randomUUID)?crypto.randomUUID():(Date.now()+''+Math.random().toString(16).slice(2));
+    const path=`${E.academyId}/${TE.id}/${uid}.${ext}`;
+    const {error}=await sb.storage.from('materials').upload(path,file,{contentType:file.type||'image/jpeg'}); if(error) throw error;
+    await sb.from('lesson_materials').update({image_path:path}).eq('id',id);
+    const m=(TE.materials||[]).find(x=>x.id===id); if(m)m.image_path=path;
+    renderMaterials();
+  }catch(e){ if(el) el.textContent='⚠'; }
+}
+async function saveTechnique(){
+  const nameEl=document.getElementById('te_name'); TE.name=((nameEl?nameEl.value:TE.name)||'').trim();
+  TE.stages=TE.stages.filter(s=>(s.title||'').trim()).map(s=>({...s,title:s.title.trim()}));
+  TE.hwStages=(TE.hwStages||[]).filter(s=>(s.title||'').trim()).map(s=>({...s,title:s.title.trim()}));
+  if(!TE.name){ document.getElementById('te_err').innerHTML='<div class="err">Βάλε όνομα τεχνικής.</div>'; return; }
+  const b=document.getElementById('te_save'); b.disabled=true; b.textContent='Αποθήκευση…';
+  try{
+    let techId=TE.id;
+    if(!techId){
+      const {data:mx}=await sb.from('techniques').select('order_index').eq('course_id',TE.ctx.courseId).order('order_index',{ascending:false}).limit(1);
+      const ord=(mx&&mx[0]?mx[0].order_index:0)+1;
+      const {data:t,error}=await sb.from('techniques').insert({course_id:TE.ctx.courseId,title:TE.name,order_index:ord,topics:TE.topics,has_homework:!!TE.hasHomework,homework_instructions:(TE.hasHomework?TE.hwInstructions:null)}).select('id').single(); if(error) throw error;
+      techId=t.id;
+    } else {
+      await sb.from('techniques').update({title:TE.name,topics:TE.topics,has_homework:!!TE.hasHomework,homework_instructions:(TE.hasHomework?TE.hwInstructions:null)}).eq('id',techId);
+    }
+    for(const rid of TE.removed){ try{ await sb.from('technique_steps').delete().eq('id',rid); }catch(e){} }
+    for(let i=0;i<TE.stages.length;i++){ const s=TE.stages[i];
+      if(s.id){ await sb.from('technique_steps').update({title:s.title,order_index:i+1,step_kind:'class'}).eq('id',s.id); }
+      else { await sb.from('technique_steps').insert({technique_id:techId,title:s.title,order_index:i+1,is_required:true,step_kind:'class'}); }
+    }
+    for(const rid of (TE.removedHw||[])){ try{ await sb.from('technique_steps').delete().eq('id',rid); }catch(e){} }
+    for(let i=0;i<TE.hwStages.length;i++){ const s=TE.hwStages[i];
+      if(s.id){ await sb.from('technique_steps').update({title:s.title,order_index:i+1,step_kind:'homework'}).eq('id',s.id); }
+      else { await sb.from('technique_steps').insert({technique_id:techId,title:s.title,order_index:i+1,is_required:true,step_kind:'homework'}); }
+    }
+    TE.ctx.back();
+  }catch(e){ b.disabled=false; b.textContent='Αποθήκευση'; document.getElementById('te_err').innerHTML='<div class="err">Δεν αποθηκεύτηκε: '+esc(e.message||'σφάλμα')+'</div>'; }
+}
+async function deleteTechnique(){
+  if(!TE.id) return;
+  const b=document.getElementById('te_del2'); if(b) b.textContent='Διαγραφή…';
+  try{ await sb.from('technique_steps').delete().eq('technique_id',TE.id); const {error}=await sb.from('techniques').delete().eq('id',TE.id); if(error) throw error; TE.ctx.back(); }
+  catch(e){ if(b) b.textContent='Διαγραφή'; document.getElementById('te_err').innerHTML='<div class="err">Δεν διαγράφηκε — ίσως χρησιμοποιείται σε εργασίες μαθητριών.</div>'; }
+}
+
+/* ---------- SCHEDULE / RHYTHM EDITOR ---------- */
+let SCH=null;
+async function scheduleEditor(ctx){
+  setNav(false); scroll.className='scroll noNav'; scroll.innerHTML='<div class="spin"></div>';
+  try{
+    const {data:co}=await sb.from('cohorts').select('start_date,rhythm,course_id, courses(total_sessions)').eq('id',ctx.cohortId).single();
+    const r=co.rhythm||{};
+    SCH={ctx, mode:r.days?'rhythm':'rhythm', start:co.start_date||todayAthens(), days:(r.days||[1,3,5]).slice(), st:r.start||'10:00', en:r.end||'14:00', total:(co.courses?co.courses.total_sessions:0)||16};
+    renderScheduleEditor();
+  }catch(e){ showError("Δεν άνοιξε ο ρυθμός.",e); }
+}
+function renderScheduleEditor(){
+  const preview=rhythmGen(SCH.start,SCH.days,SCH.total,SCH.st,SCH.en);
+  const ok=SCH.days.length>0;
+  scroll.innerHTML=`<div class="fade maxw"><button class="back" id="sc_back">← Πρόγραμμα</button>
+    <h1 style="font-size:28px">Ρυθμός προγράμματος</h1>
+    <p class="subtitle">Όρισε τον ρυθμό και δημιουργούνται όλα τα sessions αυτόματα. Μεμονωμένες αλλαγές γίνονται μετά, ανά session.</p>
+
+    <p class="over" style="margin-top:26px">Ημέρες</p>
+    <div class="days" id="sc_days">${DOW.map((d,i)=>`<button class="day ${SCH.days.includes(i)?'on':''}" data-d="${i}">${d}</button>`).join('')}</div>
+
+    <div class="two" style="margin-top:20px">
+      <div class="field" style="margin-top:0"><label>Έναρξη</label><input id="sc_st" type="time" value="${SCH.st}"/></div>
+      <div class="field" style="margin-top:0"><label>Λήξη</label><input id="sc_en" type="time" value="${SCH.en}"/></div>
+    </div>
+    <div class="two" style="margin-top:14px">
+      <div class="field" style="margin-top:0"><label>Ημ. έναρξης</label><input id="sc_start" type="date" value="${SCH.start}"/></div>
+      <div class="field" style="margin-top:0"><label>Σύνολο sessions</label><input id="sc_total" type="number" min="1" value="${SCH.total}"/></div>
+    </div>
+
+    <div class="panelcard" style="margin-top:22px;padding:16px 20px"><p style="margin:0;font-weight:600">${ok?`Θα δημιουργηθούν ${preview.length} sessions`:'Διάλεξε τουλάχιστον μία ημέρα'}</p>
+      ${ok&&preview.length?`<p style="margin:6px 0 0;color:var(--muted);font-size:13px">${new Date(preview[0].date+'T00:00:00').toLocaleDateString('el-GR',{day:'2-digit',month:'short'})} → ${new Date(preview[preview.length-1].date+'T00:00:00').toLocaleDateString('el-GR',{day:'2-digit',month:'short'})}</p>`:''}</div>
+    <p class="subtitle" style="margin-top:14px">Η αποθήκευση ξαναδημιουργεί όλα τα sessions με βάση τον νέο ρυθμό.</p>
+    <div id="sc_err"></div>
+    <div class="stickybar"><button class="cta" id="sc_save" ${ok?'':'disabled'}>Δημιουργία προγράμματος</button></div></div>`;
+
+  document.getElementById('sc_back').onclick=()=>SCH.ctx.back();
+  scroll.querySelectorAll('#sc_days .day').forEach(b=>b.onclick=()=>{const d=+b.dataset.d;const i=SCH.days.indexOf(d);if(i>=0)SCH.days.splice(i,1);else SCH.days.push(d);SCH.days.sort();renderScheduleEditor();});
+  document.getElementById('sc_st').oninput=e=>SCH.st=e.target.value;
+  document.getElementById('sc_en').oninput=e=>SCH.en=e.target.value;
+  document.getElementById('sc_start').oninput=e=>{SCH.start=e.target.value;renderScheduleEditor();};
+  document.getElementById('sc_total').oninput=e=>{SCH.total=Math.max(1,+e.target.value||1);renderScheduleEditor();};
+  document.getElementById('sc_save').onclick=saveSchedule;
+}
+async function saveSchedule(){
+  const b=document.getElementById('sc_save'); b.disabled=true; b.textContent='Δημιουργία…';
+  try{
+    const rows=rhythmGen(SCH.start,SCH.days,SCH.total,SCH.st,SCH.en);
+    await sb.from('sessions').delete().eq('cohort_id',SCH.ctx.cohortId);
+    await sb.from('sessions').insert(rows.map((s,i)=>({cohort_id:SCH.ctx.cohortId,sequence_number:i+1,session_date:s.date,start_time:s.start,end_time:s.end})));
+    await sb.from('cohorts').update({rhythm:{days:SCH.days,start:SCH.st,end:SCH.en}, start_date:SCH.start}).eq('id',SCH.ctx.cohortId);
+    await sb.from('courses').update({total_sessions:SCH.total}).eq('id',SCH.ctx.courseId);
+    SCH.ctx.back();
+  }catch(e){ b.disabled=false; b.textContent='Δημιουργία προγράμματος'; document.getElementById('sc_err').innerHTML='<div class="err">Δεν αποθηκεύτηκε.</div>'; }
+}
+async function sessionEdit(ctx){
+  setNav(false); scroll.className='scroll noNav'; scroll.innerHTML='<div class="spin"></div>';
+  try{
+    const {data:s}=await sb.from('sessions').select('id,sequence_number,session_date,start_time,end_time').eq('id',ctx.sessionId).single();
+    scroll.innerHTML=`<div class="fade maxw"><button class="back" id="ss_back">← Πρόγραμμα</button>
+      <p class="over">Session ${pad2(s.sequence_number)}</p><h1 style="font-size:28px;margin-top:6px">Εξαίρεση</h1>
+      <p class="subtitle">Άλλαξε μόνο αυτό το session χωρίς να επηρεαστεί ο υπόλοιπος ρυθμός.</p>
+      <div class="field"><label>Ημερομηνία</label><input id="ss_date" type="date" value="${s.session_date}"/></div>
+      <div class="two"><div class="field"><label>Έναρξη</label><input id="ss_st" type="time" value="${hm(s.start_time)}"/></div>
+        <div class="field"><label>Λήξη</label><input id="ss_en" type="time" value="${hm(s.end_time)}"/></div></div>
+      <button class="link" id="ss_cancel" style="margin-top:24px;color:var(--red)">Ακύρωση αυτού του session</button>
+      <div id="ss_err"></div>
+      <div class="stickybar"><button class="cta" id="ss_save">Αποθήκευση</button></div></div>`;
+    document.getElementById('ss_back').onclick=()=>ctx.back();
+    document.getElementById('ss_save').onclick=async()=>{
+      const b=document.getElementById('ss_save');b.disabled=true;b.textContent='Αποθήκευση…';
+      try{ await sb.from('sessions').update({session_date:document.getElementById('ss_date').value,start_time:document.getElementById('ss_st').value,end_time:document.getElementById('ss_en').value}).eq('id',s.id); ctx.back(); }
+      catch(e){ b.disabled=false;b.textContent='Αποθήκευση';document.getElementById('ss_err').innerHTML='<div class="err">Δεν αποθηκεύτηκε.</div>'; }
+    };
+    document.getElementById('ss_cancel').onclick=async()=>{ try{ await sb.from('sessions').delete().eq('id',s.id); ctx.back(); }catch(e){ document.getElementById('ss_err').innerHTML='<div class="err">Δεν ακυρώθηκε.</div>'; } };
+  }catch(e){ showError("Δεν άνοιξε το session.",e); }
+}
+/* ---------- STUDENT ADD ---------- */
+const normphone=s=>(s||'').toString().replace(/\D/g,'');
+async function enrollThen(ctx, sid, name){
+  if(ctx.cohortId){ scroll.innerHTML='<div class="spin"></div>'; try{ await sb.from('enrollments').insert({cohort_id:ctx.cohortId,student_id:sid,status:'active'}); }catch(e){} ctx.back(); }
+  else chooseSeminar(sid,name);
+}
+function studentAdd(ctx){
+  setNav(false); scroll.className='scroll noNav';
+  scroll.innerHTML=`<div class="fade maxw"><button class="back" id="sa_back">← Πίσω</button>
+    <h1 style="font-size:28px">Προσθήκη μαθήτριας</h1>
+    <p class="subtitle">Τι θέλεις να κάνεις;</p>
+    <div class="choice" id="ch_new" style="margin-top:18px"><div><b>Δημιουργία νέας μαθήτριας</b><span>Καινούριο προφίλ και εγγραφή σε σεμινάριο</span></div><span class="chev">›</span></div>
+    <div class="choice" id="ch_open"><div><b>${ctx.cohortId?'Επιλογή υπάρχουσας':'Άνοιγμα υπάρχουσας'}</b><span>Αναζήτηση σε όσες υπάρχουν ήδη στη σχολή</span></div><span class="chev">›</span></div>
+  </div>`;
+  document.getElementById('sa_back').onclick=()=>ctx.back();
+  document.getElementById('ch_new').onclick=()=>studentCreate(ctx);
+  document.getElementById('ch_open').onclick=()=>studentPick(ctx);
+}
+function studentCreate(ctx){
+  setNav(false); scroll.className='scroll noNav';
+  scroll.innerHTML=`<div class="fade maxw"><button class="back" id="sc_back">← Πίσω</button>
+    <h1 style="font-size:28px">Νέα μαθήτρια</h1>
+    <p class="subtitle">Συμπλήρωσε τα βασικά.${ctx.cohortId?' Θα εγγραφεί στο τρέχον σεμινάριο.':' Μετά διάλεξε σε ποιο σεμινάριο θα μπει.'}</p>
+    <div class="field" style="display:flex;gap:8px;margin-top:16px"><input id="sa_first" placeholder="Όνομα"/><input id="sa_last" placeholder="Επώνυμο"/></div>
+    <div class="field"><label>Τηλέφωνο</label><input id="sa_phone" placeholder="π.χ. 690…"/></div>
+    <div class="field"><label>Email</label><input id="sa_email" placeholder="email (προαιρετικό)"/></div>
+    <div id="sa_err"></div>
+    <div class="stickybar"><button class="cta" id="sa_save">${ctx.cohortId?'Δημιουργία & εγγραφή':'Δημιουργία & συνέχεια'}</button></div></div>`;
+  document.getElementById('sc_back').onclick=()=>studentAdd(ctx);
+  document.getElementById('sa_save').onclick=async()=>{
+    const first=spVal('sa_first'), last=spVal('sa_last'), phone=spVal('sa_phone'), email=spVal('sa_email');
+    const name=(first+' '+last).trim();
+    if(!name){ document.getElementById('sa_err').innerHTML='<div class="err">Βάλε όνομα.</div>'; return; }
+    const b=document.getElementById('sa_save'); b.disabled=true; b.textContent='…';
+    try{
+      const {data:all}=await sb.from('students').select('id,name,phone,email').eq('academy_id',E.academyId);
+      const np=normphone(phone), ne=normtext(email);
+      const dup=(all||[]).find(s=>(np&&normphone(s.phone)===np)||(ne&&ne===normtext(s.email)));
+      if(dup){ b.disabled=false; b.textContent=ctx.cohortId?'Δημιουργία & εγγραφή':'Δημιουργία & συνέχεια';
+        document.getElementById('sa_err').innerHTML=`<div class="confirmbox" style="margin-top:12px"><p>Υπάρχει ήδη μαθήτρια με αυτά τα στοιχεία.</p>
+          <div class="lrow" style="margin-top:8px"><div class="avatar">${initials(dup.name)}</div><div class="nm"><b>${esc(dup.name)}</b><span>${esc(dup.phone||dup.email||'')}</span></div></div>
+          <div style="display:flex;gap:8px;margin-top:10px"><button class="cta ghost sm" id="dup_open" style="flex:1">Άνοιγμα προφίλ</button><button class="cta sm" id="dup_enroll" style="flex:1">${ctx.cohortId?'Προσθήκη στο σεμινάριο':'Εγγραφή'}</button></div></div>`;
+        document.getElementById('dup_open').onclick=()=>studentProfile(dup.id,null,{back:ctx.back});
+        document.getElementById('dup_enroll').onclick=()=>enrollThen(ctx,dup.id,dup.name);
+        return;
+      }
+      const {data:stu,error}=await sb.from('students').insert({academy_id:E.academyId,name,first_name:first||null,last_name:last||null,phone:phone||null,email:email||null}).select('id').single(); if(error) throw error;
+      enrollThen(ctx, stu.id, name);
+    }catch(e){ b.disabled=false; b.textContent=ctx.cohortId?'Δημιουργία & εγγραφή':'Δημιουργία & συνέχεια'; document.getElementById('sa_err').innerHTML='<div class="err">Δεν προστέθηκε.</div>'; }
+  };
+}
+async function studentPick(ctx){
+  setNav(false); scroll.className='scroll noNav'; scroll.innerHTML='<div class="spin"></div>';
+  try{
+    const {data:all}=await sb.from('students').select('id,name,phone,email, enrollments(cohort_id,status)').eq('academy_id',E.academyId).order('name');
+    const pool=ctx.cohortId?(all||[]).filter(s=>!(s.enrollments||[]).some(e=>e.cohort_id===ctx.cohortId && e.status==='active')):(all||[]);
+    const sub=s=>{ const act=(s.enrollments||[]).filter(e=>e.status==='active').length; return act?`Σε ${act} ${act===1?'σεμινάριο':'σεμινάρια'}`:'Χωρίς σεμινάριο'; };
+    const poolRow=s=>`<div class="lrow poolrow" data-id="${s.id}" data-name="${esc(s.name)}"><div class="avatar">${initials(s.name)}</div><div class="nm"><b>${esc(s.name)}</b><span>${[s.phone,s.email].filter(Boolean).map(esc).join(' · ')}${(s.phone||s.email)?' · ':''}${sub(s)}</span></div><span class="st2 teal">${ctx.cohortId?'Προσθήκη →':'Άνοιγμα →'}</span></div>`;
+    scroll.innerHTML=`<div class="fade maxw"><button class="back" id="sp2_back">← Πίσω</button>
+      <h1 style="font-size:28px">Υπάρχουσες μαθήτριες</h1>
+      <div class="field" style="margin-top:14px"><input id="sa_search" placeholder="Αναζήτηση: όνομα, τηλέφωνο, email…"/></div>
+      <div id="sa_pool" style="margin-top:6px">${pool.map(poolRow).join('')||'<p class="role">Καμία μαθήτρια.</p>'}</div></div>`;
+    document.getElementById('sp2_back').onclick=()=>studentAdd(ctx);
+    const wirePool=()=>document.querySelectorAll('.poolrow').forEach(el=>el.onclick=()=>{ if(ctx.cohortId) enrollThen(ctx, el.dataset.id, el.dataset.name); else studentProfile(el.dataset.id, null, {back:ctx.back}); });
+    wirePool();
+    document.getElementById('sa_search').oninput=e=>{ const q=normtext(e.target.value); document.getElementById('sa_pool').innerHTML=pool.filter(s=>[s.name,s.phone,s.email].some(v=>normtext(v).includes(q))).map(poolRow).join('')||'<p class="role">Καμία μαθήτρια.</p>'; wirePool(); };
+  }catch(e){ showError("Δεν φόρτωσαν οι μαθήτριες.",e); }
+}
+async function chooseSeminar(sid, name){
+  setNav(false); scroll.className='scroll noNav'; scroll.innerHTML='<div class="spin"></div>';
+  try{
+    const cohorts=await loadCohorts();
+    scroll.innerHTML=`<div class="fade maxw"><button class="back" id="cs_back">← Μαθήτριες</button>
+      <p class="over">${esc(name)}</p><h1 style="font-size:26px;margin-top:8px">Εγγραφή σε σεμινάριο</h1>
+      <div style="margin-top:14px">${cohorts.map(c=>`<div class="rowlink csopt" data-coh="${c.id}"><div><b style="font-weight:600">${esc(c.course)}</b><div style="color:var(--muted);font-size:12.5px;margin-top:2px">${esc(c.name)}</div></div><span class="st2 teal">Εγγραφή</span></div>`).join('')||'<p class="role">Δεν υπάρχουν σεμινάρια. Δημιούργησε ένα πρώτα.</p>'}</div>
+      <button class="link" id="cs_skip" style="margin-top:16px">Χωρίς εγγραφή για τώρα →</button></div>`;
+    document.getElementById('cs_back').onclick=()=>viewStudents();
+    document.getElementById('cs_skip').onclick=()=>studentProfile(sid,null,{back:viewStudents});
+    scroll.querySelectorAll('.csopt').forEach(el=>el.onclick=async()=>{ el.style.opacity=.5; try{ await sb.from('enrollments').insert({cohort_id:el.dataset.coh,student_id:sid,status:'active'}); }catch(e){} studentProfile(sid,null,{back:viewStudents}); });
+  }catch(e){ showError("Δεν φόρτωσαν τα σεμινάρια.",e); }
+}
+
+/* ---------- NEW SEMINAR (slim: Basics → Rhythm) ---------- */
+let W=null;
+function wizard(){
+  W={step:1,mode:'flexible',name:'',group:'',start:todayAthens(),days:[1,3,5],st:'10:00',en:'14:00',total:16};
+  setNav(false); scroll.className='scroll noNav'; renderWizard();
+}
+function renderWizard(){
+  const s=W.step;
+  const nSteps=W.mode==='fixed'?2:1;
+  const bar=`<div class="steps">${Array.from({length:nSteps},(_,i)=>`<span class="s ${i+1<=s?'on':''}"></span>`).join('')}</div><p class="over">Βήμα ${s} / ${nSteps}</p>`;
+  let body='';
+  if(s===1){
+    body=`<h1 style="font-size:28px;margin-top:14px">Νέο σεμινάριο</h1>
+      <p class="subtitle">Ξεκίνα με τα βασικά. Τεχνικές και μαθήτριες προστίθενται μετά, όποτε θέλεις.</p>
+      <div class="field" style="margin-top:20px"><label>Όνομα σεμιναρίου</label><input id="w_name" value="${esc(W.name)}" placeholder="π.χ. Professional Nail Artist"/></div>
+      <div class="field"><label>Group / run</label><input id="w_group" value="${esc(W.group)}" placeholder="π.χ. September A"/></div>
+      <div class="field"><label>Ημ. έναρξης</label><input id="w_start" type="date" value="${W.start}"/></div>
+      <p class="over" style="margin-top:24px">Πρόγραμμα</p>
+      <div class="seg" id="w_mode"><button class="segb ${W.mode==='flexible'?'on':''}" data-m="flexible">Ευέλικτο</button><button class="segb ${W.mode==='fixed'?'on':''}" data-m="fixed">Σταθερές ώρες</button></div>
+      <p class="subtitle" style="margin-top:8px">${W.mode==='flexible'?'Χωρίς σταθερό ωράριο. Οι μέρες καταγράφονται από τα check-in — ιδανικό για ευέλικτη φοίτηση.':'Όρισε μέρες και ώρες· τα sessions δημιουργούνται αυτόματα.'}</p>`;
+  } else {
+    const preview=rhythmGen(W.start,W.days,W.total,W.st,W.en); const ok=W.days.length>0;
+    body=`<h1 style="font-size:28px;margin-top:14px">Ρυθμός</h1>
+      <p class="subtitle">Διάλεξε ημέρες και ώρες — όλα τα sessions δημιουργούνται αυτόματα. Εξαιρέσεις ρυθμίζεις αργότερα.</p>
+      <p class="over" style="margin-top:24px">Ημέρες</p>
+      <div class="days" id="w_days">${DOW.map((d,i)=>`<button class="day ${W.days.includes(i)?'on':''}" data-d="${i}">${d}</button>`).join('')}</div>
+      <div class="two" style="margin-top:20px">
+        <div class="field" style="margin-top:0"><label>Έναρξη</label><input id="w_st" type="time" value="${W.st}"/></div>
+        <div class="field" style="margin-top:0"><label>Λήξη</label><input id="w_en" type="time" value="${W.en}"/></div></div>
+      <div class="field"><label>Σύνολο sessions</label><input id="w_total" type="number" min="1" value="${W.total}"/></div>
+      <div class="panelcard" style="margin-top:20px;padding:16px 20px"><p style="margin:0;font-weight:600">${ok?`Θα δημιουργηθούν ${preview.length} sessions`:'Διάλεξε τουλάχιστον μία ημέρα'}</p>
+        ${ok&&preview.length?`<p style="margin:6px 0 0;color:var(--muted);font-size:13px">${new Date(preview[0].date+'T00:00:00').toLocaleDateString('el-GR',{day:'2-digit',month:'short'})} → ${new Date(preview[preview.length-1].date+'T00:00:00').toLocaleDateString('el-GR',{day:'2-digit',month:'short'})}</p>`:''}</div>`;
+  }
+  const cta=`<div class="stickybar">${s>1?'<button class="cta ghost" id="w_back" style="flex:none;padding-left:20px;padding-right:20px">←</button>':''}<button class="cta" id="w_next">${(s===1&&W.mode==='fixed')?'Συνέχεια':'Δημιουργία σεμιναρίου'}</button></div><div id="w_err"></div>`;
+  scroll.innerHTML=`<div class="fade maxw"><button class="back" onclick="viewSeminars()">← Άκυρο</button>${bar}${body}${cta}</div>`;
+  document.getElementById('w_next').onclick=wizardNext;
+  const bk=document.getElementById('w_back'); if(bk)bk.onclick=()=>{W.step--;renderWizard();};
+  if(s===1){
+    document.getElementById('w_name').oninput=e=>W.name=e.target.value;
+    document.getElementById('w_group').oninput=e=>W.group=e.target.value;
+    document.getElementById('w_start').oninput=e=>W.start=e.target.value;
+    scroll.querySelectorAll('#w_mode .segb').forEach(b=>b.onclick=()=>{ W.name=document.getElementById('w_name').value; W.group=document.getElementById('w_group').value; W.start=document.getElementById('w_start').value; W.mode=b.dataset.m; renderWizard(); });
+  } else {
+    scroll.querySelectorAll('#w_days .day').forEach(b=>b.onclick=()=>{const d=+b.dataset.d;const i=W.days.indexOf(d);if(i>=0)W.days.splice(i,1);else W.days.push(d);W.days.sort();renderWizard();});
+    document.getElementById('w_st').oninput=e=>W.st=e.target.value;
+    document.getElementById('w_en').oninput=e=>W.en=e.target.value;
+    document.getElementById('w_total').oninput=e=>{W.total=Math.max(1,+e.target.value||1);renderWizard();};
+  }
+}
+function wizardNext(){
+  if(W.step===1){ W.name=document.getElementById('w_name').value.trim(); W.group=document.getElementById('w_group').value.trim(); W.start=document.getElementById('w_start').value;
+    if(!W.name||!W.group){ document.getElementById('w_err').innerHTML='<div class="err">Συμπλήρωσε όνομα και group.</div>'; return; }
+    if(W.mode==='fixed'){ W.step=2; renderWizard(); return; }
+    createSeminar(); return; }
+  if(!W.days.length){ document.getElementById('w_err').innerHTML='<div class="err">Διάλεξε τουλάχιστον μία ημέρα.</div>'; return; }
+  createSeminar();
+}
+async function createSeminar(){
+  const btn=document.getElementById('w_next'); btn.disabled=true; btn.textContent='Δημιουργία…';
+  try{
+    const flexible = W.mode!=='fixed';
+    const {data:course,error:ce}=await sb.from('courses').insert({academy_id:E.academyId,title:W.name,total_sessions:flexible?0:W.total}).select('id').single(); if(ce) throw ce;
+    const cohortData={academy_id:E.academyId,course_id:course.id,name:W.group,start_date:W.start,rhythm:flexible?{days:[]}:{days:W.days,start:W.st,end:W.en}};
+    const {data:cohort,error:coe}=await sb.from('cohorts').insert(cohortData).select('id').single(); if(coe) throw coe;
+    if(!flexible){
+      const rows=rhythmGen(W.start,W.days,W.total,W.st,W.en).map((s,i)=>({cohort_id:cohort.id,sequence_number:i+1,session_date:s.date,start_time:s.start,end_time:s.end}));
+      if(rows.length){ const {error:sse}=await sb.from('sessions').insert(rows); if(sse) throw sse; }
+    }
+    W=null; seminarDetail(cohort.id,'techniques');
+  }catch(e){ btn.disabled=false; btn.textContent='Δημιουργία σεμιναρίου'; document.getElementById('w_err').innerHTML='<div class="err">Δεν δημιουργήθηκε: '+esc(e.message||'σφάλμα')+'</div>'; console.error(e); }
+}
+
+/* live refresh — new submissions / reviews appear without exit-reenter */
+let ELIVE_T=null, ELIVE_D=null;
+function eLive(fromFocus){
+  if(document.hidden||!E) return;
+  if(drawer.classList.contains('on')) return;   // don't disrupt quick-profile
+  if(RV.att) return;                             // don't disrupt an open review
+  const t=nav.querySelector('.tab.on'); const route=t?t.dataset.t:null;
+  refreshPending().then(()=>{ if(route)setNav(route); });   // keep the Αξιολογήσεις badge live
+  if(fromFocus){ if(route==='today') viewToday(); else if(route==='reviews') viewReviews(); }
+}
+function eLiveSoon(){ clearTimeout(ELIVE_D); ELIVE_D=setTimeout(()=>eLive(true), 600); }
+function eStartLive(){
+  if(ELIVE_T) return;
+  document.addEventListener('visibilitychange',()=>{ if(!document.hidden) eLive(true); });
+  window.addEventListener('focus',()=>eLive(true));
+  ELIVE_T=setInterval(()=>eLive(false), 25000);
+  try{ sb.channel('edu-live')
+    .on('postgres_changes',{event:'*',schema:'public',table:'training_attempts'},eLiveSoon)
+    .on('postgres_changes',{event:'*',schema:'public',table:'submissions'},eLiveSoon)
+    .subscribe(); }catch(e){}
+}
+function setupPWAChrome(){
+  const off=document.getElementById('offbar'); if(off){ const upd=()=>off.classList.toggle('on',!navigator.onLine); window.addEventListener('online',upd); window.addEventListener('offline',upd); upd(); }
+  const chip=document.getElementById('installchip'); let deferred=null;
+  const standalone = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || window.navigator.standalone === true;
+  const hide=()=>{ if(chip) chip.classList.remove('on'); };
+  if(chip){
+    chip.onclick=async(ev)=>{
+      const dismiss = ev.target.classList.contains('x');
+      hide();
+      if(dismiss){ localStorage.setItem('asna_edu_install_dismiss','1'); return; }
+      if(deferred){ try{ deferred.prompt(); await deferred.userChoice; }catch(e){} deferred=null; }
+    };
+  }
+  window.addEventListener('beforeinstallprompt',e=>{ e.preventDefault(); deferred=e;
+    if(chip && !standalone && !localStorage.getItem('asna_edu_install_dismiss')) chip.classList.add('on'); });
+  window.addEventListener('appinstalled',()=>{ hide(); localStorage.setItem('asna_edu_install_dismiss','1'); });
+}
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').then(reg=>{ try{reg.update();}catch(e){} }).catch(()=>{}));
+  let _reloaded=false;
+  navigator.serviceWorker.addEventListener('controllerchange',()=>{ if(_reloaded) return; _reloaded=true; location.reload(); });
+}
+setupPWAChrome(); eStartLive();
+boot();
+setTimeout(()=>{ const s=document.getElementById('splash'); if(s){ s.classList.add('hide'); setTimeout(()=>s.remove(),600); } }, 2250);
+</script>
+</body>
+</html>

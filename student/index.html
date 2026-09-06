@@ -1,0 +1,938 @@
+<!doctype html>
+<html lang="el">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<title>American Style Nails Academy</title>
+<link rel="manifest" href="manifest.webmanifest"/>
+<meta name="theme-color" content="#0b0b0e"/>
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32.png"/>
+<link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16.png"/>
+<link rel="icon" href="icons/favicon.ico" sizes="any"/>
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+<meta name="apple-mobile-web-app-title" content="ASNA Academy"/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600&family=Inter:wght@400;500;600&family=Oswald:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#0b0b0e; --surface:#151517; --ink:#f6f6f8; --muted:#9a9aa6;
+    --accent:#F63FB4; --accent-tint:#241420; --hair:#2b2b32; --hair2:#23232a;
+    --red:#ff6b6b; --pink2:#ff74cf; --glow:rgba(246,63,180,.45); --panel2:#1d1d21; --green:#39d69c; --amber:#ffcf5a;
+    --serif:"Fraunces",Georgia,serif; --sans:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0}
+  body{background:var(--paper);color:var(--ink);font-family:var(--sans);min-height:100dvh;display:flex;justify-content:center}
+  .phone{width:100%;max-width:440px;min-height:100dvh;display:flex;flex-direction:column;position:relative}
+  .scroll{flex:1;overflow-y:auto;padding:56px 26px 108px}
+  .scroll.noNav{padding-bottom:40px}
+  /* typography */
+  h1{font-family:var(--serif);font-weight:300;font-size:33px;line-height:1.08;letter-spacing:-.3px;margin:0}
+  h2{font-family:var(--serif);font-weight:600;font-size:30px;line-height:1.1;margin:0}
+  .over{font-family:var(--sans);font-weight:600;font-size:11px;letter-spacing:1.6px;text-transform:uppercase;color:var(--muted);margin:0}
+  .role{font-family:var(--sans);font-weight:500;font-size:14px;color:var(--muted);margin:4px 0 0}
+  .mut{color:var(--muted)}
+  .serifnum{font-family:var(--serif);font-weight:400}
+  /* structure */
+  .hair{height:1px;background:var(--hair);margin:16px 0}
+  .row{display:flex;justify-content:space-between;align-items:flex-end;gap:12px}
+  .rowc{display:flex;justify-content:space-between;align-items:center;gap:12px}
+  .col{display:flex;flex-direction:column;gap:3px}
+  .track{height:4px;background:var(--hair);border-radius:3px;overflow:hidden;margin-top:14px}
+  .track > i{display:block;height:100%;background:var(--accent);border-radius:3px}
+  .metaVal{font-family:var(--serif);font-weight:400;font-size:20px}
+  .metaTime{font-family:var(--sans);font-weight:500;font-size:15px}
+  /* learn list */
+  .learn{margin-top:6px}
+  .li{display:flex;gap:16px;align-items:center;padding:12px 0;border-top:1px solid var(--hair)}
+  .li:first-child{border-top:none}
+  .li .n{font-family:var(--serif);font-weight:400;font-size:18px;color:var(--accent);width:24px}
+  .li .t{font-size:16px}
+  /* buttons */
+  .cta{display:flex;align-items:center;justify-content:center;width:100%;border:none;cursor:pointer;
+       background:var(--accent);color:#fff;font-family:var(--sans);font-weight:600;font-size:16px;letter-spacing:.4px;
+       padding:18px;border-radius:12px}
+  .cta:active{opacity:.9}
+  .cta[disabled]{opacity:.5}
+  .cta.sm{padding:12px 20px;font-size:14px;border-radius:11px;width:auto}
+  .ghost{background:transparent;border:1px solid var(--hair);color:var(--ink)}
+  .link{color:var(--accent);font-weight:600;font-size:14px;cursor:pointer;background:none;border:none;padding:0;font-family:var(--sans)}
+  .fieldwrap{margin-top:16px}
+  input{width:100%;background:var(--surface);border:1px solid var(--hair);border-radius:12px;padding:15px 16px;
+        color:var(--ink);font-size:16.5px;outline:none;font-family:inherit}
+  input:focus{border-color:var(--accent)}
+  /* action block (Add work) */
+  .action{display:flex;align-items:center;justify-content:space-between;gap:14px}
+  .action .txt{display:flex;flex-direction:column;gap:4px}
+  .action .txt b{font-family:var(--sans);font-weight:600;font-size:17px}
+  .plus{width:40px;height:40px;border-radius:50%;background:var(--accent);color:#fff;flex:none;
+        display:flex;align-items:center;justify-content:center;font-size:22px;line-height:1;cursor:pointer}
+  /* confirm chip */
+  .conf{display:flex;align-items:center;gap:6px;color:var(--accent);font-weight:500;font-size:11.5px;letter-spacing:.3px}
+  .conf i{width:6px;height:6px;border-radius:50%;background:var(--accent);display:inline-block}
+  /* photo slots */
+  .photo{width:100%;background:var(--hair);border-radius:12px;overflow:hidden;display:flex;align-items:center;justify-content:center;
+         color:var(--muted);font-size:11px;letter-spacing:1.4px;font-weight:500}
+  .photo img{width:100%;height:100%;object-fit:cover;display:block}
+  .thumb{width:56px;height:56px;border-radius:10px;flex:none;background:var(--hair);overflow:hidden}
+  .thumb img{width:100%;height:100%;object-fit:cover}
+  /* stage rows */
+  .srow{display:flex;gap:16px;align-items:center;padding:14px 0;border-top:1px solid var(--hair);cursor:pointer}
+  .srow:first-child{border-top:none}
+  .srow .sn{font-family:var(--serif);font-weight:400;font-size:16px;color:var(--accent);width:26px;flex:none;text-align:center}
+  .srow .stt{flex:1;font-size:15.5px;font-weight:500}
+  .srow .stt small{display:block;color:var(--muted);font-size:12px;font-weight:400;margin-top:2px}
+  .srow .sthumb{width:48px;height:48px;border-radius:9px;flex:none;background:var(--hair);overflow:hidden;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:20px}
+  .srow .sthumb img{width:100%;height:100%;object-fit:cover}
+  .srow.done .stt{color:var(--ink)}
+  .dotcheck{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--hair);flex:none;display:flex;align-items:center;justify-content:center;color:#fff}
+  .dotcheck.on{background:var(--accent);border-color:var(--accent)}
+  /* lesson/progress rows */
+  .lrow{display:flex;gap:16px;align-items:center;padding:15px 0;border-top:1px solid var(--hair);cursor:pointer}
+  .lrow:first-child{border-top:none}
+  .lrow .ln{font-family:var(--serif);font-weight:400;font-size:16px;color:var(--accent);width:26px;flex:none}
+  .lrow .lt{flex:1;font-size:15.5px}
+  .lrow.dim .lt,.lrow.dim .ln{color:var(--muted);opacity:.7}
+  .st{font-size:12.5px;font-weight:500;color:var(--muted)}
+  .st.tealx{color:var(--accent)}
+  .score{font-family:var(--serif);font-weight:600;font-size:17px;color:var(--ink)}
+  /* feedback */
+  .quote{font-family:var(--serif);font-weight:400;font-size:16px;line-height:1.34;margin:0}
+  /* bottom nav */
+  .nav{position:absolute;left:0;right:0;bottom:0;height:74px;background:var(--paper);border-top:1px solid var(--hair);
+       display:flex;align-items:flex-start;justify-content:space-around;padding:12px 30px 0}
+  .tab{display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;color:var(--muted);flex:1}
+  .tab.on{color:var(--accent)}
+  .tab svg{width:22px;height:22px;display:block}
+  .tab span{font-size:10.5px;font-weight:500;letter-spacing:1px}
+  .tab.on span{font-weight:600}
+  /* misc */
+  .spin{width:26px;height:26px;border:3px solid var(--hair);border-top-color:var(--accent);border-radius:50%;animation:sp 1s linear infinite;margin:80px auto}
+  @keyframes sp{to{transform:rotate(360deg)}}
+  .fade{animation:f .35s both}@keyframes f{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .err{color:var(--red);font-size:13.5px;font-weight:500;margin-top:12px}
+  .back{display:flex;align-items:center;gap:6px;color:var(--muted);font-weight:500;font-size:13px;cursor:pointer;background:none;border:none;font-family:var(--sans);padding:0;margin-bottom:18px}
+  .spacer{height:20px}
+  .plyla{font-size:11px;color:var(--muted);margin:4px 0 0;display:flex;align-items:center;justify-content:center;gap:6px}
+  .plyla b{color:var(--accent);font-weight:600}
+  .lylamark{width:14px;height:14px;object-fit:contain}
+  .acadlogo{width:220px;max-width:72%;display:block;border-radius:14px}
+  /* brand area (login) */
+  .brandarea{position:relative;text-align:center;padding-top:16px;margin-bottom:6px}
+  .brandarea::before{content:"";position:absolute;left:50%;top:6px;width:300px;height:180px;transform:translateX(-50%);background:radial-gradient(closest-side, rgba(255,150,175,.38), rgba(255,150,175,0) 72%);filter:blur(8px);z-index:0;pointer-events:none}
+  .wm{position:relative;z-index:1;display:inline-flex;flex-direction:column;align-items:center;gap:8px}
+  .wm-stars{color:#C6166E;font-size:13px;letter-spacing:8px;text-indent:8px}
+  .wm-title{font-family:"Oswald",var(--sans);font-weight:600;font-size:27px;letter-spacing:1.5px;color:#C6166E;line-height:1}
+  .wm-acad{display:flex;align-items:center;gap:11px;font-family:"Oswald",var(--sans);font-weight:500;font-size:12px;letter-spacing:6px;text-indent:6px;color:var(--ink)}
+  .wm-acad i{width:26px;height:1.5px;background:var(--ink);display:block}
+  .brandsep{color:#D3AE6B;letter-spacing:5px;font-size:12px;margin:18px 0 4px;text-align:center}
+  /* splash */
+  #splash{position:fixed;inset:0;z-index:200;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(180deg,#17141C,#0D0B11);transition:opacity .55s ease;gap:0}
+  #splash.hide{opacity:0;pointer-events:none}
+  #splash .sm{color:#FF2C99;font-size:44px;line-height:1;letter-spacing:6px;text-indent:6px;text-shadow:0 0 14px rgba(255,44,153,.65),0 0 5px rgba(255,44,153,.9)}
+  #splash .sm span:nth-child(2){display:inline-block;transform:translateY(-8px)}
+  #splash .sl{width:70px;height:3px;border-radius:2px;background:#FF2C99;margin:12px 0 0;box-shadow:0 0 14px rgba(255,44,153,.6)}
+  #splash .snm{margin-top:30px;color:rgba(255,255,255,.9);font-family:"Oswald",var(--sans);font-weight:500;font-size:13px;letter-spacing:5px;text-indent:5px;text-align:center}
+  #splash .sly{position:absolute;bottom:calc(38px + env(safe-area-inset-bottom));color:rgba(255,255,255,.55);font-size:12px;display:flex;align-items:center;gap:7px;animation:splashFade .8s ease .15s both}
+  #splash .sly i{width:9px;height:9px;border-radius:50%;background:var(--accent);display:block}
+  #splash .sc{display:flex;flex-direction:column;align-items:center;animation:splashIn .6s cubic-bezier(.2,.7,.2,1) both;will-change:opacity,transform}
+  @keyframes splashIn{from{opacity:0;transform:scale(.98)}to{opacity:1;transform:scale(1)}}
+  @keyframes splashFade{from{opacity:0}to{opacity:1}}
+  #splash .sc{position:relative;width:min(300px,80vw);height:210px;display:flex;align-items:center;justify-content:center;perspective:820px;animation:none}
+  #splash .bloom{position:absolute;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(246,63,180,.22),transparent 66%);filter:blur(10px);opacity:0;animation:sBloom 2.1s ease-out forwards}
+  #splash .slogo{position:absolute;width:min(300px,80vw);height:auto;border-radius:14px;opacity:0;z-index:2;animation:sLogo 2.1s ease-in-out forwards}
+  #splash .sp{position:absolute;z-index:3;width:22px;height:22px;left:50%;top:50%;margin:-11px;opacity:0}
+  #splash .sp svg{width:100%;height:100%;filter:drop-shadow(0 0 5px rgba(255,150,210,.95))}
+  #splash .sp1{animation:sSp1 2.1s cubic-bezier(.22,1,.36,1) forwards}
+  #splash .sp2{animation:sSp2 2.1s cubic-bezier(.22,1,.36,1) forwards}
+  #splash .sp3{animation:sSp3 2.1s cubic-bezier(.22,1,.36,1) forwards}
+  #splash .dust{position:absolute;width:4px;height:4px;border-radius:50%;background:rgba(255,185,222,.6);filter:blur(.5px);z-index:1}
+  #splash .d1{left:24%;top:34%;animation:sFloat 2.1s ease-in-out forwards}
+  #splash .d2{left:74%;top:60%;animation:sFloat 2.1s ease-in-out .2s forwards}
+  @keyframes sBloom{0%{opacity:0}45%{opacity:.55}75%{opacity:.9}100%{opacity:.72}}
+  @keyframes sLogo{0%,8%{opacity:0;transform:scale(.965)}45%{opacity:1;transform:scale(1)}56%{transform:scale(1.025)}66%{transform:scale(1)}100%{opacity:1;transform:scale(1)}}
+  @keyframes sSp1{0%{opacity:0;transform:translate(-185px,-72px) scale(1.75);filter:blur(3px)}12%{opacity:1}46%{opacity:1;transform:translate(-30px,-56px) scale(1);filter:blur(0)}60%{opacity:0;transform:translate(-30px,-56px) scale(.7)}100%{opacity:0}}
+  @keyframes sSp2{0%{opacity:0;transform:translate(195px,84px) scale(.42);filter:blur(2px)}16%{opacity:1}48%{opacity:1;transform:translate(2px,-62px) scale(1);filter:blur(0)}62%{opacity:0;transform:translate(2px,-62px) scale(.7)}100%{opacity:0}}
+  @keyframes sSp3{0%{opacity:0;transform:translate(64px,-195px) scale(1.28);filter:blur(2.5px)}14%{opacity:1}50%{opacity:1;transform:translate(30px,-56px) scale(1);filter:blur(0)}64%{opacity:0;transform:translate(30px,-56px) scale(.7)}100%{opacity:0}}
+  @keyframes sFloat{0%{opacity:0;transform:translateY(8px)}40%{opacity:.55}60%{opacity:.3;transform:translateY(-6px)}100%{opacity:0}}
+  #offbar{position:fixed;top:0;left:0;right:0;z-index:60;background:#3B3833;color:#fff;text-align:center;font-size:12.5px;font-weight:500;padding:8px 12px;transform:translateY(-100%);transition:transform .25s;padding-top:calc(8px + env(safe-area-inset-top))}
+  #offbar.on{transform:none}
+  #installchip{position:fixed;left:50%;transform:translateX(-50%) translateY(140%);bottom:calc(88px + env(safe-area-inset-bottom));z-index:55;background:var(--ink);color:#fff;border:none;border-radius:999px;padding:12px 18px;font-family:inherit;font-size:13.5px;font-weight:600;box-shadow:0 8px 24px rgba(20,32,30,.22);display:flex;align-items:center;gap:10px;transition:transform .3s;cursor:pointer}
+  #installchip.on{transform:translateX(-50%)}
+  #installchip .x{opacity:.6;font-weight:400}
+  #toast{position:fixed;left:16px;right:16px;top:calc(12px + env(safe-area-inset-top));z-index:70;background:var(--accent);color:#fff;border-radius:14px;padding:14px 16px;box-shadow:0 10px 30px rgba(14,158,142,.34);display:flex;align-items:center;gap:12px;transform:translateY(-140%);transition:transform .32s cubic-bezier(.2,.8,.2,1);cursor:pointer;max-width:440px;margin:0 auto}
+  #toast.on{transform:none}
+  #toast .ti{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:17px;flex:none}
+  #toast b{font-weight:600;font-size:14.5px;display:block} #toast span{font-size:12.5px;opacity:.9;display:block;margin-top:1px}
+  /* redesign additions */
+  .nowcard{background:var(--surface);border:1px solid var(--hair);border-radius:16px;padding:20px;margin-top:22px}
+  .resultcard{background:var(--surface);border:1px solid var(--hair);border-radius:16px;padding:20px;margin-top:20px}
+  .revbadge{display:inline-flex;align-items:center;gap:6px;background:var(--accent-tint);color:var(--accent);font-weight:600;font-size:12.5px;padding:6px 12px;border-radius:999px}
+  .revfb{margin-top:8px;font-family:var(--serif);font-style:italic;font-size:15px;line-height:1.55;color:var(--ink)}
+  .newassign{margin-top:26px}
+  .bigscore{font-family:var(--serif);font-size:42px;color:var(--accent);line-height:1;margin-top:6px}
+  .bigscore span{font-size:16px;color:var(--muted)}
+  details.disc{margin-top:26px;border-top:1px solid var(--hair)}
+  details.disc summary{list-style:none;cursor:pointer;font-weight:600;font-size:14px;color:var(--ink);padding:16px 0;display:flex;justify-content:space-between;align-items:center}
+  details.disc summary::-webkit-details-marker{display:none}
+  details.disc summary::after{content:"▾";color:var(--muted)}
+  details.disc[open] summary::after{content:"▴"}
+  .ckc{width:20px;height:20px;border-radius:50%;background:var(--accent);color:#fff;font-size:12px;display:flex;align-items:center;justify-content:center;flex:none}
+  .ocirc{width:18px;height:18px;border-radius:50%;border:1.5px solid var(--hair);flex:none}
+  .ocirc.prog{border-color:var(--accent);background:radial-gradient(var(--accent) 42%,transparent 44%)}
+  .restrow{display:flex;align-items:center;padding:16px 0}
+  .restrow .lt{flex:1}
+  .lrow .ckc+.lt,.lrow .ocirc+.lt{flex:1}
+  .lrow .st.tealx{margin-left:auto}
+  .frow{display:flex;justify-content:space-between;padding:14px 0;border-top:1px solid var(--hair);font-size:14px}
+  .frow:first-child{border-top:none}
+  .srow .sph{width:44px;height:44px;border-radius:10px;border:1.5px dashed var(--hair);flex:none;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:20px}
+  .srow .stt small.go{color:var(--accent)}
+  /* floating learning labels */
+  .learnwrap{display:flex;flex-wrap:wrap;gap:14px 12px;margin-top:16px}
+  .plabel{background:#1d1d21;border:1px solid var(--hair2);border-radius:16px;padding:12px 18px;font-size:14.5px;color:var(--ink);
+          box-shadow:0 1px 2px rgba(20,32,30,.03),0 8px 20px rgba(20,32,30,.055);display:inline-flex;align-items:center;gap:9px;line-height:1}
+  .plabel .d{width:5px;height:5px;border-radius:50%;background:var(--accent);opacity:.5;flex:none}
+  .plabel:nth-child(even){margin-top:11px}
+  .plabel.hid{display:none}
+  .morelbl{cursor:pointer;font-family:var(--sans);color:var(--muted);box-shadow:none;background:none;border-style:dashed}
+  .morelbl .d{display:none}
+  .hwchip{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.3px;padding:2px 8px;border-radius:999px;margin-left:6px;vertical-align:middle}
+  .hwc-req{background:rgba(255,207,90,.16);color:var(--amber)}
+  .hwc-prog{background:rgba(246,63,180,.16);color:var(--pink2)}
+  .hwc-rev{background:rgba(120,150,220,.18);color:#9fb4e6}
+  .matrow{display:flex;gap:12px;overflow-x:auto;padding:2px 0 4px;-webkit-overflow-scrolling:touch}
+  .matcard{flex:0 0 auto;width:118px;text-decoration:none}
+  .matcard .mimg{width:118px;height:118px;border-radius:14px;background:var(--panel2,#1d1d21) center/cover no-repeat;border:1px solid var(--hair)}
+  .matcard .mnm{font-size:12.5px;color:var(--ink);font-weight:600;margin-top:7px;line-height:1.25}
+  .matcard .mlk{font-size:11.5px;color:var(--accent);margin-top:2px}
+</style>
+</head>
+<body>
+<div id="splash">
+  <div class="sc">
+    <div class="bloom"></div>
+    <div class="dust d1"></div><div class="dust d2"></div>
+    <img class="slogo" src="https://americanstylenails.gr/wp-content/uploads/2026/03/AmericanStyleNailsAcademyLogo.png" alt="American Style Nails Academy"/>
+    <div class="sp sp1"><svg viewBox="0 0 24 24"><path d="M12 1 C13 8 16 11 23 12 C16 13 13 16 12 23 C11 16 8 13 1 12 C8 11 11 8 12 1 Z" fill="#fff"/></svg></div>
+    <div class="sp sp2"><svg viewBox="0 0 24 24"><path d="M12 1 C13 8 16 11 23 12 C16 13 13 16 12 23 C11 16 8 13 1 12 C8 11 11 8 12 1 Z" fill="#fff"/></svg></div>
+    <div class="sp sp3"><svg viewBox="0 0 24 24"><path d="M12 1 C13 8 16 11 23 12 C16 13 13 16 12 23 C11 16 8 13 1 12 C8 11 11 8 12 1 Z" fill="#fff"/></svg></div>
+  </div>
+  <div class="sly"><i></i> Powered by Lyla</div>
+</div>
+<div class="phone">
+  <div class="scroll" id="scroll"><div class="spin"></div></div>
+  <div class="nav" id="nav" style="display:none"></div>
+</div>
+<input type="file" id="file" accept="image/*" capture="environment" style="display:none"/>
+<div id="offbar">Χωρίς σύνδεση — κάποια στοιχεία μπορεί να μην είναι ενημερωμένα.</div>
+<div id="toast"><span class="ti">✨</span><div><b id="toast_t">Νέα αξιολόγηση!</b><span id="toast_s">Δες το feedback →</span></div></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+/* ================= CONFIG (Lyla Academy Supabase) ================= */
+const SB_URL = "https://fjfwpxcbqvtxmqffprnx.supabase.co";
+const SB_KEY = "sb_publishable_UXgEdtio8nwWJMgwKBvQww_rU4UCKFa";
+const sb = supabase.createClient(SB_URL, SB_KEY);
+/* ---- error reporter → Telegram (Make webhook) + client_errors log ---- */
+const ERR_HOOK="https://hook.eu1.make.com/tu0hj4dekyjei5bob1c8jvjrvpcq3ex6", APP_NAME="student";
+const _errSeen={};
+function reportErr(message, ctx){
+  try{
+    message=String(message||'').slice(0,400); if(!message) return;
+    if(/ServiceWorker|sw\.js|ResizeObserver loop/i.test(message)) return; // ignore SW/deploy + benign noise
+    const key=message.slice(0,120), now=Date.now();
+    if(_errSeen[key] && now-_errSeen[key]<60000) return; _errSeen[key]=now;
+    const at=new Date().toISOString(), url=location.href, ua=navigator.userAgent, context=ctx?String(ctx).slice(0,300):'';
+    try{ sb.from('client_errors').insert({app:APP_NAME,message,url,stack:context,user_agent:ua,context:APP_NAME}); }catch(e){}
+    try{ fetch(ERR_HOOK,{method:'POST',mode:'no-cors',keepalive:true,headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams({app:APP_NAME,message,url,at}).toString()}); }catch(e){}
+  }catch(e){}
+}
+window.addEventListener('error',e=>{ reportErr((e&&e.message)||'script error', e&&e.filename?(e.filename+':'+e.lineno+':'+e.colno):''); });
+window.addEventListener('unhandledrejection',e=>{ const r=e&&e.reason; reportErr((r&&(r.message||r))||'unhandledrejection', r&&r.stack?String(r.stack):''); });
+
+const LS = "lyla_academy_student_v2";
+const scroll = document.getElementById('scroll');
+const nav = document.getElementById('nav');
+const fileInput = document.getElementById('file');
+
+let S = { student:null };   // {id,name,email,academyId,cohortId,course,identifier}
+let TODAY = null;           // cached student_today row
+let STAGES = [];            // current attempt stages
+let PENDING = null;         // step_id awaiting a photo
+
+/* ---------- helpers ---------- */
+const first = n => (n||'').trim().split(/\s+/)[0] || '';
+const hhmm = t => (t||'').slice(0,5);
+const pad2 = n => String(n==null?0:n).padStart(2,'0');
+const timeOf = ts => ts ? new Date(ts).toLocaleTimeString('el-GR',{timeZone:'Europe/Athens',hour:'2-digit',minute:'2-digit'}) : '';
+const dmy = d => d ? new Date(d+'T00:00:00').toLocaleDateString('el-GR',{day:'2-digit',month:'long'}) : '';
+const dm  = d => d ? new Date(d+'T00:00:00').toLocaleDateString('el-GR',{day:'2-digit',month:'short'}) : '';
+const esc = s => (s==null?'':String(s)).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const num1 = v => (v==null?'':Number(v).toFixed(1));
+async function signed(path){ if(!path) return null; if(/^https?:\/\//.test(path)) return path; try{ const {data}=await sb.storage.from('submissions').createSignedUrl(path,3600); return data&&data.signedUrl||null;}catch(e){return null;} }
+
+async function ensureSession(){
+  const { data:{ session } } = await sb.auth.getSession();
+  if(!session){ const { error } = await sb.auth.signInAnonymously(); if(error) throw error; }
+}
+function setNav(active){
+  if(!active){ nav.style.display='none'; return; }
+  nav.style.display='flex';
+  const ic = {
+    today:'<rect x="3.5" y="5" width="15" height="13.5" rx="3" fill="none" stroke="currentColor" stroke-width="1.6"/><line x1="3.5" y1="8.4" x2="18.5" y2="8.4" stroke="currentColor" stroke-width="1.6"/><line x1="7" y1="3" x2="7" y2="6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><line x1="15" y1="3" x2="15" y2="6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>',
+    progress:'<line x1="3.5" y1="6.5" x2="18.5" y2="6.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><line x1="3.5" y1="11" x2="18.5" y2="11" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><line x1="3.5" y1="15.5" x2="18.5" y2="15.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>',
+    profile:'<circle cx="11" cy="7" r="3.6" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M4.5 18.5c0-3.6 2.9-6 6.5-6s6.5 2.4 6.5 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>'
+  };
+  const tab = (k,label)=>`<div class="tab ${active===k?'on':''}" data-tab="${k}"><svg viewBox="0 0 22 22">${ic[k]}</svg><span>${label}</span></div>`;
+  nav.innerHTML = tab('today','ΣΗΜΕΡΑ')+tab('progress','ΠΡΟΟΔΟΣ')+tab('profile','ΠΡΟΦΙΛ');
+  nav.querySelectorAll('.tab').forEach(t=>t.onclick=()=>go(t.dataset.tab));
+}
+function go(tab){ if(tab==='today') viewToday(); else if(tab==='progress') viewProgress(); else if(tab==='profile') viewProfile(); }
+
+/* ================= BOOT ================= */
+async function boot(){
+  try{
+    await ensureSession();
+    const saved = JSON.parse(localStorage.getItem(LS)||"null");
+    if(saved && saved.id){
+      S.student = saved;
+      if(!saved.email){ return showProfileComplete(); }
+      return viewToday();
+    }
+    showIdentify();
+  }catch(e){ showError("Πρόβλημα σύνδεσης. Δοκίμασε ξανά.", e); }
+}
+
+/* ================= IDENTIFY ================= */
+function shell(html, active){ setNav(active); scroll.className='scroll'+(active?'':' noNav'); scroll.innerHTML=`<div class="fade">${html}</div>`; }
+function showIdentify(msg){
+  shell(`
+    <div class="brandarea">
+      <div class="wm">
+        <img src="https://americanstylenails.gr/wp-content/uploads/2026/03/AmericanStyleNailsAcademyLogo.png" alt="American Style Nails Academy" style="width:min(260px,74vw);height:auto;display:block;border-radius:16px"/>
+      </div>
+    </div>
+    <div class="brandsep">— ✦ —</div>
+    <h1 style="margin-top:6px">Καλώς ήρθες</h1>
+    <p class="role">Βάλε το τηλέφωνό σου για να συνεχίσεις.</p>
+    <div class="fieldwrap"><input id="idf" type="tel" inputmode="tel" autocomplete="tel" placeholder="Το τηλέφωνό σου"/></div>
+    ${msg?`<div class="err">${esc(msg)}</div>`:``}
+    <button class="cta" id="go" style="margin-top:16px">Συνέχεια</button>
+    <p class="plyla" style="margin-top:22px"><img class="lylamark" src="icons/lyla-mark.png" alt=""/> Powered by <b>Lyla</b></p>
+  `, null);
+  const go=document.getElementById('go'), idf=document.getElementById('idf');
+  go.onclick=doIdentify; idf.addEventListener('keydown',e=>{if(e.key==='Enter')doIdentify();});
+}
+async function doIdentify(){
+  const v=document.getElementById('idf').value.trim(); if(!v) return;
+  const b=document.getElementById('go'); b.disabled=true; b.textContent="Ψάχνω…";
+  try{
+    await ensureSession();
+    const { data, error } = await sb.rpc('student_login_by_phone',{ p_phone:v });
+    if(error){ if(/not_found/.test(error.message||'')) return showIdentify("Δεν βρήκαμε ενεργή εγγραφή με αυτό το τηλέφωνο. Έλεγξε τον αριθμό ή επικοινώνησε με τη σχολή."); throw error; }
+    const r=(data&&data[0]); if(!r) return showIdentify("Δεν βρήκαμε ενεργή εγγραφή με αυτό το τηλέφωνο. Έλεγξε τον αριθμό ή επικοινώνησε με τη σχολή.");
+    S.student={ id:r.student_id, name:r.student_name, email:r.student_email, academyId:r.academy_id, cohortId:r.cohort_id, course:r.course_title, identifier:v };
+    localStorage.setItem(LS, JSON.stringify(S.student));
+    if(!S.student.email) return showProfileComplete();
+    viewToday();
+  }catch(e){ showIdentify("Πρόβλημα σύνδεσης, δοκίμασε ξανά."); }
+}
+function showProfileComplete(){
+  shell(`
+    <p class="over">American Style Nails Academy</p>
+    <h1 style="margin-top:14px">Καλημέρα ${esc(first(S.student.name))}</h1>
+    <p class="role">Συμπλήρωσε το email σου — μία φορά, για να σε ενημερώνουμε.</p>
+    <div class="fieldwrap"><input id="pemail" type="email" inputmode="email" autocapitalize="none" placeholder="Το email σου"/></div>
+    <button class="cta" id="psave" style="margin-top:16px">Αποθήκευση</button>
+  `, null);
+  const b=document.getElementById('psave'), e=document.getElementById('pemail');
+  b.onclick=saveEmail; e.addEventListener('keydown',ev=>{if(ev.key==='Enter')saveEmail();});
+}
+async function saveEmail(){
+  const em=document.getElementById('pemail').value.trim(); if(!em) return;
+  const b=document.getElementById('psave'); b.disabled=true; b.textContent="Αποθήκευση…";
+  try{
+    const { error } = await sb.from('students').update({ email:em }).eq('id',S.student.id);
+    if(error) throw error;
+    S.student.email=em; localStorage.setItem(LS, JSON.stringify(S.student));
+    viewToday();
+  }catch(e){ b.disabled=false; b.textContent="Αποθήκευση";
+    scroll.querySelector('.fade').insertAdjacentHTML('beforeend',`<div class="err">Δεν αποθηκεύτηκε — δοκίμασε ξανά.</div>`); }
+}
+
+/* ================= TODAY (state-driven) ================= */
+let TODAY_SIG=null;
+async function viewToday(opts){
+  const silent=opts&&opts.silent;
+  if(!silent) WORK=null;
+  setNav('today'); scroll.className='scroll'; if(!silent) scroll.innerHTML='<div class="spin"></div>';
+  try{
+    const { data, error } = await sb.rpc('student_today');
+    if(error){ if(error.message==='not_authenticated'){ localStorage.removeItem(LS); return showIdentify(); } throw error; }
+    const T=(data&&data[0])||null;
+    if(!T){ if(!silent) showError("Δεν βρέθηκαν στοιχεία."); return; }
+    // Follow the most recent class lesson (not the one anchored to today's check-in),
+    // so a newly assigned / just-worked lesson shows instead of a stale one.
+    if(T.state!=='before_checkin'){
+      try{
+        const {data:la,error:le}=await sb.from('training_attempts')
+          .select('id,technique_id,technique_title_snapshot,status,overall_score,started_at,submitted_at,assigned_at')
+          .eq('work_type','class').order('assigned_at',{ascending:false,nullsFirst:false}).limit(1);
+        const L=(!le&&la&&la[0])||null;
+        if(L && L.id!==T.attempt_id){
+          const unreviewed=(L.status!=='reviewed');
+          if(['in_progress','submitted','reviewed'].includes(T.state) || (T.state==='no_assignment' && unreviewed)){
+            T.attempt_id=L.id; T.current_technique_id=L.technique_id;
+            T.current_technique=L.technique_title_snapshot||T.current_technique;
+            T.overall_score=L.overall_score; T.attempt_status=L.status;
+            T.state = L.status==='reviewed'?'reviewed':(L.status==='submitted'?'submitted':'in_progress');
+          }
+        }
+      }catch(e){}
+    }
+    const sig=[T.state,T.attempt_id,T.stages_done,T.overall_score,(T.topics||[]).join(','),T.current_technique_id].join('|');
+    if(silent && sig===TODAY_SIG) return;   // nothing changed — no visible reload
+    TODAY=T; TODAY_SIG=sig; renderToday();
+  }catch(e){ if(!silent) showError("Δεν μπόρεσα να φορτώσω τη σημερινή μέρα.", e); }
+}
+/* live refresh + new-review toast — appears without exit-reenter, on any tab */
+let LIVE_T=null, REVIEWED_COUNT=null;
+function showToast(title,sub,onTap){
+  const t=document.getElementById('toast'); if(!t) return;
+  document.getElementById('toast_t').textContent=title; document.getElementById('toast_s').textContent=sub||'';
+  t.onclick=()=>{ t.classList.remove('on'); if(onTap)onTap(); };
+  t.classList.add('on'); clearTimeout(showToast._t); showToast._t=setTimeout(()=>t.classList.remove('on'), 6000);
+}
+async function pulse(fromFocus){
+  if(document.hidden||PENDING||WORK||!S.student) return;
+  try{ const {data}=await sb.rpc('student_profile'); const rc=(data&&data[0]&&data[0].reviewed)||0;
+    if(REVIEWED_COUNT!=null && rc>REVIEWED_COUNT) showToast('Η εργασία σου αξιολογήθηκε','Δες το αποτέλεσμα →',openLatestReview);
+    REVIEWED_COUNT=rc;
+  }catch(e){}
+  const t=nav.querySelector('.tab.on'); const tab=t?t.dataset.tab:null;
+  if(tab==='today') viewToday({silent:true});
+  else if(tab==='progress' && fromFocus) viewProgress();
+}
+function startLive(){
+  if(LIVE_T) return;
+  document.addEventListener('visibilitychange',()=>{ if(!document.hidden) pulse(true); });
+  window.addEventListener('focus',()=>pulse(true));
+  LIVE_T=setInterval(()=>pulse(false), 20000);
+  try{ sb.channel('stu-live')
+    .on('postgres_changes',{event:'*',schema:'public',table:'training_attempts'},()=>pulse(false))
+    .on('postgres_changes',{event:'*',schema:'public',table:'reviews'},()=>pulse(false))
+    .subscribe(); }catch(e){}
+}
+function setupPWAChrome(){
+  const off=document.getElementById('offbar'); if(off){ const upd=()=>off.classList.toggle('on',!navigator.onLine); window.addEventListener('online',upd); window.addEventListener('offline',upd); upd(); }
+  const chip=document.getElementById('installchip'); let deferred=null;
+  const standalone = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || window.navigator.standalone === true;
+  const hide=()=>{ if(chip) chip.classList.remove('on'); };
+  if(chip){
+    chip.onclick=async(ev)=>{
+      const dismiss = ev.target.classList.contains('x');
+      hide();                                   // any tap hides it immediately — never stuck
+      if(dismiss){ localStorage.setItem('asna_install_dismiss','1'); return; }
+      if(deferred){ try{ deferred.prompt(); await deferred.userChoice; }catch(e){} deferred=null; }
+    };
+  }
+  window.addEventListener('beforeinstallprompt',e=>{ e.preventDefault(); deferred=e;
+    if(chip && !standalone && !localStorage.getItem('asna_install_dismiss')) chip.classList.add('on'); });
+  window.addEventListener('appinstalled',()=>{ hide(); localStorage.setItem('asna_install_dismiss','1'); });
+}
+function headerHTML(t){
+  const day = t.session_date ? new Date(t.session_date+'T00:00:00').toLocaleDateString('el-GR',{weekday:'long',day:'2-digit',month:'long'}) : '';
+  const att = t.checked_in?` · Παρούσα ${timeOf(t.checked_in_at)}`:'';
+  const sub = (day||att) ? `<p class="mut" style="font-size:13px;margin-top:5px">${day}${att}</p>` : '';
+  return `
+    <div style="text-align:center;margin:2px 0 20px"><img src="https://americanstylenails.gr/wp-content/uploads/2026/03/AmericanStyleNailsAcademyLogo.png" alt="American Style Nails Academy" style="width:min(190px,58%);height:auto;border-radius:12px;display:inline-block"/></div>
+    <h1 style="font-size:29px">Καλημέρα ${esc(first(t.student_name))}</h1>
+    <p class="role" style="margin-top:6px">${esc(t.course_title||'')}</p>
+    ${sub}`;
+}
+function techHTML(t){
+  return `<p class="over" style="margin-top:34px">Σήμερα</p><h2 style="margin-top:6px">${esc(t.current_technique||'')}</h2>`;
+}
+function learnLabelsHTML(topics){
+  const tp=(topics||[]).filter(Boolean);
+  if(!tp.length) return '';
+  const shown=tp.slice(0,4), extra=tp.slice(4);
+  const pill=(txt,hid)=>`<span class="plabel${hid?' hid':''}"><i class="d"></i>${esc(txt)}</span>`;
+  const more=extra.length?`<button class="plabel morelbl" id="lbl_more">+${extra.length} ακόμη</button>`:'';
+  return `<p class="over" style="margin-top:34px">Τι θα μάθεις</p>
+    <div class="learnwrap" id="learnwrap">${shown.map(t=>pill(t,false)).join('')}${extra.map(t=>pill(t,true)).join('')}${more}</div>`;
+}
+function wireLabelMore(){
+  const m=document.getElementById('lbl_more');
+  if(m) m.onclick=()=>{ document.querySelectorAll('#learnwrap .plabel.hid').forEach(el=>el.classList.remove('hid')); m.remove(); };
+}
+async function renderToday(){
+  const t=TODAY;
+  const head=headerHTML(t);
+
+  if(t.state==='before_checkin'){
+    scroll.innerHTML=`<div class="fade">${head}
+      <h2 style="margin-top:6px">Καλώς ήρθες στη σχολή</h2>
+      <p class="role" style="margin-top:10px">Κάνε check-in για να ξεκινήσεις τη σημερινή σου μέρα.</p>
+      <div class="spacer"></div>
+      <button class="cta" id="ci">Check in</button></div>`;
+    document.getElementById('ci').onclick=doCheckin;
+
+  } else if(t.state==='no_assignment'){
+    scroll.innerHTML=`<div class="fade">${head}
+      <div class="spacer"></div>
+      <div style="text-align:center;background:var(--surface);border:1px solid var(--hair);border-radius:16px;padding:40px 24px">
+        <div style="width:56px;height:56px;border-radius:50%;background:var(--accent-tint);display:flex;align-items:center;justify-content:center;margin:0 auto;color:var(--accent);font-size:24px">✓</div>
+        <h2 style="font-size:22px;margin-top:18px">Η παρουσία σου καταγράφηκε</h2>
+        <p class="role" style="margin-top:8px">Η εκπαιδεύτριά σου ετοιμάζει το σημερινό σου μάθημα.</p>
+      </div></div>`;
+
+  } else if(t.state==='in_progress'){
+    await renderStages(head, techHTML(t));
+
+  } else if(t.state==='submitted'){
+    STAGES = await loadStages(t.attempt_id);
+    const thumbs = await stageThumbs(STAGES);
+    scroll.innerHTML=`<div class="fade">${head}${techHTML(t)}
+      <div class="hair" style="margin-top:22px"></div>
+      <p class="over">Η εργασία σου · υποβλήθηκε</p>
+      <div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap">${thumbs}</div>
+      <p class="mut" style="margin-top:18px;font-size:13.5px">Ολοκλήρωσες όλα τα στάδια. Θα σε ειδοποιήσουμε όταν έρθει το feedback.</p></div>`;
+
+  } else if(t.state==='reviewed'){
+    STAGES = await loadStages(t.attempt_id);
+    const thumbs = await stageThumbs(STAGES,true);
+    const rev = await attemptFeedback(t.attempt_id);
+    scroll.innerHTML=`<div class="fade">${head}${techHTML(t)}
+      <div class="resultcard">
+        <div class="rowc" style="align-items:center"><span class="revbadge">✓ Αξιολογήθηκε</span><span class="score" style="color:var(--accent);font-size:26px;line-height:1">${num1(t.overall_score)} <span style="font-size:14px;color:var(--muted);font-weight:500">/ 10</span></span></div>
+        ${rev.overall_feedback?`<p class="over" style="margin-top:18px">Σχόλιο εκπαιδεύτριας</p><p class="revfb">“${esc(rev.overall_feedback)}”</p>`:''}
+        <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap">${thumbs}</div>
+        <button class="link" id="det" style="margin-top:14px">Δες τα στάδια & φωτογραφίες →</button>
+      </div></div>`;
+    document.getElementById('det').onclick=()=>attemptDetail(t.attempt_id, viewToday);
+  }
+  await appendHomework();
+  await appendMaterials(TODAY && TODAY.current_technique_id);
+}
+let WORK=null;
+async function appendHomework(){
+  try{
+    const {data}=await sb.rpc('student_homework'); let list=data||[];
+    // active pending only — never show completed/reviewed homework here
+    list=list.filter(h=>h.status!=='reviewed');
+    if(!list.length) return;
+    const wrap=scroll.querySelector('.fade'); if(!wrap) return;
+    const rows=list.map(h=>{
+      const done=h.done_stages||0, total=h.total_stages||0;
+      let chip,cls,sub;
+      if(h.status==='submitted'){ chip='Προς αξιολόγηση'; cls='hwc-rev'; sub='Δες εργασία →'; }
+      else if(done>0){ chip='Σε εξέλιξη'; cls='hwc-prog'; sub=`${done}/${total} φωτογραφίες · Συνέχεια →`; }
+      else { chip='Απαιτείται'; cls='hwc-req'; sub='Δεν έχει υποβληθεί · Ξεκίνα →'; }
+      return `<div class="srow hwrow" data-att="${h.attempt_id}" data-title="${esc(h.title)}" data-instr="${esc(h.instructions||'')}">
+        <div class="sph" style="background:#241420;color:var(--accent)">🏠</div>
+        <span class="stt">${esc(h.title)} <span class="hwchip ${cls}">${chip}</span><small class="go">${sub}</small></span></div>`;
+    }).join('');
+    wrap.insertAdjacentHTML('beforeend', `<p class="over" style="margin-top:34px">ΕΡΓΑΣΙΕΣ ΓΙΑ ΤΟ ΣΠΙΤΙ · ${list.length}</p><div style="margin-top:12px">${rows}</div>`);
+    wrap.querySelectorAll('.hwrow').forEach(el=>el.onclick=()=>openHomework(el.dataset.att, el.dataset.title, el.dataset.instr));
+  }catch(e){}
+}
+async function signedMat(p){ if(!p) return null; if(/^https?:\/\//.test(p)) return p; try{ const {data}=await sb.storage.from('materials').createSignedUrl(p,3600); return data&&data.signedUrl||null;}catch(e){return null;} }
+function safeShopUrl(u){ return (u && /^https:\/\//i.test(u)) ? u : null; }
+async function appendMaterials(techId, container){
+  if(!techId) return;
+  try{
+    const {data}=await sb.from('lesson_materials').select('id,name,image_path,product_url,sort_order').eq('technique_id',techId).eq('is_active',true).order('sort_order');
+    const list=(data||[]).filter(m=>(m.name||'').trim());
+    if(!list.length) return;
+    const wrap=container||scroll.querySelector('.fade'); if(!wrap) return;
+    const cards=list.map(m=>{ const url=safeShopUrl(m.product_url);
+      const inner=`<div class="mimg" data-mimg="${m.id}"></div><div class="mnm">${esc(m.name)}</div>${url?'<div class="mlk">Δες στο e-shop →</div>':''}`;
+      return url
+        ? `<a class="matcard" href="${esc(url)}" target="_blank" rel="noopener noreferrer">${inner}</a>`
+        : `<div class="matcard">${inner}</div>`;
+    }).join('');
+    wrap.insertAdjacentHTML('beforeend', `<p class="over" style="margin-top:34px">ΥΛΙΚΑ ΠΟΥ ΧΡΗΣΙΜΟΠΟΙΗΣΑΜΕ</p><div class="matrow" style="margin-top:12px">${cards}</div>`);
+    list.forEach(async m=>{ if(!m.image_path)return; const u=await signedMat(m.image_path); if(!u)return; const el=wrap.querySelector(`[data-mimg="${m.id}"]`); if(el) el.style.backgroundImage=`url(${u})`; });
+  }catch(e){}
+}
+async function openHomework(att, title, instr){
+  WORK={attempt_id:att, title, instr:instr||'', back:viewToday};
+  setNav('today'); scroll.className='scroll'; scroll.innerHTML='<div class="spin"></div>';
+  try{
+    const stages=await loadStages(att); STAGES=stages;
+    let rows='';
+    for(const s of stages){ const has=!!s.submission_id; const u=has?await signed(s.photo_path):null;
+      rows+=`<div class="srow ${has?'done':''}" data-step="${s.step_id}">${has?`<div class="sthumb">${u?`<img src="${u}"/>`:''}</div>`:`<div class="sph">+</div>`}<span class="stt">${esc(s.title)}<small class="${has?'':'go'}">${has?'Ολοκληρώθηκε ✓':'Πρόσθεσε φωτογραφία →'}</small></span></div>`;
+    }
+    scroll.innerHTML=`<div class="fade"><button class="back" id="hw_bk">← Σήμερα</button>
+      <p class="over" style="margin-top:8px">🏠 Εργασία για το σπίτι</p>
+      <h2 style="margin-top:6px">${esc(title)}</h2>
+      ${instr?`<p class="role" style="margin-top:8px">${esc(instr)}</p>`:''}
+      <p class="over" style="margin-top:26px">Η εργασία σου</p>
+      <div style="margin-top:12px">${rows}</div>
+      <p class="mut" style="margin-top:20px;font-size:13px">Ανέβασε μία φωτογραφία σε κάθε στάδιο — από το σπίτι, όποτε θες.</p></div>`;
+    document.getElementById('hw_bk').onclick=()=>{ WORK=null; viewToday(); };
+    scroll.querySelectorAll('.srow[data-step]').forEach(el=>el.onclick=()=>{ PENDING=el.dataset.step; startUpload(); });
+  }catch(e){ WORK=null; viewToday(); }
+}
+async function openLatestReview(){
+  try{ const {data}=await sb.from('training_attempts').select('id').eq('status','reviewed').order('reviewed_at',{ascending:false}).limit(1);
+    if(data&&data[0]) attemptDetail(data[0].id, viewToday); else viewToday();
+  }catch(e){ viewToday(); }
+}
+async function attemptFeedback(id){ try{ const {data}=await sb.from('training_attempts').select('overall_feedback,overall_score,decision').eq('id',id).single(); return data||{}; }catch(e){ return {}; } }
+async function techFeedback(techId){ try{ const {data}=await sb.from('training_attempts').select('overall_feedback').eq('technique_id',techId).eq('status','reviewed').order('reviewed_at',{ascending:false}).limit(1); return (data&&data[0])||{}; }catch(e){ return {}; } }
+async function doCheckin(){
+  const b=document.getElementById('ci'); b.disabled=true; b.textContent="…";
+  try{
+    const { error } = await sb.rpc('student_check_in');
+    if(error){ b.disabled=false; b.textContent="Check in";
+      const msg = error.message==='no_open_session' ? "Το check-in δεν είναι διαθέσιμο αυτή την ώρα (εκτός ωραρίου μαθήματος)." : "Δεν έγινε το check-in — δοκίμασε ξανά.";
+      scroll.querySelector('.fade').insertAdjacentHTML('beforeend',`<div class="err">${msg}</div>`); return; }
+    viewToday();
+  }catch(e){ b.disabled=false; b.textContent="Check in"; }
+}
+async function _removed_startAttempt(){
+  try{
+    viewToday();
+  }catch(e){ showError("Δοκίμασε ξανά.", e); }
+}
+
+/* ================= STAGES ================= */
+async function loadStages(attemptId){
+  const { data, error } = await sb.rpc('student_attempt_stages',{ p_attempt:attemptId });
+  if(error) throw error;
+  return (data||[]).sort((a,b)=>a.order_index-b.order_index);
+}
+async function stageThumbs(stages, withScore){
+  const out=[];
+  for(const s of stages){ const u=await signed(s.photo_path);
+    out.push(`<div style="text-align:center"><div class="thumb" style="width:64px;height:64px">${u?`<img src="${u}"/>`:''}</div>
+      <div class="over" style="margin-top:5px;font-size:9px">${pad2(s.order_index)}${withScore&&s.score!=null?` · ${num1(s.score)}`:''}</div></div>`); }
+  return out.join('');
+}
+async function renderStages(head, tech){
+  STAGES = await loadStages(TODAY.attempt_id);
+  const total = STAGES.filter(s=>s.is_required).length;
+  const done = STAGES.filter(s=>s.submission_id).length;
+  let rows='';
+  for(const s of STAGES){
+    const has=!!s.submission_id; const u=has?await signed(s.photo_path):null;
+    rows+=`<div class="srow ${has?'done':''}" data-step="${s.step_id}">
+      ${has?`<div class="sthumb">${u?`<img src="${u}"/>`:''}</div>`:`<div class="sph">+</div>`}
+      <span class="stt">${esc(s.title)}<small class="${has?'':'go'}">${has?'Ολοκληρώθηκε ✓':'Πρόσθεσε φωτογραφία →'}</small></span></div>`;
+  }
+  scroll.innerHTML=`<div class="fade">${head}${tech}
+    ${learnLabelsHTML(TODAY.topics)}
+    <p class="over" style="margin-top:34px">Η εργασία σου</p>
+    <div style="margin-top:12px">${rows}</div>
+    <p class="mut" style="margin-top:20px;font-size:13px">Ανέβασε μία φωτογραφία σε κάθε στάδιο.</p>
+    </div>`;
+  wireLabelMore();
+  scroll.querySelectorAll('.srow').forEach(el=>el.onclick=()=>{ PENDING=el.dataset.step; startUpload(); });
+}
+
+/* ================= UPLOAD (per stage) ================= */
+function startUpload(){ fileInput.value=''; fileInput.click(); }
+fileInput.onchange = async () => {
+  const f=fileInput.files[0]; if(!f||!PENDING) return;
+  const step = STAGES.find(s=>s.step_id===PENDING);
+  scroll.innerHTML=`<div class="fade"><p class="over">Στάδιο ${pad2(step?step.order_index:'')} · ${esc(step?step.title:'')}</p><div class="spin"></div><p class="mut" style="text-align:center">Ετοιμάζω τη φωτογραφία…</p></div>`;
+  try{
+    const blob=await resize(f,1400,.82); const url=URL.createObjectURL(blob);
+    scroll.innerHTML=`<div class="fade"><button class="back" id="bk">← Στάδια</button>
+      <p class="over">Στάδιο ${pad2(step?step.order_index:'')} · ${esc(step?step.title:'')}</p>
+      <h2 style="margin-top:6px">Έτοιμη;</h2>
+      <div class="photo" style="margin-top:14px;min-height:280px"><img src="${url}"/></div>
+      <button class="cta" id="sub" style="margin-top:18px">Υποβολή σταδίου</button>
+      <button class="cta ghost" id="re" style="margin-top:10px">Άλλη φωτογραφία</button></div>`;
+    document.getElementById('bk').onclick=()=>{ if(WORK) openHomework(WORK.attempt_id,WORK.title,WORK.instr); else viewToday(); };
+    document.getElementById('re').onclick=startUpload;
+    document.getElementById('sub').onclick=()=>submitStage(blob, step);
+  }catch(e){ viewToday(); }
+};
+function resize(file,max,q){
+  return new Promise((res,rej)=>{
+    const img=new Image(); img.onload=()=>{
+      let w=img.width,h=img.height; if(Math.max(w,h)>max){const s=max/Math.max(w,h); w=Math.round(w*s); h=Math.round(h*s);}
+      const cv=document.createElement('canvas'); cv.width=w; cv.height=h; cv.getContext('2d').drawImage(img,0,0,w,h);
+      cv.toBlob(b=>b?res(b):rej(new Error('blob')),'image/jpeg',q);
+    }; img.onerror=rej; img.src=URL.createObjectURL(file);
+  });
+}
+async function submitStage(blob, step){
+  const b=document.getElementById('sub'); b.disabled=true; b.textContent="Ανεβάζω…";
+  try{
+    const attId = WORK?WORK.attempt_id:TODAY.attempt_id;
+    const path=`${S.student.academyId}/${S.student.id}/${attId}/${step.step_id}.jpg`;
+    const up=await sb.storage.from('submissions').upload(path, blob, { contentType:'image/jpeg', upsert:true });
+    if(up.error) throw up.error;
+    const { error } = await sb.rpc('student_record_stage',{ p_step:step.step_id, p_photo:path, p_thumb:null });
+    if(error) throw error;
+    PENDING=null;
+    if(WORK){ openHomework(WORK.attempt_id, WORK.title, WORK.instr); } else viewToday();
+  }catch(e){ b.disabled=false; b.textContent="Υποβολή σταδίου";
+    scroll.querySelector('.fade').insertAdjacentHTML('beforeend',`<div class="err">Δεν ανέβηκε — δοκίμασε ξανά.</div>`); }
+}
+
+/* ================= PROGRESS (curriculum checklist) ================= */
+async function viewProgress(){
+  setNav('progress'); scroll.className='scroll'; scroll.innerHTML='<div class="spin"></div>';
+  try{
+    const { data, error } = await sb.rpc('student_progress');
+    if(error){ if(error.message==='not_authenticated'){ localStorage.removeItem(LS); return showIdentify(); } throw error; }
+    const rows=(data||[]).slice().sort((a,b)=>(a.order_index||0)-(b.order_index||0));
+    const total=rows.length, completed=rows.filter(r=>r.status==='completed').length;
+    const pct=total?Math.round(completed/total*100):0;
+    const now=rows.find(r=>r.status==='in_progress');
+    const doneRows=rows.filter(r=>r.status==='completed');
+    const remaining=total-completed-(now?1:0);
+    const completedHTML=doneRows.map(r=>`<div class="lrow" data-tec="${r.technique_id}"><span class="ckc">✓</span><span class="lt">${esc(r.title)}</span>${r.best_score!=null?`<span class="score" style="color:var(--accent)">${num1(r.best_score)}</span>`:''}</div>`).join('');
+    const isEmpty = total>0 && completed===0 && !now;
+    scroll.innerHTML=`<div class="fade">
+      <p class="over">Πρόοδος</p>
+      <h1 style="margin-top:12px;font-size:27px">${completed} από ${total} ολοκληρωμένα</h1>
+      <div class="track"><i style="width:${pct}%"></i></div>
+      ${isEmpty?`
+        <div class="nowcard" style="text-align:center">
+          <h2 style="font-size:20px">Δεν έχεις ξεκινήσει ακόμη</h2>
+          <p class="role" style="margin-top:8px">Όταν η εκπαιδεύτριά σου σου αναθέσει την πρώτη τεχνική, θα εμφανιστεί εδώ η πρόοδός σου.</p>
+        </div>
+        <p class="over" style="margin-top:28px">Υπόλοιπη ύλη</p>
+        <div class="restrow"><span class="lt">${total} ${total===1?'τεχνική':'τεχνικές'}</span><button class="link" id="all">Δες την ύλη →</button></div>
+      `:`
+        ${now?`<div class="nowcard" data-tec="${now.technique_id}" style="cursor:pointer"><p class="over" style="color:var(--accent)">Τώρα</p><h2 style="font-size:22px;margin-top:8px">${esc(now.title)}</h2><p class="st" style="margin-top:6px">Σε εξέλιξη →</p></div>`:''}
+        ${doneRows.length?`<p class="over" style="margin-top:30px">Ολοκληρωμένα</p><div style="margin-top:4px">${completedHTML}</div>`:''}
+        ${remaining>0?`<div class="hair" style="margin-top:14px"></div><div class="restrow"><span class="lt mut">${remaining} ${remaining===1?'τεχνική απομένει':'τεχνικές απομένουν'}</span><button class="link" id="all">Δες όλη την ύλη →</button></div>`:''}
+      `}
+      <div class="spacer" style="height:28px"></div>
+      <button class="link" id="hist" style="color:var(--muted)">Δες το ιστορικό σου →</button>
+    </div>`;
+    const allBtn=document.getElementById('all'); if(allBtn) allBtn.onclick=()=>viewCurriculum(rows);
+    scroll.querySelectorAll('[data-tec]').forEach(el=>el.onclick=()=>viewTechniqueDetail(el.dataset.tec, viewProgress));
+    document.getElementById('hist').onclick=viewHistory;
+  }catch(e){ showError("Δεν μπόρεσα να φορτώσω την πρόοδο.", e); }
+}
+
+/* ================= FULL CURRICULUM (on demand) ================= */
+function viewCurriculum(rows){
+  setNav('progress'); scroll.className='scroll'; scroll.scrollTop=0;
+  const sorted=rows.slice().sort((a,b)=>(a.order_index||0)-(b.order_index||0));
+  const comp=sorted.filter(r=>r.status==='completed');
+  const prog=sorted.filter(r=>r.status==='in_progress');
+  const not=sorted.filter(r=>r.status==='not_started');
+  const cRow=r=>`<div class="lrow" data-tec="${r.technique_id}"><span class="ckc">✓</span><span class="lt">${esc(r.title)}</span>${r.best_score!=null?`<span class="score" style="color:var(--accent)">${num1(r.best_score)}</span>`:''}</div>`;
+  const pRow=r=>`<div class="lrow" data-tec="${r.technique_id}"><span class="ocirc prog"></span><span class="lt">${esc(r.title)}</span><span class="st tealx">Σε εξέλιξη</span></div>`;
+  const nRow=r=>`<div class="lrow dim" data-tec="${r.technique_id}"><span class="ocirc"></span><span class="lt">${esc(r.title)}</span></div>`;
+  const sect=(label,arr,rowFn,dim)=>arr.length?`<p class="over" style="margin-top:26px${dim?';opacity:.6':''}">${label} · ${arr.length}</p><div style="margin-top:4px">${arr.map(rowFn).join('')}</div>`:'';
+  scroll.innerHTML=`<div class="fade">
+    <button class="back" id="bk">← Πρόοδος</button>
+    <h1 style="font-size:27px">Όλη η ύλη</h1>
+    <p class="role">${sorted.length} τεχνικές</p>
+    ${sect('Ολοκληρωμένα',comp,cRow,false)}
+    ${sect('Σε εξέλιξη',prog,pRow,false)}
+    ${sect('Δεν έχουν ξεκινήσει',not,nRow,true)}
+  </div>`;
+  document.getElementById('bk').onclick=viewProgress;
+  scroll.querySelectorAll('[data-tec]').forEach(el=>el.onclick=()=>viewTechniqueDetail(el.dataset.tec, ()=>viewCurriculum(rows)));
+}
+
+/* ================= TECHNIQUE DETAIL (from curriculum) ================= */
+async function viewTechniqueDetail(techId, backFn){
+  setNav('progress'); scroll.className='scroll'; scroll.innerHTML='<div class="spin"></div>';
+  try{
+    const { data:d, error } = await sb.rpc('student_technique_detail',{ p_technique:techId }); if(error) throw error;
+    const [{data:tk},{data:clsA},{data:hws}] = await Promise.all([
+      sb.from('techniques').select('has_homework,homework_instructions').eq('id',techId).maybeSingle(),
+      sb.from('training_attempts').select('id,overall_score,lesson_final_score,lesson_final_feedback,reviewed_at').eq('technique_id',techId).eq('work_type','class').eq('status','reviewed').order('reviewed_at',{ascending:false}).limit(1),
+      sb.from('training_attempts').select('id,status,decision,overall_score,attempt_number,homework_instructions_snapshot').eq('technique_id',techId).eq('work_type','homework').order('attempt_number',{ascending:true})
+    ]);
+    const classAtt=(clsA&&clsA[0])||null;
+    const hwList=hws||[]; const hasHw=!!(tk&&tk.has_homework);
+    const hwDone = hwList.slice().reverse().find(a=>a.decision==='homework_done');
+    const finalScore = (classAtt&&classAtt.lesson_final_score!=null)?classAtt.lesson_final_score:null;
+    const finalFb = (classAtt&&classAtt.lesson_final_feedback)||'';
+    // class stage disclosure
+    const stages=d.stages||[]; const hasWork=stages.some(s=>s.photo_path||s.score!=null||s.feedback);
+    let stageHTML='';
+    for(const s of stages){ const u=s.photo_path?await signed(s.photo_path):null;
+      if(hasWork && (u||s.score!=null||s.feedback)){
+        stageHTML+=`<div style="margin-top:16px"><div class="rowc"><p class="over">${pad2(s.order_index)} · ${esc(s.title)}</p>${s.score!=null?`<span class="score" style="color:var(--accent)">${num1(s.score)}</span>`:''}</div><div class="photo" style="height:200px;margin-top:10px">${u?`<img src="${u}"/>`:'—'}</div>${s.feedback?`<p class="quote" style="margin-top:12px">“${esc(s.feedback)}”</p>`:''}</div>`;
+      } else { stageHTML+=`<div class="lrow"><span class="ln serifnum">${pad2(s.order_index)}</span><span class="lt">${esc(s.title)}</span></div>`; }
+    }
+    // header
+    const fullyDone = hasHw ? (finalScore!=null && !!hwDone) : (d.status==='completed');
+    let header;
+    if(fullyDone && finalScore!=null){
+      header=`<p class="over" style="margin-top:12px">Τελική αξιολόγηση</p><div class="bigscore">${num1(finalScore)} <span>/ 10</span></div>${finalFb?`<p class="over" style="margin-top:18px">Συνολικό σχόλιο</p><p class="revfb">“${esc(finalFb)}”</p>`:''}`;
+    } else if(hasHw && classAtt && !hwDone){
+      header=`<p class="st" style="margin-top:8px;color:#B8791F;font-weight:600">Εκκρεμεί εργασία για το σπίτι</p>`;
+    } else {
+      const stTxt=d.status==='completed'?'Ολοκληρώθηκε':(d.status==='in_progress'?'Σε εξέλιξη':'Δεν έχει ξεκινήσει');
+      header=`<p class="st" style="margin-top:8px;color:${d.status==='not_started'?'var(--muted)':'var(--accent)'};font-weight:600">${stTxt}</p>`;
+    }
+    // class section
+    const classBlock=`<p class="over" style="margin-top:26px">Εργασία στην τάξη</p>`+
+      (classAtt?`<div class="lrow" id="clsdet" style="cursor:pointer"><span class="lt">Αξιολογήθηκε</span><span style="display:flex;align-items:center;gap:10px"><span class="score" style="color:var(--accent)">${classAtt.overall_score!=null?num1(classAtt.overall_score):'—'}</span><span class="st tealx">Δες →</span></span></div>`
+        :`<p class="st" style="margin-top:6px;color:var(--muted)">${d.status==='in_progress'?'Σε εξέλιξη':'Δεν έχει ξεκινήσει'}</p>`);
+    // homework section
+    let hwBlock='';
+    if(hasHw){
+      hwBlock=`<p class="over" style="margin-top:26px">🏠 Εργασία για το σπίτι</p>`;
+      if(!classAtt){ hwBlock+=`<p class="st" style="margin-top:6px;color:var(--muted)">Θα ξεκλειδώσει μόλις ολοκληρωθεί η αξιολόγηση της τάξης.</p>`; }
+      else{
+        const cur=hwList.slice().reverse().find(a=>a.status!=='reviewed');
+        const repeatAtt=hwList.slice().reverse().find(a=>a.decision==='homework_repeat');
+        const instr=(cur&&cur.homework_instructions_snapshot)||(tk&&tk.homework_instructions)||'';
+        if(hwDone){
+          hwBlock+=`<div class="lrow hwdet" data-att="${hwDone.id}" style="cursor:pointer"><span class="lt">Αξιολογήθηκε</span><span style="display:flex;align-items:center;gap:10px"><span class="score" style="color:var(--accent)">${num1(hwDone.overall_score)}</span><span class="st tealx">Δες →</span></span></div>`;
+        } else if(cur && cur.status==='submitted'){
+          hwBlock+=`<p class="st" style="margin-top:6px;color:var(--muted)">Η εργασία υποβλήθηκε · περιμένει αξιολόγηση.</p>`;
+        } else if(cur){
+          if(repeatAtt) hwBlock+=`<p class="st" style="margin-top:6px;color:#B8791F;font-weight:600">Χρειάζεται επανάληψη · ${num1(repeatAtt.overall_score)}</p>`;
+          if(instr) hwBlock+=`<p class="st" style="margin-top:6px;color:var(--muted)">“${esc(instr)}”</p>`;
+          hwBlock+=`<button class="cta" id="hwgo" data-att="${cur.id}" style="margin-top:12px">${repeatAtt?'Νέα προσπάθεια':'Ανέβασε εργασία'}</button>`;
+        }
+        const prev=hwList.filter(a=>a.status==='reviewed');
+        if(prev.length>1){
+          hwBlock+=`<p class="over" style="margin-top:18px">Προηγούμενες προσπάθειες</p>`+prev.map(a=>`<div class="lrow hwdet" data-att="${a.id}" style="cursor:pointer"><span class="lt">Προσπάθεια ${a.attempt_number}<small style="display:block;color:var(--muted);font-size:12px">${a.decision==='homework_done'?'Ολοκληρώθηκε':'Χρειάζεται επανάληψη'}</small></span><span class="score">${a.overall_score!=null?num1(a.overall_score):'—'}</span></div>`).join('');
+        }
+      }
+    }
+    scroll.innerHTML=`<div class="fade">
+      <button class="back" id="bk">← Πίσω</button>
+      <h1 style="font-size:27px">${esc(d.title)}</h1>
+      ${header}
+      ${learnLabelsHTML(d.topics)}
+      ${classBlock}
+      ${stageHTML?`<details class="disc" style="margin-top:10px"><summary>Ανάλυση σταδίων τάξης</summary><div style="padding-bottom:8px">${stageHTML}</div></details>`:''}
+      ${hwBlock}
+    </div>`;
+    wireLabelMore();
+    document.getElementById('bk').onclick=backFn||viewProgress;
+    const cd=document.getElementById('clsdet'); if(cd&&classAtt) cd.onclick=()=>attemptDetail(classAtt.id, ()=>viewTechniqueDetail(techId,backFn));
+    scroll.querySelectorAll('.hwdet').forEach(el=>el.onclick=()=>attemptDetail(el.dataset.att, ()=>viewTechniqueDetail(techId,backFn)));
+    const hg=document.getElementById('hwgo'); if(hg) hg.onclick=()=>openHomework(hg.dataset.att, d.title, (tk&&tk.homework_instructions)||'');
+    await appendMaterials(techId);
+  }catch(e){ showError("Δεν μπόρεσα να φορτώσω την τεχνική.", e); }
+}
+
+/* ================= HISTORY (chronological) ================= */
+async function viewHistory(){
+  setNav('progress'); scroll.className='scroll'; scroll.innerHTML='<div class="spin"></div>';
+  try{
+    const { data, error } = await sb.rpc('student_history');
+    if(error) throw error;
+    const rows=data||[];
+    const groups={}; rows.forEach(r=>{ const d=r.session_date||'—'; (groups[d]=groups[d]||{date:d,items:[]}).items.push(r); });
+    const gk=Object.values(groups).sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+    const rightOf=r=>r.decision==='complete'?`<span class="score">${num1(r.overall_score)}</span>`:(r.status==='reviewed'?`<span class="score" style="color:var(--muted)">${num1(r.overall_score)}</span>`:(r.status==='submitted'?'<span class="st tealx">Αξιολογείται</span>':'<span class="st">Σε εξέλιξη</span>'));
+    const body=gk.map(g=>`<div style="margin-top:18px"><p class="over">${g.date&&g.date!=='—'?new Date(g.date+'T00:00:00').toLocaleDateString('el-GR',{weekday:'long',day:'2-digit',month:'long'}):'—'}</p>
+      <div style="margin-top:4px">${g.items.map(r=>`<div class="lrow" data-id="${r.attempt_id}"><span class="lt">${esc(r.technique)}<small style="display:block;color:var(--muted);font-size:12px;margin-top:2px">${r.decision==='complete'?'Ολοκληρώθηκε':(r.decision==='continue'?'Συνέχεια':'')}</small></span>${rightOf(r)}</div>`).join('')}</div></div>`).join('');
+    scroll.innerHTML=`<div class="fade">
+      <button class="back" id="bk">← Πρόοδος</button>
+      <p class="over">Ιστορικό</p><h1 style="margin-top:8px;font-size:28px">Τι δούλεψες</h1>
+      ${body||'<p class="role" style="margin-top:12px">Καμία εργασία ακόμη.</p>'}</div>`;
+    document.getElementById('bk').onclick=viewProgress;
+    scroll.querySelectorAll('.lrow[data-id]').forEach(el=>el.onclick=()=>attemptDetail(el.dataset.id, viewHistory));
+  }catch(e){ showError("Δεν μπόρεσα να φορτώσω το ιστορικό.", e); }
+}
+
+/* ================= ATTEMPT DETAIL ================= */
+async function attemptDetail(id, backFn){
+  setNav(false); scroll.className='scroll noNav'; scroll.innerHTML='<div class="spin"></div>';
+  const back=backFn||viewHistory;
+  try{
+    const stages = await loadStages(id);
+    let blocks='';
+    for(const s of stages){ const u=await signed(s.photo_path);
+      blocks+=`<div style="margin-top:20px">
+        <div class="rowc"><p class="over">${pad2(s.order_index)} · ${esc(s.title)}</p>${s.score!=null?`<span class="score" style="color:var(--accent)">${num1(s.score)}</span>`:''}</div>
+        <div class="photo" style="height:280px;margin-top:10px">${u?`<img src="${u}"/>`:'—'}</div>
+        ${s.feedback?`<p class="quote" style="margin-top:12px">“${esc(s.feedback)}”</p>`:''}</div>`;
+    }
+    const rev = await attemptFeedback(id);
+    let meta={}; try{ const {data:md}=await sb.from('training_attempts').select('technique_title_snapshot,work_type').eq('id',id).single(); meta=md||{}; }catch(e){}
+    const lessonName=meta.technique_title_snapshot||'';
+    const typeLabel=meta.work_type==='homework'?'Εργασία για το σπίτι':'Εργασία στην τάξη';
+    const revHead = rev.overall_score!=null ? `
+      <div class="rowc" style="align-items:center;margin-top:8px"><span class="revbadge">✓ Αξιολογήθηκε</span><span class="score" style="color:var(--accent);font-size:24px;line-height:1">${num1(rev.overall_score)} <span style="font-size:13px;color:var(--muted);font-weight:500">/ 10</span></span></div>
+      ${rev.overall_feedback?`<p class="over" style="margin-top:18px">Σχόλιο εκπαιδεύτριας</p><p class="revfb">“${esc(rev.overall_feedback)}”</p>`:''}
+      <p class="over" style="margin-top:24px">Τα στάδια</p>` : '';
+    scroll.innerHTML=`<div class="fade">
+      <button class="back" id="bk">← Πίσω</button>
+      <p class="over" style="margin-top:4px">${typeLabel}</p>
+      <h1 style="font-size:25px;margin-top:4px">${esc(lessonName||(rev.overall_score!=null?'Η αξιολόγησή σου':'Η εργασία σου'))}</h1>
+      ${revHead||'<div class="hair" style="margin-top:12px"></div>'}
+      ${blocks||'<p class="role">Χωρίς στάδια.</p>'}</div>`;
+    document.getElementById('bk').onclick=back;
+  }catch(e){ showError("Δεν μπόρεσα να φορτώσω την εργασία.", e); }
+}
+
+/* ================= PROFILE ================= */
+async function viewProfile(){
+  setNav('profile'); scroll.className='scroll'; scroll.innerHTML='<div class="spin"></div>';
+  try{
+    const { data, error } = await sb.rpc('student_profile');
+    if(error){ if(error.message==='not_authenticated'){ localStorage.removeItem(LS); return showIdentify(); } throw error; }
+    const p=(data&&data[0])||{};
+    const tot=p.curriculum_total||0;
+    scroll.innerHTML=`<div class="fade">
+      <p class="over">Προφίλ</p>
+      <h1 style="margin-top:12px">${esc(p.student_name||'')}</h1>
+      <p class="role" style="margin-top:6px">${esc(p.course_title||'')}</p>
+      <p class="role" style="margin-top:2px">${esc(p.academy_name||'')}</p>
+
+      <p class="over" style="margin-top:30px">Πρόοδος</p>
+      <div class="metaVal" style="margin-top:8px">${p.completed||0} από ${tot} ολοκληρωμένα</div>
+      <div class="track"><i style="width:${Math.round(((p.completed||0)/tot)*100)}%"></i></div>
+      <p class="role" style="margin-top:10px">${p.reviewed||0} ${(p.reviewed===1)?'αξιολογημένη':'αξιολογημένα'}</p>
+      <button class="link" id="hist" style="margin-top:14px;display:block">Δες όλη τη δουλειά σου →</button>
+
+      <p class="over" style="margin-top:30px">Στοιχεία</p>
+      <div style="margin-top:6px">
+        <div class="frow"><span class="mut">Email</span><span>${esc(p.email||'—')}</span></div>
+        <div class="frow"><span class="mut">Τηλέφωνο</span><span>${esc(p.phone||'—')}</span></div>
+        <div class="frow"><span class="mut">Μέλος από</span><span>${p.joined?esc(dmy(p.joined)):'—'}</span></div>
+      </div>
+
+      <div class="spacer" style="height:36px"></div>
+      <button class="link" id="out" style="color:var(--muted)">Αποσύνδεση</button>
+      <p class="plyla" style="margin-top:26px;padding-bottom:12px"><img class="lylamark" src="icons/lyla-mark.png" alt=""/> Powered by <b>Lyla</b></p>
+    </div>`;
+    document.getElementById('hist').onclick=viewHistory;
+    document.getElementById('out').onclick=async()=>{ try{ await sb.auth.signOut(); }catch(e){} localStorage.removeItem(LS); location.reload(); };
+  }catch(e){ showError("Δεν μπόρεσα να φορτώσω το προφίλ.", e); }
+}
+
+/* ================= ERROR ================= */
+function showError(msg,e){ if(e)console.error(e);
+  scroll.className='scroll noNav'; setNav(false);
+  scroll.innerHTML=`<div class="fade" style="text-align:center;margin-top:60px"><h2>Ουπς</h2><p class="mut" style="margin-top:8px">${esc(msg)}</p><button class="cta ghost" style="margin-top:18px" onclick="location.reload()">Δοκίμασε ξανά</button></div>`; }
+
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').then(reg=>{ try{reg.update();}catch(e){} }).catch(()=>{}));
+  let _reloaded=false;
+  navigator.serviceWorker.addEventListener('controllerchange',()=>{ if(_reloaded) return; _reloaded=true; location.reload(); });
+}
+setupPWAChrome(); startLive();
+boot();
+/* Branded splash: fade-in + subtle scale, hold, fade-out → Login. ~1.5–1.9s total. */
+(function(){
+  const START=performance.now(), MIN_MS=2250;
+  function dismiss(){ const s=document.getElementById('splash'); if(!s) return;
+    const wait=Math.max(0, MIN_MS-(performance.now()-START));
+    setTimeout(()=>{ s.classList.add('hide'); setTimeout(()=>s.remove(),560); }, wait);
+  }
+  if(document.readyState==='complete') dismiss();
+  else window.addEventListener('load', dismiss);
+})();
+</script>
+</body>
+</html>

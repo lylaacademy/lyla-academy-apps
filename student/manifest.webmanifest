@@ -1,0 +1,16 @@
+{
+  "name": "American Style Nails Academy",
+  "short_name": "ASNA Academy",
+  "description": "Η εκπαίδευση και η πρόοδός σου στην American Style Nails Academy.",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#17141C",
+  "theme_color": "#F5F2EC",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
