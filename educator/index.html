@@ -396,6 +396,13 @@
 const SB_URL="https://fjfwpxcbqvtxmqffprnx.supabase.co";
 const SB_KEY="sb_publishable_UXgEdtio8nwWJMgwKBvQww_rU4UCKFa";
 const sb=supabase.createClient(SB_URL,SB_KEY);
+/* passwordless: μπες μόλις υπάρχει έγκυρο session (π.χ. μετά το magic-link click) */
+let _entered=false;
+sb.auth.onAuthStateChange((event, ses)=>{
+  if(ses && ses.user && !_entered && (event==='SIGNED_IN'||event==='INITIAL_SESSION'||event==='TOKEN_REFRESHED')){
+    _entered=true; claimAndEnter(ses.user.email);
+  }
+});
 /* ---- error reporter → Telegram (Make webhook) + client_errors log ---- */
 const ERR_HOOK="https://hook.eu1.make.com/tu0hj4dekyjei5bob1c8jvjrvpcq3ex6", APP_NAME="educator";
 const _errSeen={};
@@ -430,9 +437,9 @@ function showError(m,e){ if(e)console.error(e); setNav(E?'today':false); scroll.
 async function boot(){
   try{
     const {data:{session}}=await sb.auth.getSession();
-    if(session && session.user){ await claimAndEnter(session.user.email); return; }
-    const s=JSON.parse(localStorage.getItem(LS)||"null");
-    if(s && s.educatorId){ E=s; await loadOwner(); viewToday(); return; }
+    if(session && session.user){ if(!_entered){ _entered=true; await claimAndEnter(session.user.email); } return; }
+    /* κανένα ενεργό session → ΔΕΝ δείχνουμε την εφαρμογή με παλιό cache· καθαρίζουμε & ζητάμε σύνδεση */
+    localStorage.removeItem(LS);
     login();
   }catch(e){ showError("Πρόβλημα σύνδεσης."); }
 }
