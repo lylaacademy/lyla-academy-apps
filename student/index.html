@@ -594,9 +594,10 @@ async function doCheckin(){
     const { error } = await sb.rpc('student_check_in');
     if(error){ b.disabled=false; b.textContent="Check in";
       const msg = error.message==='no_open_session' ? "Το check-in δεν είναι διαθέσιμο αυτή την ώρα (εκτός ωραρίου μαθήματος)." : "Δεν έγινε το check-in — δοκίμασε ξανά.";
+      if(error.message!=='no_open_session'){ try{ reportErr('check-in: '+(error.message||error.code||'σφάλμα'), JSON.stringify(error)); }catch(_){} }
       scroll.querySelector('.fade').insertAdjacentHTML('beforeend',`<div class="err">${msg}</div>`); return; }
     viewToday();
-  }catch(e){ b.disabled=false; b.textContent="Check in"; }
+  }catch(e){ b.disabled=false; b.textContent="Check in"; try{ reportErr('check-in: '+(e.message||e.code||'σφάλμα'), e&&(e.stack||JSON.stringify(e))); }catch(_){} }
 }
 async function _removed_startAttempt(){
   try{
@@ -678,7 +679,8 @@ async function submitStage(blob, step){
     PENDING=null;
     if(WORK){ openHomework(WORK.attempt_id, WORK.title, WORK.instr); } else viewToday();
   }catch(e){ b.disabled=false; b.textContent="Υποβολή σταδίου";
-    scroll.querySelector('.fade').insertAdjacentHTML('beforeend',`<div class="err">Δεν ανέβηκε — δοκίμασε ξανά.</div>`); }
+    scroll.querySelector('.fade').insertAdjacentHTML('beforeend',`<div class="err">Δεν ανέβηκε — δοκίμασε ξανά.</div>`);
+    try{ reportErr('stage submit: '+(e.message||e.details||e.code||'σφάλμα'), e&&(e.stack||JSON.stringify(e))); }catch(_){} }
 }
 
 /* ================= PROGRESS (curriculum checklist) ================= */
@@ -912,7 +914,7 @@ async function viewProfile(){
 }
 
 /* ================= ERROR ================= */
-function showError(msg,e){ if(e)console.error(e);
+function showError(msg,e){ if(e){ console.error(e); try{ reportErr((msg||'σφάλμα')+' — '+(e.message||e.details||e.hint||e.code||e), e&&(e.stack||JSON.stringify(e))); }catch(_){} }
   scroll.className='scroll noNav'; setNav(false);
   scroll.innerHTML=`<div class="fade" style="text-align:center;margin-top:60px"><h2>Ουπς</h2><p class="mut" style="margin-top:8px">${esc(msg)}</p><button class="cta ghost" style="margin-top:18px" onclick="location.reload()">Δοκίμασε ξανά</button></div>`; }
 
