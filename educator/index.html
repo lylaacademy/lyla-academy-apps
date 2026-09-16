@@ -429,7 +429,7 @@ const num1=v=>(v==null?'':Number(v).toFixed(1));
 const pad2=n=>String(n).padStart(2,'0');
 async function signed(p){ if(!p)return null; if(/^https?:\/\//.test(p))return p;
   try{const{data}=await sb.storage.from('submissions').createSignedUrl(p,3600);return data&&data.signedUrl||null;}catch(e){return null;} }
-function showError(m,e){ if(e)console.error(e); setNav(E?'today':false); scroll.className='scroll';
+function showError(m,e){ if(e){ console.error(e); try{ reportErr((m||'σφάλμα')+' — '+(e.message||e.details||e.hint||e.code||e), e&&(e.stack||JSON.stringify(e))); }catch(_){} } setNav(E?'today':false); scroll.className='scroll';
   scroll.innerHTML=`<div class="fade" style="margin-top:40px"><h2>Ουπς</h2><p class="role">${esc(m)}</p><button class="link" style="margin-top:14px" onclick="viewToday()">Δοκίμασε ξανά</button></div>`; }
 
 async function boot(){
@@ -1053,7 +1053,7 @@ async function submitHomeworkReview(decision){
     if(error) throw error;
     RV.list=RV.list.filter(a=>a.id!==A.id); E._pend=RV.list.length; localStorage.setItem(LS,JSON.stringify(E));
     if(RV.list.length){ openReview(RV.list[0].id); } else { viewReviews(); }
-  }catch(e){ btns.forEach(b=>b.disabled=false); errBox.innerHTML='<div class="err">Δεν αποθηκεύτηκε — δοκίμασε ξανά.</div>'; console.error(e); }
+  }catch(e){ btns.forEach(b=>b.disabled=false); errBox.innerHTML='<div class="err">Δεν αποθηκεύτηκε — δοκίμασε ξανά.</div>'; console.error(e); try{ reportErr('review save: '+(e.message||e.details||e.code||'σφάλμα'), e&&(e.stack||JSON.stringify(e))); }catch(_){} }
 }
 function refreshOverall(){
   const A=RV.att; const scored=A.stages.filter(s=>s.score!=null); const box=document.getElementById('overallBox');
@@ -1076,7 +1076,7 @@ async function submitReview(decision){
     RV.list=RV.list.filter(a=>a.id!==A.id); E._pend=RV.list.length; localStorage.setItem(LS,JSON.stringify(E));
     if(decision==='complete'){ eduToast('✓ Ολοκληρώθηκε'); }
     if(RV.list.length){ openReview(RV.list[0].id); } else { viewReviews(); }
-  }catch(e){ btns.forEach(b=>b.disabled=false); errBox.innerHTML='<div class="err">Δεν αποθηκεύτηκε — δοκίμασε ξανά.</div>'; console.error(e); }
+  }catch(e){ btns.forEach(b=>b.disabled=false); errBox.innerHTML='<div class="err">Δεν αποθηκεύτηκε — δοκίμασε ξανά.</div>'; console.error(e); try{ reportErr('review save: '+(e.message||e.details||e.code||'σφάλμα'), e&&(e.stack||JSON.stringify(e))); }catch(_){} }
 }
 let CN=null;
 async function completeAndChooseNext(A){
@@ -2118,7 +2118,7 @@ async function createSeminar(){
       if(rows.length){ const {error:sse}=await sb.from('sessions').insert(rows); if(sse) throw sse; }
     }
     W=null; seminarDetail(cohort.id,'techniques');
-  }catch(e){ btn.disabled=false; btn.textContent='Δημιουργία σεμιναρίου'; document.getElementById('w_err').innerHTML='<div class="err">Δεν δημιουργήθηκε: '+esc(e.message||'σφάλμα')+'</div>'; console.error(e); }
+  }catch(e){ btn.disabled=false; btn.textContent='Δημιουργία σεμιναρίου'; document.getElementById('w_err').innerHTML='<div class="err">Δεν δημιουργήθηκε: '+esc(e.message||'σφάλμα')+'</div>'; console.error(e); try{ reportErr('createSeminar: '+(e.message||e.details||e.code||'σφάλμα'), e&&(e.stack||JSON.stringify(e))); }catch(_){} }
 }
 
 /* live refresh — new submissions / reviews appear without exit-reenter */
