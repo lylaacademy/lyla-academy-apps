@@ -1,5 +1,5 @@
 /* American Style Nails Academy — educator PWA service worker */
-const CACHE = 'asna-educator-v34';
+const CACHE = 'asna-educator-v35';
 const ASSETS = ['./', './index.html', './manifest.webmanifest',
   './icons/icon-192.png', './icons/icon-512.png', './icons/apple-touch-icon.png', './icons/favicon-32.png'];
 self.addEventListener('install', e => {

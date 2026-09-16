@@ -396,9 +396,6 @@
 const SB_URL="https://fjfwpxcbqvtxmqffprnx.supabase.co";
 const SB_KEY="sb_publishable_UXgEdtio8nwWJMgwKBvQww_rU4UCKFa";
 const sb=supabase.createClient(SB_URL,SB_KEY);
-/* password recovery: όταν η educator ανοίξει το link του email, δείξε οθόνη «Νέος κωδικός» */
-let RECOVERING=false;
-sb.auth.onAuthStateChange((event)=>{ if(event==='PASSWORD_RECOVERY'){ RECOVERING=true; try{ login(null,'reset'); }catch(e){} } });
 /* ---- error reporter → Telegram (Make webhook) + client_errors log ---- */
 const ERR_HOOK="https://hook.eu1.make.com/tu0hj4dekyjei5bob1c8jvjrvpcq3ex6", APP_NAME="educator";
 const _errSeen={};
@@ -432,10 +429,11 @@ function showError(m,e){ if(e)console.error(e); setNav(E?'today':false); scroll.
 
 async function boot(){
   try{
-    if(RECOVERING || /type=recovery/.test(location.hash)){ login(null,'reset'); return; }
     const {data:{session}}=await sb.auth.getSession();
+    if(session && session.user){ await claimAndEnter(session.user.email); return; }
     const s=JSON.parse(localStorage.getItem(LS)||"null");
-    if(session && s && s.educatorId){ E=s; await loadOwner(); viewToday(); } else login();
+    if(s && s.educatorId){ E=s; await loadOwner(); viewToday(); return; }
+    login();
   }catch(e){ showError("Πρόβλημα σύνδεσης."); }
 }
 
@@ -489,8 +487,7 @@ function startEduLive(){
 }
 
 /* ---------- AUTH ---------- */
-function login(msg,mode){ mode=mode||'in'; setNav(false); scroll.className='scroll noNav';
-  const isReset=mode==='reset', isUp=mode==='up';
+function login(msg){ setNav(false); scroll.className='scroll noNav';
   scroll.innerHTML=`<div class="fade" style="max-width:420px;margin:6vh auto 0">
     <div class="brandarea">
       <div class="wm">
@@ -499,41 +496,36 @@ function login(msg,mode){ mode=mode||'in'; setNav(false); scroll.className='scro
     </div>
     <p class="over" style="margin-top:14px;text-align:center">EDUCATOR</p>
     <div class="brandsep">— ✦ —</div>
-    <h1 style="margin-top:4px;text-align:center">${isReset?'Νέος κωδικός':isUp?'Όρισε κωδικό':'Σύνδεση'}</h1>
-    <p class="role" style="text-align:center">${isReset?'Όρισε νέο κωδικό για τον λογαριασμό σου.':isUp?'Πρώτη φορά — όρισε τον κωδικό σου.':'Email & κωδικός.'}</p>
-    ${isReset?'':`<div class="field"><input id="em" type="email" placeholder="email" autocapitalize="none" autocomplete="email"/></div>`}
-    <div class="field"><input id="pw" type="password" placeholder="${isUp||isReset?'Νέος κωδικός (6+)':'Κωδικός'}" autocomplete="${isUp||isReset?'new-password':'current-password'}"/></div>
+    <h1 style="margin-top:4px;text-align:center">Σύνδεση</h1>
+    <p class="role" style="text-align:center">Βάλε το email σου — σου στέλνουμε σύνδεσμο εισόδου. Χωρίς κωδικό.</p>
+    <div class="field"><input id="em" type="email" placeholder="email" autocapitalize="none" autocomplete="email"/></div>
     ${msg?`<div class="err">${esc(msg)}</div>`:''}
-    <button class="cta full" id="go" style="margin-top:16px">${isReset?'Αποθήκευση →':isUp?'Δημιουργία →':'Είσοδος →'}</button>
-    ${isReset?`<p class="link" id="tog" style="text-align:center;margin-top:16px">Ακύρωση</p>`
-      :`<p class="link" id="tog" style="text-align:center;margin-top:16px">${isUp?'Έχεις κωδικό; Σύνδεση':'Πρώτη φορά; Όρισε κωδικό'}</p>${isUp?'':`<p class="link" id="forgot" style="text-align:center;margin-top:10px;opacity:.85">Ξέχασα τον κωδικό;</p>`}`}
-    </div>`;
-  document.getElementById('go').onclick=()=> isReset?doReset():doAuth(mode);
-  document.getElementById('tog').onclick=()=> isReset?login(null,'in'):login(null,isUp?'in':'up');
-  const fg=document.getElementById('forgot'); if(fg) fg.onclick=forgotPw;
-  document.getElementById('pw').addEventListener('keydown',e=>{if(e.key==='Enter'){ isReset?doReset():doAuth(mode); }});
+    <button class="cta full" id="go" style="margin-top:16px">Στείλε μου σύνδεσμο →</button></div>`;
+  document.getElementById('go').onclick=sendMagic;
+  document.getElementById('em').addEventListener('keydown',e=>{if(e.key==='Enter')sendMagic();});
 }
-async function forgotPw(){
-  const em=((document.getElementById('em')||{}).value||'').trim();
-  if(!em){ login("Γράψε πρώτα το email σου.",'in'); setTimeout(()=>{try{document.getElementById('em').focus();}catch(e){}},60); return; }
-  try{ const {error}=await sb.auth.resetPasswordForEmail(em,{redirectTo:location.origin+location.pathname});
-    if(error) throw error;
-    login("Σου στείλαμε email με σύνδεσμο για νέο κωδικό. Δες και τα spam.",'in');
-  }catch(e){ login("Δεν στάλθηκε το email — δοκίμασε ξανά.",'in'); }
-}
-async function doReset(){
-  const pw=(document.getElementById('pw').value||''); if(pw.length<6){ login("Ο κωδικός θέλει 6+ χαρακτήρες.",'reset'); return; }
+async function sendMagic(){
+  const em=(document.getElementById('em').value||'').trim();
+  if(!em || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){ login("Βάλε ένα σωστό email."); return; }
   const b=document.getElementById('go'); b.disabled=true; b.textContent="…";
   try{
-    const {error}=await sb.auth.updateUser({password:pw});
-    if(error){ login("Σφάλμα: "+(error.message||''),'reset'); return; }
-    RECOVERING=false; try{ history.replaceState(null,'',location.pathname); }catch(e){}
-    const {data:{session}}=await sb.auth.getSession();
-    const em=session&&session.user&&session.user.email;
-    if(em){ const {data}=await sb.rpc('claim_educator',{p_email:em});
-      if(data&&data.length){ const r=data[0]; E={educatorId:r.educator_id,name:r.educator_name,academyId:r.academy_id,academyName:r.academy_name,logo:r.academy_logo,accent:r.accent}; localStorage.setItem(LS,JSON.stringify(E)); await loadOwner(); viewToday(); return; } }
-    login("Ο κωδικός άλλαξε! Κάνε σύνδεση.",'in');
-  }catch(e){ login("Πρόβλημα — δοκίμασε ξανά.",'reset'); }
+    const {error}=await sb.auth.signInWithOtp({email:em,options:{emailRedirectTo:location.origin+location.pathname}});
+    if(error){ login("Σφάλμα: "+(error.message||'')); return; }
+    setNav(false); scroll.className='scroll noNav';
+    scroll.innerHTML=`<div class="fade" style="max-width:420px;margin:12vh auto 0;text-align:center">
+      <h1>Έλεγξε το email σου 📧</h1>
+      <p class="role" style="margin-top:12px">Σου στείλαμε σύνδεσμο εισόδου στο <b>${esc(em)}</b>.<br>Άνοιξέ τον <b>από αυτή τη συσκευή</b> και μπαίνεις κατευθείαν — χωρίς κωδικό.<br><br>(Δες και τα spam / promotions.)</p>
+      <button class="link" style="margin-top:18px" onclick="login()">← Πίσω</button></div>`;
+  }catch(e){ login("Δεν στάλθηκε — δοκίμασε ξανά."); }
+}
+async function claimAndEnter(email){
+  try{
+    const {data,error}=await sb.rpc('claim_educator',{p_email:email});
+    if(error||!data||!data.length){ await sb.auth.signOut(); localStorage.removeItem(LS); login("Αυτό το email δεν είναι educator."); return; }
+    const r=data[0]; E={educatorId:r.educator_id,name:r.educator_name,academyId:r.academy_id,academyName:r.academy_name,logo:r.academy_logo,accent:r.accent};
+    localStorage.setItem(LS,JSON.stringify(E)); try{ history.replaceState(null,'',location.pathname); }catch(e){}
+    await loadOwner(); viewToday();
+  }catch(e){ login("Πρόβλημα σύνδεσης."); }
 }
 async function doAuth(mode){
   const em=document.getElementById('em').value.trim(), pw=document.getElementById('pw').value; if(!em||!pw)return;
