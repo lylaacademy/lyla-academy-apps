@@ -399,7 +399,14 @@ const sb=supabase.createClient(SB_URL,SB_KEY);
 /* login με τηλέφωνο (όπως οι μαθήτριες): ανώνυμη σύνδεση Supabase + δέσιμο στο staff row */
 async function ensureSession(){
   const {data:{session}}=await sb.auth.getSession();
-  if(!session){ const {error}=await sb.auth.signInAnonymously(); if(error) throw error; }
+  if(session) return;
+  let lastErr;
+  for(let i=0;i<3;i++){
+    try{ const {error}=await sb.auth.signInAnonymously(); if(!error) return; lastErr=error; }
+    catch(e){ lastErr=e; }
+    await new Promise(r=>setTimeout(r, 700*(i+1)));
+  }
+  throw lastErr||new Error('sign-in failed');
 }
 /* ---- error reporter → Telegram (Make webhook) + client_errors log ---- */
 const ERR_HOOK="https://hook.eu1.make.com/tu0hj4dekyjei5bob1c8jvjrvpcq3ex6", APP_NAME="educator";
@@ -407,7 +414,7 @@ const _errSeen={};
 function reportErr(message, ctx){
   try{
     message=String(message||'').slice(0,400); if(!message) return;
-    if(/ServiceWorker|sw\.js|ResizeObserver loop/i.test(message)) return; // ignore SW/deploy + benign noise
+    if(!message || /^Script error\.?$/i.test(message) || /ServiceWorker|sw\.js|ResizeObserver loop|Load failed|Failed to fetch|NetworkError/i.test(message)) return; // ignore cross-origin/network noise + SW/deploy
     const key=message.slice(0,120), now=Date.now();
     if(_errSeen[key] && now-_errSeen[key]<60000) return; _errSeen[key]=now;
     const at=new Date().toISOString(), url=location.href, ua=navigator.userAgent, context=ctx?String(ctx).slice(0,300):'';
