@@ -1299,7 +1299,7 @@ async function studentProfile(id, enrId, ctx){
   }catch(e){ showError("Δεν φόρτωσε το προφίλ.",e); }
 }
 function currentEnr(){ return SP.enrs.find(e=>e.id===SP.enr) || SP.enrs[0]; }
-function renderProfileShell(){
+function renderProfileShell(skipTab){
   const st=SP.st, ce=currentEnr();
   const crumb = (SP.ctx&&SP.ctx.seminar)
     ? `<span class="crumb"><a onclick="viewSeminars()">Σεμινάρια</a> / <a onclick="seminarDetail('${SP.ctx.seminar.cohortId}','students')">${esc(SP.ctx.seminar.courseTitle||'')}</a> / <b>${esc(st.name)}</b></span>`
@@ -1321,6 +1321,7 @@ function renderProfileShell(){
   document.getElementById('sp_back').onclick=()=> ((SP.ctx&&SP.ctx.back)? SP.ctx.back(): viewStudents());
   { const m=document.getElementById('sp_menu'); if(m) m.onclick=toggleProfileMenu; }
   document.querySelectorAll('#sp_tabs button').forEach(b=>b.onclick=()=>{ SP.tab=b.dataset.t; renderProfileShell(); });
+  if(skipTab) return;
   renderProfileTab();
 }
 function toggleProfileMenu(){
@@ -1328,8 +1329,8 @@ function toggleProfileMenu(){
   box.innerHTML=`<div class="menu"><button data-a="details">Στοιχεία μαθήτριας</button><button data-a="edit">Επεξεργασία στοιχείων</button><button data-a="enroll">Διαχείριση εγγραφής</button><button data-a="archive" class="mamber">Αρχειοθέτηση μαθήτριας</button><button data-a="del" class="mred">Διαγραφή μαθήτριας</button></div>`;
   box.querySelectorAll('button').forEach(b=>b.onclick=()=>{ box.innerHTML=''; const a=b.dataset.a;
     if(a==='details'){ studentDetailsSheet(); }
-    else if(a==='edit'){ SP.tab='overview'; renderProfileShell(); setTimeout(editStudent,30); }
-    else if(a==='enroll'){ SP.tab='overview'; renderProfileShell(); setTimeout(profileEnrollments,30); }
+    else if(a==='edit'){ SP.tab='overview'; renderProfileShell(true); editStudent(); }
+    else if(a==='enroll'){ SP.tab='overview'; renderProfileShell(true); profileEnrollments(); }
     else if(a==='archive'){ archiveStudent(); }
     else if(a==='del'){ deleteStudentAnon(); } });
 }
@@ -1346,7 +1347,7 @@ function studentDetailsSheet(){
   document.body.appendChild(el);
   el.onclick=(e)=>{ if(e.target===el) closeConfirm(); };
   document.getElementById('cs_close').onclick=closeConfirm;
-  document.getElementById('cs_edit').onclick=()=>{ closeConfirm(); SP.tab='overview'; renderProfileShell(); setTimeout(editStudent,30); };
+  document.getElementById('cs_edit').onclick=()=>{ closeConfirm(); SP.tab='overview'; renderProfileShell(true); editStudent(); };
 }
 async function generateActivationCode(){
   try{
