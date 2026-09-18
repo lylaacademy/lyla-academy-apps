@@ -476,8 +476,9 @@ function setNav(active){
     <div class="sidefoot"><div class="sideacc"><div class="av">${initials(E&&E.name)}</div><div><b>${esc((E&&E.name)||'Educator')}</b><span onclick="logout()">Έξοδος</span></div></div>
       <p class="plyla">Powered by <b>Lyla</b></p></div>`;
   side.querySelectorAll('.navitem').forEach(b=>b.onclick=()=>route(b.dataset.t));
-  nav.innerHTML=NAV.map(([k,l,m])=>`<button class="tab ${active===k?'on':''}" data-t="${k}"><svg viewBox="0 0 22 22">${ICONS[k]}</svg><span>${m}${k==='reviews'&&p?`<span class="badge">${p}</span>`:''}</span></button>`).join('');
-  nav.querySelectorAll('.tab').forEach(b=>b.onclick=()=>route(b.dataset.t));
+  nav.innerHTML=NAV.map(([k,l,m])=>`<button class="tab ${active===k?'on':''}" data-t="${k}"><svg viewBox="0 0 22 22">${ICONS[k]}</svg><span>${m}${k==='reviews'&&p?`<span class="badge">${p}</span>`:''}</span></button>`).join('')
+    +`<button class="tab" data-t="__logout"><svg viewBox="0 0 22 22"><path d="M9 4H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M13 8l3.5 3-3.5 3M16.5 11H9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>ΕΞΟΔΟΣ</span></button>`;
+  nav.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{ if(b.dataset.t==='__logout'){ if(confirm('Αποσύνδεση;')) logout(); } else route(b.dataset.t); });
 }
 function route(t){ if(t==='today')viewToday(); else if(t==='seminars')viewSeminars(); else if(t==='students')viewStudents(); else viewReviews(); }
 async function loadOwner(){ try{ const {data}=await sb.rpc('is_owner'); E._owner=!!data; }catch(e){ E._owner=false; } }
