@@ -1511,9 +1511,12 @@ function editStudent(){
     const first=spVal('ed_first'), last=spVal('ed_last'), phone=spVal('ed_phone'), email=spVal('ed_email'), notes=spVal('ed_notes');
     const name=(first+' '+last).trim()||first||st.name;
     const b=document.getElementById('ed_save'); b.disabled=true; b.textContent='Αποθήκευση…';
-    try{ const {error}=await sb.from('students').update({first_name:first||null,last_name:last||null,name,phone:phone||null,email:email||null,notes:notes||null}).eq('id',SP.id); if(error) throw error;
+    try{ const rec={first_name:first||null,last_name:last||null,name,phone:phone||null,email:email||null,notes:notes||null};
+      let {error}=await sb.from('students').update(rec).eq('id',SP.id);
+      if(error && await staffRetry(error)){ ({error}=await sb.from('students').update(rec).eq('id',SP.id)); }
+      if(error) throw error;
       SP.st={...st,first_name:first,last_name:last,name,phone,email,notes}; renderProfileShell();
-    }catch(e){ b.disabled=false; b.textContent='Αποθήκευση'; document.getElementById('ed_err').innerHTML='<div class="err">Δεν αποθηκεύτηκε.</div>'; }
+    }catch(e){ b.disabled=false; b.textContent='Αποθήκευση'; document.getElementById('ed_err').innerHTML='<div class="err">Δεν αποθηκεύτηκε — δοκίμασε ξανά.</div>'; try{ reportErr('student save: '+(e.message||e.details||e.code||'σφάλμα'), e&&(e.stack||JSON.stringify(e))); }catch(_){} }
   };
 }
 async function addEnrollment(){
@@ -2024,9 +2027,12 @@ function studentCreate(ctx){
         document.getElementById('dup_enroll').onclick=()=>enrollThen(ctx,dup.id,dup.name);
         return;
       }
-      const {data:stu,error}=await sb.from('students').insert({academy_id:E.academyId,name,first_name:first||null,last_name:last||null,phone:phone||null,email:email||null}).select('id').single(); if(error) throw error;
+      const rec={academy_id:E.academyId,name,first_name:first||null,last_name:last||null,phone:phone||null,email:email||null};
+      let {data:stu,error}=await sb.from('students').insert(rec).select('id').single();
+      if(error && await staffRetry(error)){ ({data:stu,error}=await sb.from('students').insert(rec).select('id').single()); }
+      if(error) throw error;
       enrollThen(ctx, stu.id, name);
-    }catch(e){ b.disabled=false; b.textContent=ctx.cohortId?'Δημιουργία & εγγραφή':'Δημιουργία & συνέχεια'; document.getElementById('sa_err').innerHTML='<div class="err">Δεν προστέθηκε.</div>'; }
+    }catch(e){ b.disabled=false; b.textContent=ctx.cohortId?'Δημιουργία & εγγραφή':'Δημιουργία & συνέχεια'; document.getElementById('sa_err').innerHTML='<div class="err">Δεν προστέθηκε — δοκίμασε ξανά.</div>'; try{ reportErr('student add: '+(e.message||e.details||e.code||'σφάλμα'), e&&(e.stack||JSON.stringify(e))); }catch(_){} }
   };
 }
 async function studentPick(ctx){
