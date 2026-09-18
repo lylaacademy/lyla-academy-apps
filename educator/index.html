@@ -262,6 +262,8 @@
   .botnav{position:fixed;left:0;right:0;bottom:0;height:74px;background:var(--paper);border-top:1px solid var(--hair);display:flex;align-items:flex-start;justify-content:space-around;padding:11px 6px 0;max-width:520px;margin:0 auto;z-index:20}
   .tab{display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;color:var(--muted);flex:1;border:none;background:none;font-family:var(--sans)}
   .tab.on{color:var(--accent)} .tab svg{width:22px;height:22px}
+  .mlogout{flex:none;background:var(--surface);border:1px solid var(--hair);color:var(--muted);border-radius:999px;padding:8px 15px;font-family:var(--sans);font-size:12.5px;font-weight:600;cursor:pointer;margin-top:4px}
+  @media(min-width:900px){ .mlogout{display:none} }
   .tab span{font-size:9px;font-weight:500;letter-spacing:.2px;position:relative} .tab.on span{font-weight:600}
   .tab .badge{position:absolute;top:-3px;right:-14px;background:var(--accent);color:#fff;border-radius:8px;font-size:10px;font-weight:600;padding:0 5px}
   .spin{width:26px;height:26px;border:3px solid var(--hair);border-top-color:var(--accent);border-radius:50%;animation:sp 1s linear infinite;margin:70px auto}
@@ -476,9 +478,8 @@ function setNav(active){
     <div class="sidefoot"><div class="sideacc"><div class="av">${initials(E&&E.name)}</div><div><b>${esc((E&&E.name)||'Educator')}</b><span onclick="logout()">Έξοδος</span></div></div>
       <p class="plyla">Powered by <b>Lyla</b></p></div>`;
   side.querySelectorAll('.navitem').forEach(b=>b.onclick=()=>route(b.dataset.t));
-  nav.innerHTML=NAV.map(([k,l,m])=>`<button class="tab ${active===k?'on':''}" data-t="${k}"><svg viewBox="0 0 22 22">${ICONS[k]}</svg><span>${m}${k==='reviews'&&p?`<span class="badge">${p}</span>`:''}</span></button>`).join('')
-    +`<button class="tab" data-t="__logout"><svg viewBox="0 0 22 22"><path d="M9 4H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M13 8l3.5 3-3.5 3M16.5 11H9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>ΕΞΟΔΟΣ</span></button>`;
-  nav.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{ if(b.dataset.t==='__logout'){ if(confirm('Αποσύνδεση;')) logout(); } else route(b.dataset.t); });
+  nav.innerHTML=NAV.map(([k,l,m])=>`<button class="tab ${active===k?'on':''}" data-t="${k}"><svg viewBox="0 0 22 22">${ICONS[k]}</svg><span>${m}${k==='reviews'&&p?`<span class="badge">${p}</span>`:''}</span></button>`).join('');
+  nav.querySelectorAll('.tab').forEach(b=>b.onclick=()=>route(b.dataset.t));
 }
 function route(t){ if(t==='today')viewToday(); else if(t==='seminars')viewSeminars(); else if(t==='students')viewStudents(); else viewReviews(); }
 async function loadOwner(){ try{ const {data}=await sb.rpc('is_owner'); E._owner=!!data; }catch(e){ E._owner=false; } }
@@ -625,7 +626,7 @@ async function viewToday(opts){
     if(!chosen) chosen=cohorts.find(c=>c.status==='active')||cohorts[0];
     CUR.cohort=chosen;
     await refreshPending(); setNav('today');
-    if(!chosen){ scroll.innerHTML=`<div class="fade"><h1>Σήμερα</h1><p class="role">Δεν υπάρχουν σεμινάρια ακόμη.</p><button class="cta sm" style="margin-top:16px" onclick="wizard()">+ Νέο Σεμινάριο</button></div>`; return; }
+    if(!chosen){ scroll.innerHTML=`<div class="fade"><div class="row" style="align-items:flex-start"><h1>Σήμερα</h1><button class="mlogout" onclick="if(confirm('Αποσύνδεση;'))logout()">Έξοδος</button></div><p class="role">Δεν υπάρχουν σεμινάρια ακόμη.</p><button class="cta sm" style="margin-top:16px" onclick="wizard()">+ Νέο Σεμινάριο</button></div>`; return; }
 
     const {data:rows,error}=await sb.rpc('educator_today',{p_cohort:chosen.id}); if(error) throw error;
     const list=rows||[];
@@ -682,7 +683,7 @@ async function viewToday(opts){
     const chosenName = todayList.length>1 ? `<p class="metaline" style="margin-top:2px">${esc(chosen.course||'')}${chosen.name?' · '+esc(chosen.name):''}</p>` : '';
 
     scroll.innerHTML=`<div class="fade maxwd">
-      <h1 style="margin-top:2px">Σήμερα</h1>
+      <div class="row" style="align-items:flex-start"><h1 style="margin-top:2px">Σήμερα</h1><button class="mlogout" onclick="if(confirm('Αποσύνδεση;'))logout()">Έξοδος</button></div>
       <p class="metaline" style="text-transform:capitalize">${esc(dayLabel)}</p>
       ${cohortChips}
       ${chosenName}
