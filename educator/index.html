@@ -445,13 +445,15 @@ async function boot(){
     const saved=JSON.parse(localStorage.getItem(LS)||"null");
     if(saved && saved.educatorId){
       E=saved;
-      if(saved.phone) rebind(saved.phone);   /* σιωπηλό re-bind του anon uid → περνάνε τα RLS στα writes */
+      if(saved.phone) await rebind(saved.phone);   /* ΠΕΡΙΜΕΝΕ το re-bind του anon uid πριν φορτώσουμε staff δεδομένα → όχι not_staff */
       await loadOwner(); viewToday(); return;
     }
     login();
   }catch(e){ showError("Πρόβλημα σύνδεσης."); }
 }
-async function rebind(phone){ try{ await sb.rpc('educator_login_by_phone',{p_phone:phone}); }catch(e){} }
+async function rebind(phone){ try{ const {data}=await sb.rpc('educator_login_by_phone',{p_phone:phone}); return !!(data&&data.length); }catch(e){ return false; } }
+/* αν κάποιο staff RPC βγάλει not_staff (π.χ. η σύνδεση δέθηκε σε άλλη συσκευή), ξαναδένουμε & ξαναδοκιμάζουμε 1 φορά */
+async function staffRetry(err){ if(E&&E.phone && /not_staff|not_authenticated/i.test((err&&err.message)||'')){ return await rebind(E.phone); } return false; }
 
 /* ---------- NAV ---------- */
 const ICONS={
@@ -1234,7 +1236,9 @@ const normtext=s=>(s||'').toString().toLowerCase().normalize('NFD').replace(/[̀
 async function viewStudents(){
   setNav('students'); scroll.className='scroll'; scroll.innerHTML='<div class="spin"></div>';
   try{
-    const {data,error}=await sb.rpc('educator_students',{p_academy:E.academyId}); if(error) throw error;
+    let {data,error}=await sb.rpc('educator_students',{p_academy:E.academyId});
+    if(error && await staffRetry(error)){ ({data,error}=await sb.rpc('educator_students',{p_academy:E.academyId})); }
+    if(error) throw error;
     ST.list=data||[];
     ST.grouped=groupStudents(ST.list);
     scroll.innerHTML=`<div class="fade maxw"><div class="row" style="align-items:flex-start"><div><p class="over">${esc(E.academyName||'')}</p><h1 style="margin-top:10px">Μαθήτριες</h1>
