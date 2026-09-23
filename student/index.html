@@ -78,6 +78,18 @@
   .photo{width:100%;background:var(--hair);border-radius:12px;overflow:hidden;display:flex;align-items:center;justify-content:center;
          color:var(--muted);font-size:11px;letter-spacing:1.4px;font-weight:500}
   .photo img{width:100%;height:100%;object-fit:cover;display:block}
+  /* photo-source chooser sheet */
+  .sheetwrap{position:fixed;inset:0;z-index:80;display:flex;align-items:flex-end;justify-content:center;background:rgba(4,4,7,.62);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+  .sheet{width:100%;max-width:440px;background:var(--surface);border:1px solid var(--hair);border-bottom:0;border-radius:22px 22px 0 0;padding:14px 14px calc(16px + env(safe-area-inset-bottom));box-shadow:0 -18px 50px rgba(0,0,0,.5);animation:sheetUp .22s cubic-bezier(.2,.8,.3,1)}
+  @keyframes sheetUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+  .sheet-h{font-weight:600;font-size:14px;text-align:center;color:var(--muted);padding:6px 0 14px}
+  .sheet-opt{display:flex;align-items:center;gap:14px;width:100%;border:1px solid var(--hair);background:var(--paper);border-radius:15px;padding:15px;margin-bottom:11px;text-align:left;cursor:pointer;color:var(--ink);transition:border-color .15s,background .15s}
+  .sheet-opt:active{background:var(--accent-tint);border-color:var(--accent)}
+  .sheet-opt .soi{font-size:22px;width:44px;height:44px;display:grid;place-items:center;background:var(--hair);border-radius:12px;flex:0 0 44px}
+  .sheet-opt .sot{display:block}
+  .sheet-opt b{display:block;font-size:15.5px;font-weight:600;color:var(--ink)}
+  .sheet-opt small{display:block;color:var(--muted);font-size:12.5px;margin-top:2px}
+  .sheet-cancel{width:100%;border:1px solid var(--hair);background:transparent;border-radius:15px;padding:14px;font-weight:600;font-size:15px;color:var(--ink);cursor:pointer;font-family:var(--sans);margin-top:2px}
   .thumb{width:56px;height:56px;border-radius:10px;flex:none;background:var(--hair);overflow:hidden}
   .thumb img{width:100%;height:100%;object-fit:cover}
   /* stage rows */
@@ -228,7 +240,16 @@
   <div class="scroll" id="scroll"><div class="spin"></div></div>
   <div class="nav" id="nav" style="display:none"></div>
 </div>
-<input type="file" id="file" accept="image/*" capture="environment" style="display:none"/>
+<input type="file" id="fileCam" accept="image/*" capture="environment" style="display:none"/>
+<input type="file" id="fileLib" accept="image/*,.heic,.heif,.heif-sequence,.heic-sequence" style="display:none"/>
+<div id="picker" class="sheetwrap" style="display:none" role="dialog" aria-modal="true" aria-label="Πρόσθεσε φωτογραφία">
+  <div class="sheet">
+    <div class="sheet-h">Πρόσθεσε φωτογραφία</div>
+    <button type="button" class="sheet-opt" id="optCam"><span class="soi">📷</span><span class="sot"><b>Λήψη φωτογραφίας</b><small>Άνοιξε την κάμερα</small></span></button>
+    <button type="button" class="sheet-opt" id="optLib"><span class="soi">🖼️</span><span class="sot"><b>Επιλογή από τη συλλογή</b><small>Διάλεξε από τις φωτογραφίες σου</small></span></button>
+    <button type="button" class="sheet-cancel" id="optCancel">Άκυρο</button>
+  </div>
+</div>
 <div id="offbar">Χωρίς σύνδεση — κάποια στοιχεία μπορεί να μην είναι ενημερωμένα.</div>
 <div id="toast"><span class="ti">✨</span><div><b id="toast_t">Νέα αξιολόγηση!</b><span id="toast_s">Δες το feedback →</span></div></div>
 
@@ -258,7 +279,9 @@ window.addEventListener('unhandledrejection',e=>{ const r=e&&e.reason; reportErr
 const LS = "lyla_academy_student_v2";
 const scroll = document.getElementById('scroll');
 const nav = document.getElementById('nav');
-const fileInput = document.getElementById('file');
+const fileCam = document.getElementById('fileCam');
+const fileLib = document.getElementById('fileLib');
+const picker  = document.getElementById('picker');
 
 let S = { student:null };   // {id,name,email,academyId,cohortId,course,identifier}
 let TODAY = null;           // cached student_today row
@@ -653,31 +676,67 @@ async function renderStages(head, tech){
 }
 
 /* ================= UPLOAD (per stage) ================= */
-function startUpload(){ fileInput.value=''; fileInput.click(); }
-fileInput.onchange = async () => {
-  const f=fileInput.files[0]; if(!f||!PENDING) return;
+/* Πρόσθεσε φωτογραφία → chooser: κάμερα ή συλλογή. Και οι δύο καταλήγουν στο ίδιο preview. */
+function startUpload(){ openPicker(); }
+
+function openPicker(){
+  picker.style.display='flex';
+  document.body.style.overflow='hidden';
+}
+function closePicker(){
+  picker.style.display='none';
+  document.body.style.overflow='';
+}
+function pick(input){
+  closePicker();
+  input.value='';           // επιτρέπει επανεπιλογή του ίδιου αρχείου
+  input.click();
+}
+document.getElementById('optCam').onclick   = ()=> pick(fileCam);
+document.getElementById('optLib').onclick   = ()=> pick(fileLib);
+document.getElementById('optCancel').onclick= closePicker;
+picker.addEventListener('click', e=>{ if(e.target===picker) closePicker(); });
+
+async function onPicked(input){
+  const f=input.files && input.files[0]; input.value='';
+  if(!f || !PENDING) return;
   const step = STAGES.find(s=>s.step_id===PENDING);
   scroll.innerHTML=`<div class="fade"><p class="over">Στάδιο ${pad2(step?step.order_index:'')} · ${esc(step?step.title:'')}</p><div class="spin"></div><p class="mut" style="text-align:center">Ετοιμάζω τη φωτογραφία…</p></div>`;
-  try{
-    const blob=await resize(f,1400,.82); const url=URL.createObjectURL(blob);
+  let blob;
+  try{ blob=await resize(f,1600,.85); }
+  catch(e){
+    // Μη επεξεργάσιμη εικόνα (π.χ. HEIC σε συσκευή που δεν το αποκωδικοποιεί)
     scroll.innerHTML=`<div class="fade"><button class="back" id="bk">← Στάδια</button>
-      <p class="over">Στάδιο ${pad2(step?step.order_index:'')} · ${esc(step?step.title:'')}</p>
-      <h2 style="margin-top:6px">Έτοιμη;</h2>
-      <div class="photo" style="margin-top:14px;min-height:280px"><img src="${url}"/></div>
-      <button class="cta" id="sub" style="margin-top:18px">Υποβολή σταδίου</button>
-      <button class="cta ghost" id="re" style="margin-top:10px">Άλλη φωτογραφία</button></div>`;
+      <h2 style="margin-top:6px">Δεν μπόρεσα να διαβάσω τη φωτογραφία</h2>
+      <p class="mut" style="margin-top:8px">Δοκίμασε άλλη φωτογραφία ή τράβα μια νέα με την κάμερα.</p>
+      <button class="cta" id="re" style="margin-top:18px">Δοκίμασε ξανά</button></div>`;
     document.getElementById('bk').onclick=()=>{ if(WORK) openHomework(WORK.attempt_id,WORK.title,WORK.instr); else viewToday(); };
     document.getElementById('re').onclick=startUpload;
-    document.getElementById('sub').onclick=()=>submitStage(blob, step);
-  }catch(e){ viewToday(); }
-};
+    return;
+  }
+  const url=URL.createObjectURL(blob);
+  scroll.innerHTML=`<div class="fade"><button class="back" id="bk">← Στάδια</button>
+    <p class="over">Στάδιο ${pad2(step?step.order_index:'')} · ${esc(step?step.title:'')}</p>
+    <h2 style="margin-top:6px">Έτοιμη;</h2>
+    <div class="photo" style="margin-top:14px;min-height:280px"><img src="${url}"/></div>
+    <button class="cta" id="sub" style="margin-top:18px">Υποβολή σταδίου</button>
+    <button class="cta ghost" id="re" style="margin-top:10px">Άλλη φωτογραφία</button></div>`;
+  document.getElementById('bk').onclick=()=>{ if(WORK) openHomework(WORK.attempt_id,WORK.title,WORK.instr); else viewToday(); };
+  document.getElementById('re').onclick=startUpload;   // ξανα-άνοιγμα chooser (αλλαγή/αφαίρεση)
+  document.getElementById('sub').onclick=()=>submitStage(blob, step);
+}
+fileCam.onchange = ()=> onPicked(fileCam);
+fileLib.onchange = ()=> onPicked(fileLib);
+
 function resize(file,max,q){
   return new Promise((res,rej)=>{
     const img=new Image(); img.onload=()=>{
-      let w=img.width,h=img.height; if(Math.max(w,h)>max){const s=max/Math.max(w,h); w=Math.round(w*s); h=Math.round(h*s);}
+      let w=img.width,h=img.height;
+      if(!w||!h){ rej(new Error('dims')); return; }
+      if(Math.max(w,h)>max){const s=max/Math.max(w,h); w=Math.round(w*s); h=Math.round(h*s);}
       const cv=document.createElement('canvas'); cv.width=w; cv.height=h; cv.getContext('2d').drawImage(img,0,0,w,h);
       cv.toBlob(b=>b?res(b):rej(new Error('blob')),'image/jpeg',q);
-    }; img.onerror=rej; img.src=URL.createObjectURL(file);
+    }; img.onerror=()=>rej(new Error('decode')); img.src=URL.createObjectURL(file);
   });
 }
 async function submitStage(blob, step){
