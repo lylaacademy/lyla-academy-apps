@@ -300,9 +300,11 @@ const num1 = v => (v==null?'':Number(v).toFixed(1));
 async function signed(path){ if(!path) return null; if(/^https?:\/\//.test(path)) return path; try{ const {data}=await sb.storage.from('submissions').createSignedUrl(path,3600); return data&&data.signedUrl||null;}catch(e){return null;} }
 
 function inAppBrowser(){ return /Instagram|FBAN|FBAV|FB_IAB|FBIOS|Messenger|Line\/|TikTok|Snapchat/i.test(navigator.userAgent||''); }
-async function ensureSession(){
-  const { data:{ session } } = await sb.auth.getSession();
-  if(session) return;
+async function ensureSession(force){
+  if(!force){
+    const { data:{ session } } = await sb.auth.getSession();
+    if(session) return;
+  }
   let lastErr;
   for(let i=0;i<3;i++){
     try{ const { error } = await sb.auth.signInAnonymously(); if(!error) return; lastErr=error; }
@@ -310,6 +312,14 @@ async function ensureSession(){
     await new Promise(r=>setTimeout(r, 700*(i+1)));
   }
   throw lastErr||new Error('sign-in failed');
+}
+// Ανιχνεύει σφάλματα λήξης session / RLS ώστε να ξανα-συνδεθούμε και να ξαναδοκιμάσουμε.
+function isAuthish(e){
+  if(!e) return false;
+  const m=((e.message||e.error||e.details||'')+'').toLowerCase();
+  const c=e.statusCode||e.status||e.code;
+  return /row-level|row level|jwt|not authenticated|unauthor|permission denied|403|401/.test(m)
+      || c==401 || c==403 || c==='401' || c==='403' || c==='42501';
 }
 function setNav(active){
   if(!active){ nav.style.display='none'; return; }
@@ -742,16 +752,29 @@ function resize(file,max,q){
 async function submitStage(blob, step){
   const b=document.getElementById('sub'); b.disabled=true; b.textContent="Ανεβάζω…";
   try{
+    await ensureSession();                       // φρέσκο session πριν το γράψιμο (self-heal ληγμένου token)
     const attId = WORK?WORK.attempt_id:TODAY.attempt_id;
     const path=`${S.student.academyId}/${S.student.id}/${attId}/${step.step_id}.jpg`;
-    const up=await sb.storage.from('submissions').upload(path, blob, { contentType:'image/jpeg', upsert:true });
+    const opts={ contentType:'image/jpeg', upsert:true };
+    let up=await sb.storage.from('submissions').upload(path, blob, opts);
+    if(up.error && isAuthish(up.error)){         // λήξη session → ξανα-login & μία επανάληψη
+      await ensureSession(true);
+      up=await sb.storage.from('submissions').upload(path, blob, opts);
+    }
     if(up.error) throw up.error;
-    const { error } = await sb.rpc('student_record_stage',{ p_step:step.step_id, p_photo:path, p_thumb:null });
-    if(error) throw error;
+    let r=await sb.rpc('student_record_stage',{ p_step:step.step_id, p_photo:path, p_thumb:null });
+    if(r.error && isAuthish(r.error)){
+      await ensureSession(true);
+      r=await sb.rpc('student_record_stage',{ p_step:step.step_id, p_photo:path, p_thumb:null });
+    }
+    if(r.error) throw r.error;
     PENDING=null;
     if(WORK){ openHomework(WORK.attempt_id, WORK.title, WORK.instr); } else viewToday();
   }catch(e){ b.disabled=false; b.textContent="Υποβολή σταδίου";
-    scroll.querySelector('.fade').insertAdjacentHTML('beforeend',`<div class="err">Δεν ανέβηκε — δοκίμασε ξανά.</div>`);
+    const msg = isAuthish(e)
+      ? 'Έληξε η σύνδεση. Τράβα τη σελίδα προς τα κάτω για ανανέωση και δοκίμασε ξανά.'
+      : 'Δεν ανέβηκε — δοκίμασε ξανά.';
+    scroll.querySelector('.fade').insertAdjacentHTML('beforeend',`<div class="err">${msg}</div>`);
     try{ reportErr('stage submit: '+(e.message||e.details||e.code||'σφάλμα'), e&&(e.stack||JSON.stringify(e))); }catch(_){} }
 }
 
