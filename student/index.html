@@ -321,6 +321,17 @@ function isAuthish(e){
   return /row-level|row level|jwt|not authenticated|unauthor|permission denied|403|401/.test(m)
       || c==401 || c==403 || c==='401' || c==='403' || c==='42501';
 }
+// Εξασφαλίζει ότι το ΤΡΕΧΟΝ auth.uid() (anonymous) είναι συνδεδεμένο με τον μαθητή.
+// Το anon uid μπορεί να αλλάξει (λήξη/χαμένο session) — το link (student_auth_links)
+// ξαναδημιουργείται idempotent μέσω τηλεφώνου. Χωρίς αυτό, current_student_id()=NULL
+// και το RLS policy κόβει το upload/RPC ("new row violates row-level security policy").
+async function ensureLink(){
+  try{
+    var phone = S.student && S.student.identifier;
+    if(!phone) return;
+    await sb.rpc('student_login_by_phone', { p_phone: phone });
+  }catch(e){ /* μη μπλοκάρεις τη ροή — αν όντως λείπει, θα φανεί στο submit */ }
+}
 function setNav(active){
   if(!active){ nav.style.display='none'; return; }
   nav.style.display='flex';
@@ -342,6 +353,7 @@ async function boot(){
     const saved = JSON.parse(localStorage.getItem(LS)||"null");
     if(saved && saved.id){
       S.student = saved;
+      await ensureLink();                 // ξανα-σύνδεση anon uid ↔ student για το ΤΡΕΧΟΝ session
       if(!saved.email){ return showProfileComplete(); }
       return viewToday();
     }
@@ -752,19 +764,20 @@ function resize(file,max,q){
 async function submitStage(blob, step){
   const b=document.getElementById('sub'); b.disabled=true; b.textContent="Ανεβάζω…";
   try{
-    await ensureSession();                       // φρέσκο session πριν το γράψιμο (self-heal ληγμένου token)
+    await ensureSession();                       // έγκυρο session
+    await ensureLink();                           // ΚΑΙ εγγύηση ότι το uid είναι linked με τον μαθητή
     const attId = WORK?WORK.attempt_id:TODAY.attempt_id;
     const path=`${S.student.academyId}/${S.student.id}/${attId}/${step.step_id}.jpg`;
     const opts={ contentType:'image/jpeg', upsert:true };
     let up=await sb.storage.from('submissions').upload(path, blob, opts);
-    if(up.error && isAuthish(up.error)){         // λήξη session → ξανα-login & μία επανάληψη
-      await ensureSession(true);
+    if(up.error && isAuthish(up.error)){         // RLS → ξανα-σύνδεση link (ΟΧΙ νέο anon) & μία επανάληψη
+      await ensureSession(); await ensureLink();
       up=await sb.storage.from('submissions').upload(path, blob, opts);
     }
     if(up.error) throw up.error;
     let r=await sb.rpc('student_record_stage',{ p_step:step.step_id, p_photo:path, p_thumb:null });
     if(r.error && isAuthish(r.error)){
-      await ensureSession(true);
+      await ensureSession(); await ensureLink();
       r=await sb.rpc('student_record_stage',{ p_step:step.step_id, p_photo:path, p_thumb:null });
     }
     if(r.error) throw r.error;
