@@ -253,6 +253,17 @@
 <div id="offbar">Χωρίς σύνδεση — κάποια στοιχεία μπορεί να μην είναι ενημερωμένα.</div>
 <div id="toast"><span class="ti">✨</span><div><b id="toast_t">Νέα αξιολόγηση!</b><span id="toast_s">Δες το feedback →</span></div></div>
 
+<style>
+  /* Terms acceptance screen */
+  .tcheck{display:flex;gap:12px;align-items:flex-start;margin-top:24px;cursor:pointer;user-select:none;position:relative}
+  .tcheck input{position:absolute;opacity:0;width:1px;height:1px}
+  .tcheck .tbox{flex:none;width:24px;height:24px;border:1.6px solid var(--hair);border-radius:7px;background:var(--surface);display:flex;align-items:center;justify-content:center;transition:background .15s,border-color .15s}
+  .tcheck input:checked + .tbox{background:var(--accent);border-color:var(--accent)}
+  .tcheck input:checked + .tbox::after{content:"";width:6px;height:11px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg);margin-top:-2px}
+  .tcheck input:focus-visible + .tbox{box-shadow:0 0 0 3px var(--glow)}
+  .tcheck .ttext{font-size:14.5px;line-height:1.5;color:var(--ink)}
+  .tcheck .ttext a{color:var(--accent);font-weight:600;text-decoration:none}
+</style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 /* ================= CONFIG (Lyla Academy Supabase) ================= */
@@ -277,6 +288,12 @@ window.addEventListener('error',e=>{ reportErr((e&&e.message)||'script error', e
 window.addEventListener('unhandledrejection',e=>{ const r=e&&e.reason; reportErr((r&&(r.message||r))||'unhandledrejection', r&&r.stack?String(r.stack):''); });
 
 const LS = "lyla_academy_student_v2";
+
+/* ===== Terms of Use + Privacy acceptance (one config place) ===== */
+const TERMS_EFFECTIVE_DATE  = "2026-10-15";   // από αυτή την ημ/νία & μετά επιβάλλεται ο έλεγχος (ενεργό άμεσα)
+const CURRENT_TERMS_VERSION = "v1";
+const TERMS_URL   = "oroi.html";               // Όροι Χρήσης
+const PRIVACY_URL = "aporrito.html";           // Πολιτική Απορρήτου
 const scroll = document.getElementById('scroll');
 const nav = document.getElementById('nav');
 const fileCam = document.getElementById('fileCam');
@@ -344,7 +361,91 @@ function setNav(active){
   nav.innerHTML = tab('today','ΣΗΜΕΡΑ')+tab('progress','ΠΡΟΟΔΟΣ')+tab('profile','ΠΡΟΦΙΛ');
   nav.querySelectorAll('.tab').forEach(t=>t.onclick=()=>go(t.dataset.tab));
 }
-function go(tab){ if(tab==='today') viewToday(); else if(tab==='progress') viewProgress(); else if(tab==='profile') viewProfile(); }
+function go(tab){
+  // route protection: όσο εκκρεμεί η αποδοχή όρων (v1), καμία πλοήγηση σε σελίδα της εφαρμογής
+  if(termsBlockedCached()) return showTerms();
+  if(tab==='today') viewToday(); else if(tab==='progress') viewProgress(); else if(tab==='profile') viewProfile();
+}
+
+/* ================= TERMS OF USE + PRIVACY GATE ================= */
+// Είναι σε ισχύ ο έλεγχος σήμερα; (ημ/νία Αθήνας >= effective date)
+function termsActive(){
+  const today = new Date().toLocaleDateString('en-CA',{ timeZone:'Europe/Athens' }); // YYYY-MM-DD
+  return today >= TERMS_EFFECTIVE_DATE;
+}
+// Συγχρονισμένος έλεγχος από cache (για guards πλοήγησης). Η αλήθεια έρχεται από τη ΒΔ στο boot.
+function termsBlockedCached(){
+  return termsActive() && !!(S.student) && S.student.terms_version !== CURRENT_TERMS_VERSION;
+}
+// Φέρνει από τη ΒΔ (source of truth) την έκδοση όρων που έχει αποδεχτεί ο μαθητής.
+// Επιστρέφει: string έκδοση, null (δεν έχει αποδεχτεί), ή undefined (σφάλμα/δίκτυο → άγνωστο).
+async function fetchTermsVersion(){
+  try{
+    let res = await sb.rpc('student_terms_status');
+    if(res.error && isAuthish(res.error)){ await ensureSession(); await ensureLink(); res = await sb.rpc('student_terms_status'); }
+    if(res.error) throw res.error;
+    const row = Array.isArray(res.data) ? res.data[0] : res.data;
+    return row ? (row.terms_version || null) : null;
+  }catch(e){ reportErr('terms status: '+(e.message||e.code||'σφάλμα')); return undefined; }
+}
+// Χρειάζεται να δείξουμε την οθόνη όρων; (κάνει fetch από ΒΔ αν δεν ξέρουμε ήδη)
+async function needTerms(){
+  if(!termsActive()) return false;                                   // πριν την effective date: ποτέ block
+  if(S.student && S.student.terms_version === CURRENT_TERMS_VERSION) return false; // ήδη αποδεκτό (cache)
+  const v = await fetchTermsVersion();
+  if(v === undefined) return false;                                  // σφάλμα δικτύου → fail-open (ξαναελέγχεται)
+  if(S.student) S.student.terms_version = v;
+  try{ const saved=JSON.parse(localStorage.getItem(LS)||'null'); if(saved){ saved.terms_version=v; localStorage.setItem(LS, JSON.stringify(saved)); } }catch(_){}
+  return v !== CURRENT_TERMS_VERSION;
+}
+// Κεντρικό σημείο εισόδου στην εφαρμογή για authenticated μαθητή.
+async function enterApp(){
+  if(await needTerms()) return showTerms();
+  if(!S.student.email) return showProfileComplete();
+  return viewToday();
+}
+function showTerms(){
+  setNav(null);
+  scroll.className='scroll noNav';
+  scroll.innerHTML = `<div class="fade">
+    <p class="over">American Style Nails Academy</p>
+    <h1 style="margin-top:14px">Πριν συνεχίσεις</h1>
+    <p class="role" style="margin-top:10px;line-height:1.5">Για να συνεχίσεις να χρησιμοποιείς την εφαρμογή ASNA Educator, χρειάζεται να διαβάσεις και να αποδεχτείς τους Όρους Χρήσης και την Πολιτική Απορρήτου.</p>
+    <label class="tcheck">
+      <input type="checkbox" id="tchk"/>
+      <span class="tbox"></span>
+      <span class="ttext">Έχω διαβάσει και αποδέχομαι τους <a href="${TERMS_URL}" target="_blank" rel="noopener">Όρους Χρήσης</a> και την <a href="${PRIVACY_URL}" target="_blank" rel="noopener">Πολιτική Απορρήτου</a>.</span>
+    </label>
+    <div id="terr"></div>
+    <button class="cta" id="tacc" style="margin-top:22px" disabled>Αποδοχή και συνέχεια</button>
+    <button class="link" id="tout" style="margin-top:18px;display:block;margin-left:auto;margin-right:auto">Αποσύνδεση</button>
+  </div>`;
+  const chk=document.getElementById('tchk'), acc=document.getElementById('tacc');
+  chk.addEventListener('change',()=>{ acc.disabled = !chk.checked; });
+  acc.onclick=acceptTerms;
+  document.getElementById('tout').onclick=doLogout;
+}
+async function acceptTerms(){
+  const chk=document.getElementById('tchk'); if(!chk || !chk.checked) return;
+  const b=document.getElementById('tacc'); b.disabled=true; b.textContent='Αποθήκευση…';
+  try{
+    await ensureSession(); await ensureLink();
+    let res = await sb.rpc('student_accept_terms',{ p_version: CURRENT_TERMS_VERSION });
+    if(res.error && isAuthish(res.error)){ await ensureSession(); await ensureLink(); res = await sb.rpc('student_accept_terms',{ p_version: CURRENT_TERMS_VERSION }); }
+    if(res.error) throw res.error;
+    if(S.student) S.student.terms_version = CURRENT_TERMS_VERSION;
+    try{ const saved=JSON.parse(localStorage.getItem(LS)||'null'); if(saved){ saved.terms_version=CURRENT_TERMS_VERSION; localStorage.setItem(LS, JSON.stringify(saved)); } }catch(_){}
+    enterApp();   // μπαίνει αμέσως, χωρίς νέο login
+  }catch(e){ b.disabled=false; b.textContent='Αποδοχή και συνέχεια';
+    document.getElementById('terr').innerHTML='<div class="err">Δεν αποθηκεύτηκε — δοκίμασε ξανά.</div>';
+    reportErr('accept terms: '+(e.message||e.code||'σφάλμα')); }
+}
+function doLogout(){
+  try{ localStorage.removeItem(LS); }catch(_){}
+  try{ sb.auth.signOut(); }catch(_){}
+  S.student=null; TODAY=null;
+  showIdentify();
+}
 
 /* ================= BOOT ================= */
 async function boot(){
@@ -354,8 +455,7 @@ async function boot(){
     if(saved && saved.id){
       S.student = saved;
       await ensureLink();                 // ξανα-σύνδεση anon uid ↔ student για το ΤΡΕΧΟΝ session
-      if(!saved.email){ return showProfileComplete(); }
-      return viewToday();
+      return enterApp();                  // route protection: έλεγχος αποδοχής όρων πριν την πρόσβαση
     }
     showIdentify();
   }catch(e){
@@ -396,8 +496,7 @@ async function doIdentify(){
     const r=(data&&data[0]); if(!r) return showIdentify("Δεν βρήκαμε ενεργή εγγραφή με αυτό το τηλέφωνο. Έλεγξε τον αριθμό ή επικοινώνησε με τη σχολή.");
     S.student={ id:r.student_id, name:r.student_name, email:r.student_email, academyId:r.academy_id, cohortId:r.cohort_id, course:r.course_title, identifier:v };
     localStorage.setItem(LS, JSON.stringify(S.student));
-    if(!S.student.email) return showProfileComplete();
-    viewToday();
+    await enterApp();                      // έλεγχος όρων πριν την είσοδο (ισχύει και μετά τη σύνδεση)
   }catch(e){ showIdentify("Πρόβλημα σύνδεσης, δοκίμασε ξανά."); }
 }
 function showProfileComplete(){
@@ -418,7 +517,7 @@ async function saveEmail(){
     const { error } = await sb.from('students').update({ email:em }).eq('id',S.student.id);
     if(error) throw error;
     S.student.email=em; localStorage.setItem(LS, JSON.stringify(S.student));
-    viewToday();
+    enterApp();
   }catch(e){ b.disabled=false; b.textContent="Αποθήκευση";
     scroll.querySelector('.fade').insertAdjacentHTML('beforeend',`<div class="err">Δεν αποθηκεύτηκε — δοκίμασε ξανά.</div>`); }
 }
