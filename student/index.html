@@ -826,14 +826,19 @@ async function onPicked(input){
   let blob;
   try{ blob=await resize(f,1600,.85); }
   catch(e){
-    // Μη επεξεργάσιμη εικόνα (π.χ. HEIC σε συσκευή που δεν το αποκωδικοποιεί)
-    scroll.innerHTML=`<div class="fade"><button class="back" id="bk">← Στάδια</button>
-      <h2 style="margin-top:6px">Δεν μπόρεσα να διαβάσω τη φωτογραφία</h2>
-      <p class="mut" style="margin-top:8px">Δοκίμασε άλλη φωτογραφία ή τράβα μια νέα με την κάμερα.</p>
-      <button class="cta" id="re" style="margin-top:18px">Δοκίμασε ξανά</button></div>`;
-    document.getElementById('bk').onclick=()=>{ if(WORK) openHomework(WORK.attempt_id,WORK.title,WORK.instr); else viewToday(); };
-    document.getElementById('re').onclick=startUpload;
-    return;
+    // Fallback: iPhone HEIC/HEIF που δεν αποκωδικοποιείται σε <canvas> → μετατροπή σε JPEG & νέα προσπάθεια
+    scroll.innerHTML=`<div class="fade"><p class="over">Στάδιο ${pad2(step?step.order_index:'')} · ${esc(step?step.title:'')}</p><div class="spin"></div><p class="mut" style="text-align:center">Μετατρέπω τη φωτογραφία…</p></div>`;
+    try{ const jpg=await heicToJpeg(f); blob=await resize(jpg,1600,.85); }
+    catch(e2){
+      try{ reportErr('img decode: '+(e&&(e.message||e))+' | heic: '+(e2&&(e2.message||e2)), e2&&(e2.stack||'')); }catch(_){}
+      scroll.innerHTML=`<div class="fade"><button class="back" id="bk">← Στάδια</button>
+        <h2 style="margin-top:6px">Δεν μπόρεσα να διαβάσω τη φωτογραφία</h2>
+        <p class="mut" style="margin-top:8px">Δοκίμασε άλλη φωτογραφία ή τράβα μια νέα με την κάμερα.</p>
+        <button class="cta" id="re" style="margin-top:18px">Δοκίμασε ξανά</button></div>`;
+      document.getElementById('bk').onclick=()=>{ if(WORK) openHomework(WORK.attempt_id,WORK.title,WORK.instr); else viewToday(); };
+      document.getElementById('re').onclick=startUpload;
+      return;
+    }
   }
   const url=URL.createObjectURL(blob);
   scroll.innerHTML=`<div class="fade"><button class="back" id="bk">← Στάδια</button>
@@ -859,6 +864,21 @@ function resize(file,max,q){
       cv.toBlob(b=>b?res(b):rej(new Error('blob')),'image/jpeg',q);
     }; img.onerror=()=>rej(new Error('decode')); img.src=URL.createObjectURL(file);
   });
+}
+/* iPhone HEIC/HEIF → JPEG. Φορτώνεται tεμπέλικα μόνο όταν αποτύχει το κανονικό decode. */
+let _heic2any=null, _heicLoading=null;
+async function heicToJpeg(file){
+  if(!_heic2any){
+    _heicLoading = _heicLoading || new Promise((res,rej)=>{
+      const s=document.createElement('script');
+      s.src='https://cdnjs.cloudflare.com/ajax/libs/heic2any/0.0.4/heic2any.min.js';
+      s.onload=res; s.onerror=()=>rej(new Error('heic-lib')); document.head.appendChild(s);
+    });
+    await _heicLoading; _heic2any=window.heic2any;
+  }
+  if(!_heic2any) throw new Error('heic-lib');
+  const out=await _heic2any({ blob:file, toType:'image/jpeg', quality:0.9 });
+  return Array.isArray(out)?out[0]:out;
 }
 async function submitStage(blob, step){
   const b=document.getElementById('sub'); b.disabled=true; b.textContent="Ανεβάζω…";
