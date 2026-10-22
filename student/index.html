@@ -253,7 +253,39 @@
 <div id="offbar">Χωρίς σύνδεση — κάποια στοιχεία μπορεί να μην είναι ενημερωμένα.</div>
 <div id="toast"><span class="ti">✨</span><div><b id="toast_t">Νέα αξιολόγηση!</b><span id="toast_s">Δες το feedback →</span></div></div>
 
+<!-- Lyla Jobs completion popup (shown once, after course completion) -->
+<div id="jobsPop" class="jobswrap" style="display:none" role="dialog" aria-modal="true" aria-labelledby="jobsH">
+  <div class="jobscard">
+    <div class="jobsIcon">🎉</div>
+    <h2 class="jobsH" id="jobsH">Συγχαρητήρια!</h2>
+    <p class="jobsLead">Ολοκλήρωσες τα μαθήματά σου!<br>Ψάχνεις δουλειά στον χώρο της ομορφιάς;</p>
+    <p class="jobsBody">Μπες στο Lyla Jobs και άφησε τα στοιχεία σου, ώστε να μπορούν να σε βρουν επιχειρήσεις που αναζητούν προσωπικό.</p>
+    <button class="cta jobsCta" id="jobsGo">Βάλε τα στοιχεία σου</button>
+    <button class="jobsLater" id="jobsLater">Ίσως αργότερα</button>
+    <p class="jobsNote">Η συμμετοχή στο Lyla Jobs είναι προαιρετική και η εγγραφή γίνεται ξεχωριστά.</p>
+  </div>
+</div>
+
 <style>
+  /* Lyla Jobs completion popup */
+  .jobswrap{position:fixed;inset:0;z-index:90;display:flex;align-items:center;justify-content:center;padding:20px;
+    background:rgba(4,4,7,.72);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);animation:jbg .2s ease}
+  @keyframes jbg{from{opacity:0}to{opacity:1}}
+  .jobscard{width:100%;max-width:400px;background:var(--surface);border:1px solid var(--hair);border-radius:24px;
+    padding:30px 24px calc(24px + env(safe-area-inset-bottom));text-align:center;
+    box-shadow:0 30px 70px rgba(0,0,0,.6);animation:jpop .26s cubic-bezier(.2,.9,.3,1.1)}
+  @keyframes jpop{from{opacity:0;transform:translateY(10px) scale(.96)}to{opacity:1;transform:none}}
+  .jobsIcon{width:76px;height:76px;margin:0 auto;border-radius:50%;display:grid;place-items:center;font-size:38px;
+    background:radial-gradient(circle at 50% 35%, rgba(57,214,156,.22), rgba(246,63,180,.10) 70%);
+    border:1px solid var(--hair);box-shadow:0 0 0 6px rgba(57,214,156,.06)}
+  .jobsH{font-family:var(--serif);font-weight:600;font-size:30px;line-height:1.1;margin:16px 0 0}
+  .jobsLead{font-size:16px;line-height:1.5;color:var(--ink);margin:12px 0 0;font-weight:500}
+  .jobsBody{font-size:14px;line-height:1.55;color:var(--muted);margin:12px 0 0}
+  .jobsCta{margin-top:22px}
+  .jobsLater{width:100%;margin-top:6px;border:none;background:transparent;color:var(--muted);
+    font-family:var(--sans);font-weight:600;font-size:15px;padding:13px;cursor:pointer;border-radius:12px}
+  .jobsLater:active{background:var(--hair2)}
+  .jobsNote{font-size:11.5px;line-height:1.5;color:var(--muted);opacity:.85;margin:12px 6px 0}
   /* Terms acceptance screen */
   .tcheck{display:flex;gap:12px;align-items:flex-start;margin-top:24px;cursor:pointer;user-select:none;position:relative}
   .tcheck input{position:absolute;opacity:0;width:1px;height:1px}
@@ -402,7 +434,9 @@ async function needTerms(){
 async function enterApp(){
   if(await needTerms()) return showTerms();
   if(!S.student.email) return showProfileComplete();
-  return viewToday();
+  const _v = viewToday();
+  maybeJobsPopup();            // once-per-open, only after full course completion
+  return _v;
 }
 function showTerms(){
   setNav(null);
@@ -1150,6 +1184,40 @@ if('serviceWorker' in navigator){
   let _reloaded=false;
   navigator.serviceWorker.addEventListener('controllerchange',()=>{ if(_reloaded) return; _reloaded=true; location.reload(); });
 }
+/* ===== Lyla Jobs completion popup =====
+   Privacy: NO account creation, NO personal data sent to Jobs, NO auto opt-in.
+   Opens the Jobs site in a new tab; only writes a timestamp on the student's own row. */
+const JOBS_URL = "https://jobs.lylasalon.app/";
+let _jobsChecked = false;
+async function maybeJobsPopup(){
+  if(_jobsChecked || !S.student) return; _jobsChecked = true;
+  try{
+    let st = await sb.rpc('student_jobs_popup_status');
+    if(st.error && isAuthish(st.error)){ await ensureSession(); await ensureLink(); st = await sb.rpc('student_jobs_popup_status'); }
+    if(st.error) return;                                   // RPC missing / error → never show (fail-closed)
+    const row = Array.isArray(st.data)?st.data[0]:st.data;
+    if(row && row.seen_at) return;                         // already seen/dismissed → never again
+    const pr = await sb.rpc('student_progress');           // completion = same rule as Πρόοδος
+    if(pr.error) return;
+    const rows = pr.data||[]; const total=rows.length, done=rows.filter(r=>r.status==='completed').length;
+    if(!(total>0 && done===total)) return;                 // not fully complete → do nothing
+    showJobsPopup();
+  }catch(e){ /* silent — never break the app */ }
+}
+function showJobsPopup(){
+  const w=document.getElementById('jobsPop'); if(!w) return;
+  w.style.display='flex';
+  const close=()=>{ w.style.display='none'; markJobsSeen(); };
+  document.getElementById('jobsGo').onclick=()=>{ window.open(JOBS_URL,'_blank','noopener,noreferrer'); close(); };
+  document.getElementById('jobsLater').onclick=close;
+  w.onclick=(e)=>{ if(e.target===w) close(); };            // backdrop tap = dismiss (marks seen)
+}
+async function markJobsSeen(){
+  try{ let r=await sb.rpc('student_mark_jobs_popup_seen');
+    if(r && r.error && isAuthish(r.error)){ await ensureSession(); await ensureLink(); await sb.rpc('student_mark_jobs_popup_seen'); }
+  }catch(e){}
+}
+
 setupPWAChrome(); startLive();
 boot();
 /* Branded splash: fade-in + subtle scale, hold, fade-out → Login. ~1.5–1.9s total. */
